@@ -11,6 +11,12 @@ importers:
       '@biomejs/biome':
         specifier: 1.9.4
         version: 1.9.4
+      '@evilmartians/lefthook':
+        specifier: ^1.11.1
+        version: 1.11.1
+      turbo:
+        specifier: ^2.4.3
+        version: 2.4.3
       typescript:
         specifier: ^5.7.3
         version: 5.7.3
@@ -70,6 +76,46 @@ packages:
     cpu: [x64]
     os: [win32]
 
+  '@evilmartians/lefthook@1.11.1':
+    resolution: {integrity: sha512-8rR2DU1R5yWWx17UCBBTjjP9Qdc1uTW3T1uc1EgROSWhOBnJIKAogpeTKWFSiwz+8pr2+47xNziiErYyLNMOkg==}
+    cpu: [x64, arm64, ia32]
+    os: [darwin, linux, win32]
+    hasBin: true
+
+  turbo-darwin-64@2.4.3:
+    resolution: {integrity: sha512-TFKiCSJAAN8E7g8isVzocm5OaUGjXn5DVBCeIFmJ2dKe/wY64Gvw37Y5HnyKZLM2JWdEI2SkXrDLNfGMGwfXyg==}
+    cpu: [x64]
+    os: [darwin]
+
+  turbo-darwin-arm64@2.4.3:
+    resolution: {integrity: sha512-pRCRHe5LPyF9L0qxCMGycl2NM9OV5obrG+J4/foO/e7a0yfwMRnQ7lJdHrrT5zfEYrj0/WN0ZxsaRAqyM3qZZw==}
+    cpu: [arm64]
+    os: [darwin]
+
+  turbo-linux-64@2.4.3:
+    resolution: {integrity: sha512-4SZj0K1OKXFBwGe7bNVYKcNJct6mdESWfq0zEYUp2yiWPxcihMWc60aGTccI5OC54UxhS52PcrBoiKQzIB6vkA==}
+    cpu: [x64]
+    os: [linux]
+
+  turbo-linux-arm64@2.4.3:
+    resolution: {integrity: sha512-/wp0csB7GW6VUYsKAuMjVtvGy+Bo2g8RyE+5yx3/rD9+e8wHy0TZUiAiRtj0aeVJXiVPd/MA6u6IdxjV95/qxA==}
+    cpu: [arm64]
+    os: [linux]
+
+  turbo-windows-64@2.4.3:
+    resolution: {integrity: sha512-GpZl4YiIqf1eNFHys+tT9LgCfTi67TykOdI6xD7PB+oFsZisjQzhAVu/BW3oTe6lHRe0zndEQMuodP+fGAXHbA==}
+    cpu: [x64]
+    os: [win32]
+
+  turbo-windows-arm64@2.4.3:
+    resolution: {integrity: sha512-AjyuOdQc2wRn2C+RksQ8rhpzvvpD3FOG3hUz9S9uhE5FpgUFUynGnYgFlKVnHkL/k7aslBL4dzNE7S4UaJeywA==}
+    cpu: [arm64]
+    os: [win32]
+
+  turbo@2.4.3:
+    resolution: {integrity: sha512-CpUHqrLTnV9R41RiWMSj9ZNHl++I7eTUIU+pH5O5a/2fRMhiKI6JdgBszuQ2YyaZYXkZZh/oHwbgzS1pug0zMg==}
+    hasBin: true
+
   typescript@5.7.3:
     resolution: {integrity: sha512-84MVSjMEHP+FQRPy3pX9sTVV/INIex71s9TL2Gm5FG/WG1SqXeKyZ0k7/blY/4FdOzI12CBy1vGc4og/eus0fw==}
     engines: {node: '>=14.17'}
@@ -111,5 +157,34 @@ snapshots:
 
   '@biomejs/cli-win32-x64@1.9.4':
     optional: true
+
+  '@evilmartians/lefthook@1.11.1': {}
+
+  turbo-darwin-64@2.4.3:
+    optional: true
+
+  turbo-darwin-arm64@2.4.3:
+    optional: true
+
+  turbo-linux-64@2.4.3:
+    optional: true
+
+  turbo-linux-arm64@2.4.3:
+    optional: true
+
+  turbo-windows-64@2.4.3:
+    optional: true
+
+  turbo-windows-arm64@2.4.3:
+    optional: true
+
+  turbo@2.4.3:
+    optionalDependencies:
+      turbo-darwin-64: 2.4.3
+      turbo-darwin-arm64: 2.4.3
+      turbo-linux-64: 2.4.3
+      turbo-linux-arm64: 2.4.3
+      turbo-windows-64: 2.4.3
+      turbo-windows-arm64: 2.4.3
 
   typescript@5.7.3: {}
