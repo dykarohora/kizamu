@@ -28,7 +28,7 @@ graph TB
 
 ### 1.2 技術スタック
 - **フロントエンド**
-  - Framework: Remix
+  - Framework: React Router v7
   - 実行環境: Cloudflare Workers
   - 主な機能：
     - SPAベースのユーザーインターフェース
