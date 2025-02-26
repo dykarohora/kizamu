@@ -6,6 +6,9 @@
   "author": "d-yama",
   "license": "MIT",
   "packageManager": "pnpm@10.4.1",
+  "scripts": {
+    "api-server": "pnpm --filter api-server"
+  },
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
     "@evilmartians/lefthook": "^1.11.1",
