@@ -1,10 +1,11 @@
 {
-  "name": "api-server",
+  "name": "@kizamu/api-server",
   "scripts": {
     "dev": "wrangler dev",
     "deploy": "wrangler deploy --minify"
   },
   "dependencies": {
+    "@kizamu/schema": "workspace:*",
     "hono": "catalog:"
   },
   "devDependencies": {

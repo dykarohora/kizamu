@@ -50,6 +50,9 @@ importers:
 
   packages/apps/api-server:
     dependencies:
+      '@kizamu/schema':
+        specifier: workspace:*
+        version: link:../../libs/schema
       hono:
         specifier: 'catalog:'
         version: 4.7.2
@@ -485,7 +488,6 @@ packages:
 
   '@evilmartians/lefthook@1.11.1':
     resolution: {integrity: sha512-8rR2DU1R5yWWx17UCBBTjjP9Qdc1uTW3T1uc1EgROSWhOBnJIKAogpeTKWFSiwz+8pr2+47xNziiErYyLNMOkg==}
-    cpu: [x64, arm64, ia32]
     os: [darwin, linux, win32]
     hasBin: true
 
