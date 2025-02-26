@@ -1,0 +1,27 @@
+---
+description: 
+globs: packages/apps/api-server/**/*.*
+alwaysApply: false
+---
+## 設計ドキュメント
+
+[02_database_design.md](mdc:00_docs/02_database_design.md)
+[04_api_design.md](mdc:00_docs/04_api_design.md)
+[openapi.yaml](mdc:00_docs/openapi.yaml)
+
+## API Server Project Structure
+
+```
+packages/apps/api-server/
+├── src/                      # ソースコードのルートディレクトリ
+│   ├── index.ts              # アプリケーションのエントリーポイント、Honoの初期化
+│   ├── routes/               # APIルートハンドラ
+│   ├── features/             # 機能別ビジネスロジック
+│   ├── repositories/         # データアクセス層
+│   ├── middleware/           # ミドルウェア
+│   ├── utils/                # ユーティリティ関数
+│   └── types/                # 型定義
+├── test/                     # テストコード
+├── wrangler.toml             # Cloudflare Workersの設定ファイル
+└── package.json              # パッケージ設定
+```

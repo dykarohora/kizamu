@@ -1,6 +1,6 @@
 ---
 description: このプロジェクトにおける共通ルール
-globs: 
+globs: **/*.*
 alwaysApply: true
 ---
 ## システムの目的
