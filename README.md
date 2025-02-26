@@ -1,6 +1,6 @@
-# Kizamu
+# kizamu
 
-Kizamu is a flashcard web application that supports efficient learning through spaced repetition. The application allows users to create, manage, and study flashcards with a focus on optimizing the learning process using the SM-2 algorithm.
+'kizamu' is a flashcard web application that supports efficient learning through spaced repetition. The application allows users to create, manage, and study flashcards with a focus on optimizing the learning process using the SM-2 algorithm.
 
 ## Overview
 
