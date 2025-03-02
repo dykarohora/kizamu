@@ -16,13 +16,13 @@ graph TB
     end
 
     subgraph "Cloudflare Services"
-        D1[(Cloudflare D1)]
+        Supabase[(Supabase)]
         R2[Cloudflare R2]
     end
 
     Browser -->|HTTPS| Remix
     Remix -->|Internal| API
-    API -->|SQL| D1
+    API -->|SQL| Supabase
     API -->|Object Storage| R2
 ```
 
@@ -44,7 +44,7 @@ graph TB
     - データ永続化処理
 
 - **データストア**
-  - データベース: Cloudflare D1 (SQLite互換)
+  - データベース: Supabase (PostgreSQL互換)
     - ユーザー情報
     - デッキ・カード情報
     - 学習履歴
@@ -58,7 +58,6 @@ graph TB
 
 ### 1.4 制約事項
 - Cloudflare Workersの実行時間制限（CPU時間上限）
-- D1のクエリ実行時間制限
 - R2のオブジェクトサイズ制限 
 
 ### 1.5 開発環境構成
@@ -75,18 +74,18 @@ graph TB
   - 開発環境用のAuth0テナント利用
 
 - **データストア**
-  - D1: ローカルモードでの開発
+  - Supabase: 開発DatabaseとプロダクションDatabaseを分離して運用する
   - R2: 開発用バケットを使用
 
 ### 1.6 デプロイメントフロー
 - **環境分離**
   - 開発環境（ローカル）
-    - ローカルD1インスタンス
+    - Supabase（開発Database and 自動テストDatabase）
     - 開発用R2バケット
     - 開発用Auth0テナント
   - 本番環境
     - 本番用Workersインスタンス
-    - 本番用D1データベース
+    - Supabase（プロダクションDatabase）
     - 本番用R2バケット
     - 本番用Auth0テナント
 

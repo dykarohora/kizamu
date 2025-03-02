@@ -10,8 +10,8 @@
 | id | TEXT | NO | - | プライマリーキー、UUID |
 | email | TEXT | NO | - | ユーザーのメールアドレス |
 | name | TEXT | NO | - | ユーザー名 |
-| created_at | TEXT | NO | - | 作成日時（ISO 8601形式、UTC） |
-| updated_at | TEXT | NO | - | 更新日時（ISO 8601形式、UTC） |
+| created_at | TIMESTAMP | NO | - | 作成日時（UTC） |
+| updated_at | TIMESTAMP | NO | - | 更新日時（UTC） |
 
 インデックス：
 - `email`: UNIQUE
@@ -25,8 +25,8 @@
 | user_id | TEXT | NO | - | 作成者のID（外部キー） |
 | name | TEXT | NO | - | デッキ名 |
 | description | TEXT | NO | '' | デッキの説明 |
-| created_at | TEXT | NO | - | 作成日時（ISO 8601形式、UTC） |
-| updated_at | TEXT | NO | - | 更新日時（ISO 8601形式、UTC） |
+| created_at | TIMESTAMP | NO | - | 作成日時（UTC） |
+| updated_at | TIMESTAMP | NO | - | 更新日時（UTC） |
 
 インデックス：
 - `user_id`: 検索用
@@ -40,8 +40,8 @@
 | deck_id | TEXT | NO | - | 所属するデッキのID（外部キー） |
 | front_content | TEXT | NO | - | カード表面のテキストコンテンツ |
 | back_content | TEXT | NO | - | カード裏面のテキストコンテンツ |
-| created_at | TEXT | NO | - | 作成日時（ISO 8601形式、UTC） |
-| updated_at | TEXT | NO | - | 更新日時（ISO 8601形式、UTC） |
+| created_at | TIMESTAMP | NO | - | 作成日時（UTC） |
+| updated_at | TIMESTAMP | NO | - | 更新日時（UTC） |
 
 インデックス：
 - `deck_id`: 検索用
@@ -55,7 +55,7 @@
 | card_id | TEXT | NO | - | カードID（外部キー） |
 | side | TEXT | NO | - | 画像の配置面（'front' または 'back'） |
 | image_key | TEXT | NO | - | R2オブジェクトキー |
-| created_at | TEXT | NO | - | 作成日時（ISO 8601形式、UTC） |
+| created_at | TIMESTAMP | NO | - | 作成日時（UTC） |
 
 インデックス：
 - `card_id`: 検索用
@@ -68,7 +68,7 @@
 |---------|-----|------|------------|------|
 | id | TEXT | NO | - | プライマリーキー、UUID |
 | name | TEXT | NO | - | タグ名 |
-| created_at | INTEGER | NO | - | 作成日時（UNIX timestamp） |
+| created_at | TIMESTAMP | NO | - | 作成日時（UTC） |
 
 インデックス：
 - `name`: UNIQUE
@@ -94,7 +94,7 @@
 | user_id | TEXT | NO | - | 学習したユーザーのID（外部キー） |
 | card_id | TEXT | NO | - | 学習したカードのID（外部キー） |
 | grade | INTEGER | NO | - | 学習結果（0-5のSM-2評価） |
-| studied_at | TEXT | NO | - | 学習日時（ISO 8601形式、UTC） |
+| studied_at | TIMESTAMP | NO | - | 学習日時（UTC） |
 
 インデックス：
 - `deck_id`: 検索用
@@ -110,9 +110,9 @@
 | user_id | TEXT | NO | - | 学習者のID（外部キー） |
 | ease_factor | REAL | NO | 2.5 | SM-2アルゴリズムの易しさ係数 |
 | interval | INTEGER | NO | 0 | SM-2アルゴリズムの間隔（日数） |
-| next_study_date | TEXT | NO | - | 次回学習日（ISO 8601形式、UTC） |
-| created_at | TEXT | NO | - | 作成日時（ISO 8601形式、UTC） |
-| updated_at | TEXT | NO | - | 更新日時（ISO 8601形式、UTC） |
+| next_study_date | TIMESTAMP | NO | - | 次回学習日（UTC） |
+| created_at | TIMESTAMP | NO | - | 作成日時（UTC） |
+| updated_at | TIMESTAMP | NO | - | 更新日時（UTC） |
 
 プライマリーキー：
 - `(card_id, user_id)`の複合キー
