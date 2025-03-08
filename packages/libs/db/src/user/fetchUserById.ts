@@ -19,7 +19,7 @@ export const fetchUserById = (userId: string): Effect.Effect<User, NotFoundUserE
 
     // ユーザーテーブルから指定IDのユーザーを検索
     const result = yield* db
-      .select({ id: usersTable.id, name: usersTable.name, email: usersTable.email })
+      .select({ id: usersTable.id, name: usersTable.name })
       .from(usersTable)
       .where(eq(usersTable.id, userId))
       .limit(1)

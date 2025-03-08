@@ -19,7 +19,6 @@ export const updateUser = (user: User): Effect.Effect<User, NotFoundUserError | 
 
     // 更新日時を含む更新データを作成
     const updateData = {
-      email: user.email,
       name: user.name,
       updatedAt: new Date(),
     }
