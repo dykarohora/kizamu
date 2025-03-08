@@ -6,7 +6,6 @@ import { Schema } from 'effect'
 export const UserSchema = Schema.Struct({
   id: Schema.NonEmptyString,
   name: Schema.NonEmptyString,
-  email: Schema.NonEmptyString,
 })
 
 /**

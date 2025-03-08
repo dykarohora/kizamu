@@ -10,7 +10,6 @@ it.effect('有効なユーザーデータが検証を通過すること', () =>
     const validUser = {
       id: 'user123',
       name: 'テストユーザー',
-      email: 'test@example.com',
     } as const
     // Act
     const result = yield* Schema.validate(UserSchema)(validUser)
@@ -25,21 +24,12 @@ it.effect.each([
     testName: '必須フィールド（id）が欠けている場合',
     invalidUser: {
       name: 'テストユーザー',
-      email: 'test@example.com',
     },
   },
   {
     testName: '必須フィールド（name）が欠けている場合',
     invalidUser: {
       id: 'user123',
-      email: 'test@example.com',
-    },
-  },
-  {
-    testName: '必須フィールド（email）が欠けている場合',
-    invalidUser: {
-      id: 'user123',
-      name: 'テストユーザー',
     },
   },
   {
@@ -47,7 +37,6 @@ it.effect.each([
     invalidUser: {
       id: '',
       name: 'テストユーザー',
-      email: 'test@example.com',
     },
   },
   {
@@ -55,15 +44,6 @@ it.effect.each([
     invalidUser: {
       id: 'user123',
       name: '',
-      email: 'test@example.com',
-    },
-  },
-  {
-    testName: '空文字列のフィールド（email）の場合',
-    invalidUser: {
-      id: 'user123',
-      name: 'テストユーザー',
-      email: '',
     },
   },
 ])('%sにエラーとなること', ({ invalidUser }) =>
