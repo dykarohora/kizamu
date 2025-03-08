@@ -33,7 +33,9 @@ export const createUser = (
     Effect.catchTags({
       SqlError: (sqlError) => {
         if (sqlError.cause instanceof postgres.PostgresError) {
+          // 23505はユニーク制約違反のエラーコード
           if (sqlError.cause.code === '23505') {
+            // ユーザーIDが重複している場合はDuplicateUserErrorを返す
             return Effect.fail(new DuplicateUserError({ userId: user.id }))
           }
         }

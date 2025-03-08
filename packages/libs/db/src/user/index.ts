@@ -1,2 +1,3 @@
 export { fetchUserById } from './fetchUserById'
-export { createUser as insertUser } from './createUser'
+export { createUser } from './createUser'
+export { updateUser } from './updateUser'
