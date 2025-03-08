@@ -130,6 +130,7 @@ web_modules/
 .env.test.local
 .env.production.local
 .env.local
+.env.keys
 
 # parcel-bundler cache (https://parceljs.org/)
 .cache
@@ -244,3 +245,5 @@ $RECYCLE.BIN/
 *.lnk
 
 # End of https://www.toptal.com/developers/gitignore/api/macos,linux,windows,node,remix,remix+cloudflareworkers,react,storybookjs
+
+.vscode
