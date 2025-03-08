@@ -1,0 +1,23 @@
+---
+description: 
+globs: packages/libs/db/**/*.*
+alwaysApply: false
+---
+
+# 前提とすべき設計ドキュメント
+
+- [00_requirement_design.md](mdc:00_docs/00_requirement_design.md)
+- [02_database_design.md](mdc:00_docs/02_database_design.md)
+
+## コードについて
+
+- Drizzle-ORMを使用する
+- DBへのCRUDについては@effect/sql、@effect/sql-pg、@effect/sql-drizzleを使って実装する
+
+### スキーマの定義について
+
+- drizzle-ormパッケージを使って定義する
+- 原則としてカラムはNULLを許容しない
+- 文字列は`text`型を使用する
+- 時刻型を使用する場合はタイムゾーン設定は行わない
+  - クライアントにてタイムゾーン処理を行うため
