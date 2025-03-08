@@ -1,4 +1,7 @@
 {
   "$schema": "https://turbo.build/schema.json",
-  "tasks": {}
+  "tasks": {
+    "lint": {},
+    "lint:fix": {}
+  }
 }

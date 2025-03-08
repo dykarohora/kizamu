@@ -1,5 +1,5 @@
-# Created by https://www.toptal.com/developers/gitignore/api/macos,linux,windows,node,remix,remix+cloudflareworkers,react,storybookjs
-# Edit at https://www.toptal.com/developers/gitignore?templates=macos,linux,windows,node,remix,remix+cloudflareworkers,react,storybookjs
+# Created by https://www.toptal.com/developers/gitignore/api/linux,macos,windows,node,yarn,react,remix,remix+cloudflareworkers,dotenv,turbo
+# Edit at https://www.toptal.com/developers/gitignore?templates=linux,macos,windows,node,yarn,react,remix,remix+cloudflareworkers,dotenv,turbo
 
 ### Linux ###
 *~
@@ -212,11 +212,9 @@ sketch
 /dist
 /.mf
 
-### StorybookJs ###
-# gitignore template for the Storybook, UI guide for front apps
-# website: https://storybook.js.org/
-
-storybook-static/
+### Turbo ###
+# Turborepo task cache
+.turbo
 
 ### Windows ###
 # Windows thumbnail cache files
@@ -244,6 +242,24 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
-# End of https://www.toptal.com/developers/gitignore/api/macos,linux,windows,node,remix,remix+cloudflareworkers,react,storybookjs
+### yarn ###
+# https://yarnpkg.com/getting-started/qa#which-files-should-be-gitignored
 
+.yarn/*
+!.yarn/releases
+!.yarn/patches
+!.yarn/plugins
+!.yarn/sdks
+!.yarn/versions
+
+# if you are NOT using Zero-installs, then:
+# comment the following lines
+!.yarn/cache
+
+# and uncomment the following lines
+# .pnp.*
+
+# End of https://www.toptal.com/developers/gitignore/api/linux,macos,windows,node,yarn,react,remix,remix+cloudflareworkers,dotenv,turbo
+
+### VScode ###
 .vscode

@@ -8,7 +8,9 @@
   "scripts": {
     "api-server": "pnpm --filter api-server",
     "schema": "pnpm --filter schema",
-    "db": "pnpm --filter db"
+    "db": "pnpm --filter db",
+    "lint": "turbo lint",
+    "lint:fix": "turbo lint:fix"
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
@@ -22,5 +24,6 @@
   },
   "dependencies": {
     "vitest": "^3.0.8"
-  }
+  },
+  "packageManager": "pnpm@10.5.2"
 }
