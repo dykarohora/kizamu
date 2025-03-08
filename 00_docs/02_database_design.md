@@ -10,13 +10,9 @@
 | カラム名 | 型 | NULL | デフォルト値 | 説明 |
 |---------|-----|------|------------|------|
 | id | TEXT | NO | - | プライマリーキー、UUID |
-| email | TEXT | NO | - | ユーザーのメールアドレス |
 | name | TEXT | NO | - | ユーザー名 |
 | created_at | TIMESTAMP | NO | - | 作成日時（UTC） |
 | updated_at | TIMESTAMP | NO | - | 更新日時（UTC） |
-
-インデックス：
-- `email`: UNIQUE
 
 ### 1.2 decks
 フラッシュカードのデッキを管理するテーブル

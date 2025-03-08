@@ -1,10 +1,9 @@
-import { resolve } from 'node:path'
 import { defineConfig } from 'drizzle-kit'
 
 export default defineConfig({
-  out: resolve(__dirname, 'drizzle'),
+  out: 'drizzle',
   dialect: 'postgresql',
-  schema: resolve(__dirname, './src/**/*.sql.ts'),
+  schema: './src/**/*.sql.ts',
   dbCredentials: {
     host: process.env.DB_HOST ?? 'localhost',
     port: Number(process.env.DB_PORT) ?? 5432,
