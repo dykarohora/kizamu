@@ -1,5 +1,5 @@
 import { expect, it } from '@effect/vitest'
-import { Cause, Effect, Exit, Schema, pipe } from 'effect'
+import { Cause, Effect, Exit, Schema } from 'effect'
 import { ParseError } from 'effect/ParseResult'
 import { UserSchema } from './index'
 
@@ -70,7 +70,7 @@ it.effect.each([
   Effect.gen(function* () {
     expect.assertions(1)
     // Act
-    const result = yield* pipe(Schema.validate(UserSchema)(invalidUser), Effect.exit)
+    const result = yield* Effect.exit(Schema.validate(UserSchema)(invalidUser))
     // Assert
     if (Exit.isFailure(result) && Cause.isFailType(result.cause)) {
       expect(result.cause.error).toBeInstanceOf(ParseError)
