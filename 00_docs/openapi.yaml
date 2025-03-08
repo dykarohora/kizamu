@@ -18,6 +18,19 @@ components:
       bearerFormat: JWT
 
   schemas:
+    UserInfo:
+      type: object
+      description: ユーザー情報の簡易表示形式
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+      required:
+        - id
+        - name
+
     DeckResponse:
       type: object
       description: デッキのAPIレスポンス形式
@@ -40,6 +53,9 @@ components:
           type: integer
           minimum: 0
           description: 学習予定日が到来しているカードの数
+        createdBy:
+          $ref: '#/components/schemas/UserInfo'
+          description: デッキの作成者情報
         createdAt:
           type: string
           format: date-time
@@ -52,6 +68,7 @@ components:
         - description
         - totalCards
         - dueCards
+        - createdBy
         - createdAt
         - updatedAt
 

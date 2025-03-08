@@ -6,10 +6,9 @@
   },
   "dependencies": {
     "@kizamu/schema": "workspace:*",
-    "hono": "catalog:"
+    "hono": "^4.7.4"
   },
   "devDependencies": {
-    "@cloudflare/workers-types": "catalog:",
-    "wrangler": "catalog:"
+    "@cloudflare/workers-types": "^4.20250303.0"
   }
 }
