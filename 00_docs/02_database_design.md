@@ -24,14 +24,14 @@
 | カラム名 | 型 | NULL | デフォルト値 | 説明 |
 |---------|-----|------|------------|------|
 | id | TEXT | NO | - | プライマリーキー、UUID |
-| user_id | TEXT | NO | - | 作成者のID（外部キー） |
+| created_by | TEXT | NO | - | 作成者のID（外部キー） |
 | name | TEXT | NO | - | デッキ名 |
 | description | TEXT | NO | '' | デッキの説明 |
 | created_at | TIMESTAMP | NO | - | 作成日時（UTC） |
 | updated_at | TIMESTAMP | NO | - | 更新日時（UTC） |
 
 インデックス：
-- `user_id`: 検索用
+- `created_by`: 検索用
 
 ### 1.3 cards
 フラッシュカードのコンテンツを管理するテーブル
@@ -93,14 +93,14 @@
 |---------|-----|------|------------|------|
 | id | TEXT | NO | - | プライマリーキー、UUID |
 | deck_id | TEXT | NO | - | 学習したデッキのID（外部キー） |
-| user_id | TEXT | NO | - | 学習したユーザーのID（外部キー） |
+| created_by | TEXT | NO | - | 学習したユーザーのID（外部キー） |
 | card_id | TEXT | NO | - | 学習したカードのID（外部キー） |
 | grade | INTEGER | NO | - | 学習結果（0-5のSM-2評価） |
 | studied_at | TIMESTAMP | NO | - | 学習日時（UTC） |
 
 インデックス：
 - `deck_id`: 検索用
-- `user_id, studied_at`: 学習パターン分析用
+- `created_by, studied_at`: 学習パターン分析用
 - `card_id`: 検索用
 
 ### 1.8 card_learning_states
@@ -109,7 +109,7 @@
 | カラム名 | 型 | NULL | デフォルト値 | 説明 |
 |---------|-----|------|------------|------|
 | card_id | TEXT | NO | - | カードID（外部キー） |
-| user_id | TEXT | NO | - | 学習者のID（外部キー） |
+| created_by | TEXT | NO | - | 学習者のID（外部キー） |
 | ease_factor | REAL | NO | 2.5 | SM-2アルゴリズムの易しさ係数 |
 | interval | INTEGER | NO | 0 | SM-2アルゴリズムの間隔（日数） |
 | next_study_date | TIMESTAMP | NO | - | 次回学習日（UTC） |
@@ -117,10 +117,10 @@
 | updated_at | TIMESTAMP | NO | - | 更新日時（UTC） |
 
 プライマリーキー：
-- `(card_id, user_id)`の複合キー
+- `(card_id, created_by)`の複合キー
 
 インデックス：
-- `user_id`: 検索用
+- `created_by`: 検索用
 - `next_study_date`: 学習カード取得用
 
 ## 2. 外部キー制約
@@ -128,7 +128,7 @@
 ### 2.1 decks
 | 外部キー | 参照先 | ON DELETE | ON UPDATE | 説明 |
 |---------|--------|-----------|-----------|------|
-| user_id | users(id) | CASCADE | CASCADE | ユーザーが削除された場合、関連するデッキも削除 |
+| created_by | users(id) | CASCADE | CASCADE | ユーザーが削除された場合、関連するデッキも削除 |
 
 ### 2.2 cards
 | 外部キー | 参照先 | ON DELETE | ON UPDATE | 説明 |
@@ -150,7 +150,7 @@
 | 外部キー | 参照先 | ON DELETE | ON UPDATE | 説明 |
 |---------|--------|-----------|-----------|------|
 | card_id | cards(id) | CASCADE | CASCADE | カードが削除された場合、関連する学習状態も削除 |
-| user_id | users(id) | CASCADE | CASCADE | ユーザーが削除された場合、関連する学習状態も削除 |
+| created_by | users(id) | CASCADE | CASCADE | ユーザーが削除された場合、関連する学習状態も削除 |
 
 ## 3. 削除時の動作フロー
 
