@@ -5,6 +5,7 @@
     "deploy": "wrangler deploy --minify"
   },
   "dependencies": {
+    "@kizamu/db": "workspace:*",
     "@kizamu/schema": "workspace:*",
     "hono": "^4.7.4"
   },

@@ -205,8 +205,8 @@ sketch
 
 ### Remix ###
 /.cache
-/build
-/public/build
+build
+public/build
 
 ### Remix+CloudflareWorkers ###
 /dist

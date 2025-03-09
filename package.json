@@ -7,6 +7,7 @@
   "license": "MIT",
   "scripts": {
     "api-server": "pnpm --filter api-server",
+    "web-app": "pnpm --filter web-app",
     "schema": "pnpm --filter schema",
     "db": "pnpm --filter db",
     "lint": "turbo lint",
