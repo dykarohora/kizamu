@@ -41,7 +41,7 @@ kizamu/
 
 The project uses a monorepo structure managed with PNPM workspaces. Each package can be developed independently:
 
-- **Web App**: Remix application for the user interface
+- **Web App**: React Router v7 application for the user interface
 - **API Server**: Hono-based REST API for backend operations
 - **Schema**: TypeScript type definitions and validations using Effect Schema library, shared across the project
 
