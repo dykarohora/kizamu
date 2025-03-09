@@ -10,6 +10,8 @@ import { DuplicateDeckError } from './error'
 import { NotFoundUserError } from '../user/error'
 import { fetchDecks } from './fetchDecks'
 import type { Deck } from '@kizamu/schema'
+import { fetchDeckById } from './fetchDeckById'
+import { NotFoundDeckError } from './error'
 
 // テスト用の定数
 const targetUserId = uuidv7()
@@ -269,6 +271,48 @@ describe('制限値の処理', () => {
 
         // Assert
         validatePaginationResult(result, expectedLength, true, deckCount)
+      }),
+      Effect.provide(getTestDriver()),
+    ),
+  )
+})
+
+// デッキの取得に関するテスト
+describe('デッキの取得', () => {
+  it.effect('指定したIDのデッキを正常に取得できること', () =>
+    pipe(
+      Effect.gen(function* () {
+        expect.assertions(6) // 2 + 4(validateDeckStructure)
+
+        // Act
+        const result = yield* fetchDeckById(targetDeckId)
+
+        // Assert
+        expect(result.id).toEqual(targetDeckId)
+        expect(result.name).toBeDefined()
+        validateDeckStructure(result)
+      }),
+      Effect.provide(getTestDriver()),
+    ),
+  )
+
+  it.effect('存在しないデッキIDを指定した場合はNotFoundDeckErrorが発生すること', () =>
+    pipe(
+      Effect.gen(function* () {
+        expect.assertions(2)
+
+        // Arrange
+        const nonExistentDeckId = uuidv7()
+
+        // Act & Assert
+        const result = yield* Effect.exit(fetchDeckById(nonExistentDeckId))
+
+        if (Exit.isFailure(result) && result.cause._tag === 'Fail') {
+          expect(result.cause.error).toBeInstanceOf(NotFoundDeckError)
+          if (result.cause.error instanceof NotFoundDeckError) {
+            expect(result.cause.error.deckId).toEqual(nonExistentDeckId)
+          }
+        }
       }),
       Effect.provide(getTestDriver()),
     ),
