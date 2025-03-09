@@ -1,6 +1,6 @@
 # @kizamu/db
 
-This package provides database access functionality for the Kizamu project using [Drizzle ORM](https://orm.drizzle.team/) with [@effect/sql](https://effect.website/docs/sql) integration.
+This package provides database access functionality for the Kizamu project using [Drizzle ORM](https://orm.drizzle.team/) with [@effect/sql](https://www.npmjs.com/package/@effect/sql) integration.
 
 ## Overview
 
