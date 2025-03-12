@@ -32,16 +32,21 @@ export const makeReactRouterRuntime = <LA>(layer: Layer.Layer<LA>) => {
         activeFibers.delete(fiber)
         if (Exit.isSuccess(exit)) {
           // 成功した場合は値を解決
-          resolve(exit.value)
-        } else {
-          // 失敗した場合はエラーを作成して拒否
-          const failure = makeFiberFailure(exit.cause)
-          const error = new Error()
-          error.message = failure.message
-          error.name = failure.name
-          error.stack = Cause.pretty(exit.cause)
-          reject(error)
+          return resolve(exit.value)
         }
+
+        if (Cause.isFailType(exit.cause)) {
+          // expected errorの場合はEffectのエラーをreject
+          return reject(exit.cause.error)
+        }
+
+        // 失敗した場合はエラーを作成してreject
+        const failure = makeFiberFailure(exit.cause)
+        const error = new Error()
+        error.message = failure.message
+        error.name = failure.name
+        error.stack = Cause.pretty(exit.cause)
+        return reject(error)
       })
     })
   }
@@ -51,7 +56,9 @@ export const makeReactRouterRuntime = <LA>(layer: Layer.Layer<LA>) => {
    * @param body - 実行するEffect
    * @returns React Routerのローダー関数
    */
-  const effectLoader = <A, E>(body: Effect.Effect<A, E, Layer.Layer.Success<typeof layer> | LoaderContext | RequestContext>) =>
+  const effectLoader = <A, E>(
+    body: Effect.Effect<A, E, Layer.Layer.Success<typeof layer> | LoaderContext | RequestContext>,
+  ) =>
     // biome-ignore format:
     (args: LoaderFunctionArgs) => run(
       pipe(
@@ -66,7 +73,9 @@ export const makeReactRouterRuntime = <LA>(layer: Layer.Layer<LA>) => {
    * @param body - 実行するEffect
    * @returns React Routerのアクション関数
    */
-  const effectAction = <A, E>(body: Effect.Effect<A, E, Layer.Layer.Success<typeof layer> | ActionContext | RequestContext>) =>
+  const effectAction = <A, E>(
+    body: Effect.Effect<A, E, Layer.Layer.Success<typeof layer> | ActionContext | RequestContext>,
+  ) =>
     // biome-ignore format:
     (args: ActionFunctionArgs) => run(
       pipe(
