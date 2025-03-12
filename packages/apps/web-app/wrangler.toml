@@ -1,0 +1,19 @@
+name = "remix-cloudflare-workers-template"
+main = "./worker.ts"
+workers_dev = true
+compatibility_date = "2025-02-24"
+
+[assets]
+directory = "./build/client"
+
+[build]
+command = "pnpm build"
+watch_dir = "./app"
+
+
+[vars]
+MY_VAR = "hello"
+
+kv_namespaces = [
+  { binding = "rrv7_session", id = "737b5071afdb474c8b3cbf930bfbaceb" }
+]

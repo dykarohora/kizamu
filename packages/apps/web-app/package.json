@@ -4,19 +4,27 @@
   "type": "module",
   "scripts": {
     "build": "react-router build",
-    "dev": "react-router dev",
+    "dev:rrv7": "react-router dev",
+    "dev:workers": "wrangler dev",
     "start": "react-router-serve ./build/server/index.js",
+    "typegen": "react-router typegen",
     "typecheck": "react-router typegen && tsc"
   },
   "dependencies": {
+    "@react-router/cloudflare": "^7.3.0",
     "@react-router/node": "^7.3.0",
     "@react-router/serve": "^7.3.0",
+    "effect": "^3.13.7",
+    "hono": "^4.7.4",
+    "hono-react-router-adapter": "^0.6.2",
     "isbot": "^5.1.23",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-router": "^7.3.0"
   },
   "devDependencies": {
+    "@cloudflare/workers-types": "^4.20250303.0",
+    "@hono/vite-dev-server": "^0.19.0",
     "@react-router/dev": "^7.3.0",
     "@types/node": "^22.13.9",
     "@types/react": "^19.0.10",
@@ -24,6 +32,7 @@
     "react-router-devtools": "^1.1.6",
     "typescript": "^5.8.2",
     "vite": "^6.2.1",
-    "vite-tsconfig-paths": "^5.1.4"
+    "vite-tsconfig-paths": "^5.1.4",
+    "wrangler": "^3.114.0"
   }
 }
