@@ -43,7 +43,7 @@
     "formatter": {
       "enabled": true,
       "quoteStyle": "single",
-      "semicolons": "asNeeded",
+      "semicolons": "asNeeded"
     }
   }
 }
