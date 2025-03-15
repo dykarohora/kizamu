@@ -33,20 +33,12 @@ const redirectToAuthorizationEndpoint = (
     yield* Effect.logInfo('OAuth2.0 + OIDCの認可コードフロー＋PKCEを開始します')
 
     // PKCE拡張を使用して認可URLを作成
-    // const url = client.createAuthorizationURL(`${config.authOrigin}/authorize`, state, [
-    //   'openid',
-    //   'profile',
-    //   'email',
-    //   'offline_access',
-    //   'read:data',
-    // ])
-
     const url = client.createAuthorizationURLWithPKCE(
       `${config.authOrigin}/authorize`,
       state,
       CodeChallengeMethod.S256,
       codeVerifier,
-      ['openid', 'profile', 'email', 'offline_access', 'read:data'],
+      ['openid', 'profile', 'email', 'offline_access'],
     )
 
     // audienceが空文字でない場合、URLのクエリパラメータにaudienceを追加
