@@ -1,13 +1,13 @@
 import type { SqlError } from '@effect/sql'
 import { PgDrizzle } from '@effect/sql-drizzle/Pg'
 import type { Deck } from '@kizamu/schema'
-import { Effect, pipe } from 'effect'
-import { decksTable } from './deck.sql'
-import { usersTable } from '../user/user.sql'
 import { eq } from 'drizzle-orm'
+import { Effect, pipe } from 'effect'
 import postgres from 'postgres'
-import { DuplicateDeckError } from './error'
 import { NotFoundUserError } from '../user/error'
+import { usersTable } from '../user/user.sql'
+import { decksTable } from './deck.sql'
+import { DuplicateDeckError } from './error'
 
 /**
  * デッキ作成時に必要な入力情報

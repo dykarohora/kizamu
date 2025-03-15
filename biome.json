@@ -10,7 +10,10 @@
       "public/index.html",
       ".wrangler",
       ".output",
-      ".wxt"
+      ".wxt",
+      ".react-router",
+      "drizzle/meta/*",
+      "coverage"
     ]
   },
   "organizeImports": {

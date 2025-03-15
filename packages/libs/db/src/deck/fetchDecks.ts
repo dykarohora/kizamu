@@ -1,10 +1,10 @@
-import type { Deck } from '@kizamu/schema'
 import type { SqlError } from '@effect/sql'
 import { PgDrizzle } from '@effect/sql-drizzle/Pg'
-import { eq, gt, and, asc, count } from 'drizzle-orm'
+import type { Deck } from '@kizamu/schema'
+import { and, asc, count, eq, gt } from 'drizzle-orm'
 import { Effect } from 'effect'
-import { decksTable } from './deck.sql'
 import { usersTable } from '../user/user.sql'
+import { decksTable } from './deck.sql'
 
 type FetchDecksOptions = {
   userId: string

@@ -3,9 +3,9 @@ import { PgDrizzle } from '@effect/sql-drizzle/Pg'
 import type { Deck } from '@kizamu/schema'
 import { eq } from 'drizzle-orm'
 import { Effect } from 'effect'
-import { NotFoundDeckError } from './error'
-import { decksTable } from './deck.sql'
 import { usersTable } from '../user/user.sql'
+import { decksTable } from './deck.sql'
+import { NotFoundDeckError } from './error'
 
 /**
  * 指定されたIDのデッキをデータベースから取得する関数

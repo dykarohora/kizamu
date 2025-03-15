@@ -1,17 +1,17 @@
 import { afterEach, beforeEach, describe, expect, it } from '@effect/vitest'
+import type { Deck } from '@kizamu/schema'
 import { reset, seed } from 'drizzle-seed'
 import { Effect, Exit, pipe } from 'effect'
 import { uuidv7 } from 'uuidv7'
 import { getSetupClient, getTestDriver } from '../../test/setupClient'
-import * as deckSchema from './deck.sql'
+import { NotFoundUserError } from '../user/error'
 import * as userSchema from '../user/user.sql'
 import { createDeck } from './createDeck'
+import * as deckSchema from './deck.sql'
 import { DuplicateDeckError } from './error'
-import { NotFoundUserError } from '../user/error'
-import { fetchDecks } from './fetchDecks'
-import type { Deck } from '@kizamu/schema'
-import { fetchDeckById } from './fetchDeckById'
 import { NotFoundDeckError } from './error'
+import { fetchDeckById } from './fetchDeckById'
+import { fetchDecks } from './fetchDecks'
 
 // テスト用の定数
 const targetUserId = uuidv7()
