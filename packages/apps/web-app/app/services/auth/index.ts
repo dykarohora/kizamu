@@ -16,6 +16,7 @@ export class OAuth2Service extends Context.Tag('OAuth2Service')<
       RequestContext | SessionService
     >
     readonly isAuthenticated: Effect.Effect<boolean, SessionError, SessionService | RequestContext>
+    readonly logout: (redirectTo: string) => Effect.Effect<Response, SessionError, SessionService | RequestContext>
     // readonly getAccessToken: Effect.Effect<string, OAuth2RequestError, SessionService>
     // readonly refreshAccessToken: Effect.Effect<string, OAuth2RequestError, SessionService>
   }
@@ -25,5 +26,5 @@ export const Auth0ServiceLive: Layer.Layer<OAuth2Service> =
   // biome-ignore format:
   Layer.succeed(
     OAuth2Service, 
-    { authenticate: auth0.authenticate, isAuthenticated: auth0.isAuthenticated }
+    { authenticate: auth0.authenticate, isAuthenticated: auth0.isAuthenticated, logout: auth0.logout }
   )
