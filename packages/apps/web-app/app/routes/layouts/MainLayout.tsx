@@ -1,7 +1,7 @@
 import { Effect } from 'effect'
 import { Outlet, data } from 'react-router'
+import { effectLoader } from '~/effect/index.server'
 import { OAuth2Service } from '~/services/auth/index.server'
-import { effectLoader } from '~/services/react-router/index.server'
 import { Header } from '~/shared/components/layout/Header'
 import type { Route } from './+types/MainLayout'
 

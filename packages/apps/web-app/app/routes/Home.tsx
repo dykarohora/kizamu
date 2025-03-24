@@ -1,7 +1,7 @@
 import { Effect } from 'effect'
 import { data } from 'react-router'
 import { css } from 'styled-system/css'
-import { effectLoader } from '~/services/react-router/index.server'
+import { effectLoader } from '~/effect/index.server'
 import type { Route } from './+types/Home'
 
 export const loader = effectLoader(

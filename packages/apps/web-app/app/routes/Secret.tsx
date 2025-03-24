@@ -1,8 +1,8 @@
 import { Effect, Schema } from 'effect'
 import { data } from 'react-router'
+import { effectAction, effectLoader, getFormData } from '~/effect/index.server'
 import { OAuth2Service } from '~/services/auth/index.server'
 import { HonoClientService } from '~/services/hono-client/index.server'
-import { effectAction, effectLoader, getFormData } from '~/services/react-router/index.server'
 import { Button } from '~/shared/components/ui/button'
 import type { Route } from './+types/Secret'
 
@@ -32,7 +32,7 @@ export const loader = effectLoader(
 
 export const action = effectAction(
   Effect.gen(function* () {
-    const { logout, getAccessToken, refreshAccessToken } = yield* OAuth2Service
+    const { logout } = yield* OAuth2Service
     const schema = Schema.Struct({
       _action: Schema.Union(Schema.Literal('logout'), Schema.Literal('access-token'), Schema.Literal('refresh-token')),
     })
@@ -41,25 +41,25 @@ export const action = effectAction(
       case 'logout': {
         return yield* logout('/')
       }
-      case 'access-token': {
-        const { accessToken, setCookieHeaderValue } = yield* getAccessToken
-        console.log(accessToken)
+      // case 'access-token': {
+      //   const { accessToken, setCookieHeaderValue } = yield* getAccessToken
+      //   console.log(accessToken)
 
-        return setCookieHeaderValue
-          ? yield* Effect.succeed(
-              data({ message: 'Access Token' }, { headers: { 'Set-Cookie': setCookieHeaderValue } }),
-            )
-          : yield* Effect.succeed(data({ message: 'Access Token' }))
-      }
-      case 'refresh-token': {
-        const { accessToken, setCookieHeaderValue } = yield* refreshAccessToken
-        console.log(accessToken)
-        return yield* Effect.succeed(
-          data({ message: 'Refresh Token' }, { headers: { 'Set-Cookie': setCookieHeaderValue } }),
-        )
-      }
-      default:
-        throw new Error(`invalid action ${_action satisfies never}`)
+      //   return setCookieHeaderValue
+      //     ? yield* Effect.succeed(
+      //         data({ message: 'Access Token' }, { headers: { 'Set-Cookie': setCookieHeaderValue } }),
+      //       )
+      //     : yield* Effect.succeed(data({ message: 'Access Token' }))
+      // }
+      // case 'refresh-token': {
+      //   const { accessToken, setCookieHeaderValue } = yield* refreshAccessToken
+      //   console.log(accessToken)
+      //   return yield* Effect.succeed(
+      //     data({ message: 'Refresh Token' }, { headers: { 'Set-Cookie': setCookieHeaderValue } }),
+      //   )
+      // }
+      // default:
+      //   throw new Error(`invalid action ${_action satisfies never}`)
     }
   }),
 )
