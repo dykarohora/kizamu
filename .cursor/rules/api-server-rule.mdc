@@ -1,0 +1,67 @@
+---
+description: 
+globs: packages/apps/api-server/**/*.*
+alwaysApply: false
+---
+## 設計ドキュメント
+
+[02_database_design.md](mdc:00_docs/02_database_design.md)
+[04_api_design.md](mdc:00_docs/04_api_design.md)
+[openapi.yaml](mdc:00_docs/openapi.yaml)
+
+## API Server Project Structure
+
+```
+packages/apps/api-server/
+├── src/                      # ソースコードのルートディレクトリ
+│   ├── index.ts              # アプリケーションのエントリーポイント、Honoの初期化
+│   ├── routes/               # APIルートハンドラ
+│   ├── features/             # 機能別ビジネスロジック
+│   ├── repositories/         # データアクセス層
+│   ├── middleware/           # ミドルウェア
+│   ├── utils/                # ユーティリティ関数
+│   └── types/                # 型定義
+├── test/                     # テストコード
+├── wrangler.toml             # Cloudflare Workersの設定ファイル
+└── package.json              # パッケージ設定
+```
+
+## 使用するライブラリ
+
+- Hono
+- Effect
+
+## ログ出力
+
+### ログの目的
+
+- 問題解決とデバッグ
+	- エラーが発生した時に原因特定に必要な情報を残す
+	- そのためにリクエスト・レスポンスの内容や処理の流れを追跡できるようにする
+- パフォーマンス監視
+	- 処理時間の計測
+	- リソース使用状況の把握
+	- ボトルネックの特定
+- セキュリティ監視
+	- 不審なアクセスや操作の検知
+	- 認証・権限関連の動作記録
+- 利用状況の把握
+	- アクセス頻度やパターンの分析
+	- 機能の利用状況の把握
+
+### ログレベル
+
+- `FATAL`: 人手を使って回復しないといけないサービス停止などの事象が発生したとき
+- `ERROR`: サービス停止が発生したが、自動回復できるような場合
+- `WARNING`: 正常に処理は行われているが、一部不可解な事象が発生したとき
+- `INFO`: 処理が正常に進んでいることを記録する
+- `DEBUG`: 開発時に出力
+
+### ログの実装
+
+- 可能な限りEffectのログ出力モジュールをログレベルにあわせて使用すること
+	- Effect.logFatal
+	- Effect.logError
+	- Effect.logWarning
+	- Effect.logInfo
+	- Effect.logDebug

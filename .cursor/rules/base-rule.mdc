@@ -1,0 +1,203 @@
+---
+description: このプロジェクトにおける共通ルール
+globs: **/*.*
+alwaysApply: true
+---
+## システムの目的
+- ユーザーが学習用のフラッシュカードを作成・管理・学習できるWebアプリケーションを提供する
+- 間隔反復学習による効率的な学習を支援する
+
+### 要件定義
+[00_requirement_design.md](mdc:00_docs/00_requirement_design.md)
+
+## 主な技術スタック
+- TypeScript
+- Node.js
+- React Router v7
+- Hono
+- Effect
+- Cloudflare Workers
+- drizzle-orm
+- Supabase(PostgreSQL互換 DB)
+
+## プロジェクト構造
+
+```
+kizamu/
+├── packages/
+│   ├── apps/
+│   │   ├── web-app/       # React Router v7 frontend application
+│   │   └── api-server/    # Hono API backend
+│   └── libs/
+│       ├── db/             # Module for database access
+│       └── schema/         # TypeScript type definitions using Effect Schema
+└── 00_docs/                 # Project documentation
+```
+
+## 開発時の規約
+
+### プロダクションコードの実装
+
+- 常に既存コードの構造や記法を参考にしてください
+- 関数のインタフェースのコメントと内部実装のコメントを目的と背景がわかるように残すように心がけてください
+- 関数名をつけるときは、何をするかを表現するのではなく、「何が起きるか」「何を目的としているか」を表現することを意識してください
+- 関数のシグネチャの型付けと内部変数の型付けは積極的に行なってください
+- 関数の引数の数が2つ以上となる場合はオブジェクトを引数とするようにしてください
+  - 引数の型を別途定義する必要はありません、引数の方はインラインに書いてください
+- 一度に出力するコードは関数1つやデータ構造1つまでにとどめてください
+- コードを書く時はまず初めに関数のシグネチャ（関数名、引数の型、結果の型）だけを書いて私に内容の確認を依頼してください
+  - 関数のシグネチャについて私の合意を得られてから内部の実装をしてください
+- 以下の設計原則をできるだけ守るようにしてください
+  - Single responsibility principle（単一責任の原則）
+  - Open/closed principle（オープン・クローズドの原則）
+  - Interface segregation principle（インターフェース分離の原則）
+  - Dependency inversion principle（依存関係逆転の原則）
+
+### テストコードの実装
+- まずはテスト対象のコードを確認してください
+- テスト対象を把握したら、いったんテストケース名だけを出力してください。テストケース名について私との合意が得られるまでテストコードの実装は実施しないでください。
+- テストケース名は「｛事前条件｝の場合に｛操作｝をすると｛結果｝になること」といった形式で書いてください。
+- テストコードはArrange、Act、Assertの3ステップに従って記述してください。
+  - 境界がわかりやすくなるよう、境目にコメントを入れてください。
+- テストケースを考えるときは、基本的なテスト技法をもとに設計してください。
+  - 同値分割法：入力データを有効・無効なグループに分け、各グループから代表値をテストする
+  - 境界値分析：境界値（上限・下限など）でのテストを行う
+  - デシジョンテーブル：条件の組み合わせと期待される結果を表にまとめてテストする
+  - ステートベーステスト：状態遷移を考慮したテスト
+- テストコードを書くときは、まずAssert部を書いて私に内容の確認を依頼してください。
+  - Assert部についての合意が私と得られたあとにArrange、Actを書いてください。
+- テストコードはテストコードを1件書く度に私に内容の確認を依頼してください。
+- テストコードでは必ず`expect.assertions(n)`を使用してアサーション数を明示してください
+- 同じパターンで異なる入力値をテストする場合は、パラメータライズドテストを使用してください
+
+## Effect ライブラリ基本ルール
+
+### Effect型
+
+```typescript
+interface Effect<Success, Failure = never, Requirements = never>
+```
+
+- **Success**: 計算が成功した場合の戻り値の型
+- **Failure**: 計算が失敗した場合のエラー型（`never`は失敗しない計算を意味する）
+- **Requirements**: 計算が依存する外部サービスなどの型（`never`は依存がない計算を意味する）
+
+#### 重要ポイント
+
+1. Effect型は「計算の説明」を表し、直接実行されない
+2. 実際の実行には`Effect.runPromise`などのランナー関数が必要
+3. 型シグネチャによって関数の振る舞いが明示される
+
+### Effect作成パターン
+
+#### 非同期関数からEffectを作成
+
+```typescript
+// 非同期操作を含むEffectの作成
+const fetchData = (id: string): Effect.Effect<Data, CustomError> =>
+  Effect.tryPromise({
+    try: async () => {
+      // 非同期処理
+      return result;
+    },
+    catch: reason => new CustomError(reason)
+  })
+```
+
+#### エラー型の定義
+
+```typescript
+// エラー型は明示的に定義する
+class NotFoundError extends Data.TaggedError('NotFoundError')<{ id: string }> {}
+class ValidationError extends Data.TaggedError('ValidationError')<{ message: string }> {}
+
+// 複数のエラー型をUnion型として指定
+type AppError = NotFoundError | ValidationError;
+```
+
+### エラーハンドリング
+
+```typescript
+// タグ付きUnionを使用したエラーハンドリング
+const handleErrors = pipe(
+  fetchData(id),
+  Effect.catchTags({
+    NotFoundError: (error) => handleNotFound(error),
+    ValidationError: (error) => handleValidation(error)
+  })
+)
+```
+
+### Dependency Injection
+
+#### サービスインターフェイスの定義
+
+```typescript
+// サービスインターフェイス
+class UserRepository extends Context.Tag('UserRepository')<
+  UserRepository, // サービスのインタフェースではなくクラス名
+  (userId: string) => Effect.Effect<User, Error>
+>() {
+}
+```
+
+#### サービスに依存するEffectの作成
+
+```typescript
+// 依存関係を明示したEffect
+const getUserUseCase = (id: string): Effect.Effect<User, NotFoundError, UserRepository> =>
+  pipe(
+    UserRepository,
+    Effect.flatMap(repo => repo.findById(id))
+  )
+```
+
+#### 依存関係の注入
+
+```typescript
+// サービス実装の作成
+const UserRepositoryLive = Context.make(UserRepository, {
+  findById: (id) => /* 実装 */
+})
+
+// 依存関係の注入
+const program = pipe(
+  getUserUseCase(id),
+  Effect.provide(UserRepositoryLive)
+)
+```
+
+### 実行パターン
+
+```typescript
+// Effectの実行
+const main = async () => {
+  try {
+    const result = await Effect.runPromise(program)
+    // 成功時の処理
+  } catch (error) {
+    // 失敗時の処理
+  }
+}
+```
+
+### 基本的な関数
+
+1. `pipe()`: 関数合成のためのユーティリティ
+2. `Effect.flatMap()`: Effectの連鎖
+3. `Effect.map()`: 成功値の変換
+4. `Effect.catchTag()`: 特定エラータイプのハンドリング
+5. `Effect.provide()`: 依存関係の注入
+
+### ベストプラクティス
+
+1. エラー型は具体的なドメインエラーとして定義する
+2. 依存関係は明示的にRequirements型パラメータに表現する
+3. 実装ではなくインターフェイスに依存するよう設計する
+4. すべての副作用はEffectで包む
+5. エラーハンドリングは型安全に実装する
+
+
+
+
+
