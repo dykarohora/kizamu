@@ -1,0 +1,49 @@
+{
+  "name": "@kizamu/db",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "import": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "require": "./dist/index.cjs"
+      }
+    }
+  },
+  "scripts": {
+    "db:generate": "drizzle-kit generate --config drizzle.config.ts",
+    "migrate:test": "dotenvx run -f .env.test -- drizzle-kit migrate --config drizzle.config.ts",
+    "migrate:local": "dotenvx run -f .env.local -- drizzle-kit migrate --config drizzle.config.ts",
+    "migrate:production": "dotenvx run -f .env.production -- drizzle-kit migrate --config drizzle.config.ts",
+    "build": "tsup",
+    "build:minify": "tsup --minify",
+    "test:local": "dotenvx run -f .env.test.local -- vitest run --coverage",
+    "lint": "biome check",
+    "lint:fix": "biome check --write"
+  },
+  "dependencies": {
+    "@effect/sql": "^0.33.1",
+    "@effect/sql-drizzle": "^0.32.1",
+    "@effect/sql-pg": "^0.34.1",
+    "@kizamu/schema": "workspace:*",
+    "drizzle-orm": "^0.41.0",
+    "postgres": "^3.4.5",
+    "uuidv7": "^1.0.2"
+  },
+  "peerDependencies": {
+    "effect": "^3.13.7"
+  },
+  "devDependencies": {
+    "@dotenvx/dotenvx": "^1.39.0",
+    "@effect/vitest": "^0.20.1",
+    "@types/node": "^22.13.11",
+    "drizzle-kit": "^0.30.5",
+    "drizzle-seed": "^0.3.1",
+    "vitest": "^3.0.9"
+  }
+}
