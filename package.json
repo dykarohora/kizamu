@@ -1,0 +1,32 @@
+{
+  "name": "kizamu",
+  "description": "A flashcard web application that supports efficient learning through spaced repetition",
+  "version": "1.0.0",
+  "author": "d-yama",
+  "devDependencies": {
+    "@biomejs/biome": "1.9.4",
+    "@dotenvx/dotenvx": "^1.38.5",
+    "@evilmartians/lefthook": "^1.11.3",
+    "@vitest/coverage-v8": "^3.0.8",
+    "syncpack": "^13.0.3",
+    "tsup": "^8.4.0",
+    "turbo": "^2.4.4",
+    "typescript": "^5.8.2",
+    "vitest": "^3.0.8",
+    "wrangler": "^4.0.0"
+  },
+  "license": "MIT",
+  "packageManager": "pnpm@10.6.2",
+  "private": true,
+  "scripts": {
+    "api-server": "pnpm --filter api-server",
+    "db": "pnpm --filter db",
+    "license:check": "pnpm -r exec -- pnpm dlx license-checker --summary --production",
+    "lint": "turbo lint",
+    "lint:fix": "turbo lint:fix",
+    "package:check": "pnpm -r exec -- pnpm dlx npm-check-updates",
+    "package:update": "pnpm -rL -i",
+    "schema": "pnpm --filter schema",
+    "web-app": "pnpm --filter web-app"
+  }
+}

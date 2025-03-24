@@ -1,0 +1,54 @@
+{
+  "$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
+  "files": {
+    "ignore": [
+      "node_modules",
+      "dist",
+      "build",
+      "public",
+      "public/*",
+      "public/index.html",
+      ".wrangler",
+      ".output",
+      ".wxt",
+      ".react-router",
+      "drizzle/meta/*",
+      "coverage",
+      "worker-configuration.d.ts",
+      "styled-system"
+    ]
+  },
+  "organizeImports": {
+    "enabled": true
+  },
+  "linter": {
+    "enabled": true,
+    "rules": {
+      "recommended": true,
+      "correctness": {
+        "noUnusedImports": "error",
+        "noUnusedVariables": "error"
+      },
+      "style": {
+        "useBlockStatements": "error",
+        "useShorthandArrayType": "error",
+        "noUnusedTemplateLiteral": "error",
+        "useTemplate": "error"
+      }
+    }
+  },
+  "formatter": {
+    "enabled": true,
+    "indentStyle": "space",
+    "indentWidth": 2,
+    "lineWidth": 120,
+    "lineEnding": "lf"
+  },
+  "javascript": {
+    "formatter": {
+      "enabled": true,
+      "quoteStyle": "single",
+      "semicolons": "asNeeded"
+    }
+  }
+}
