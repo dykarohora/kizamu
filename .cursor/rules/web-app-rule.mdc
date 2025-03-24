@@ -32,37 +32,6 @@ app/
 └── providers/              # アプリケーション全体のプロバイダー
 ```
 
-
-## 主要ディレクトリの役割
-
-### app/ ルートファイル
-- React Router v7 の規約に従った必須ファイル
-- ルート定義とレイアウト構造を提供
-
-### shared/
-- 複数のページで再利用可能な共通モジュール
-- UI コンポーネント、カスタムフック、ユーティリティ関数を含む
-- アプリケーション全体で一貫したデザインと動作を実現
-
-### effect/
-- Effect システムの基盤を提供
-- React Router v7 の Loader/Action と Effect を統合
-- 型安全なデータ取得と更新の仕組みを提供
-
-### services/
-- ドメイン別のサービスを実装
-- Effect システムを活用した型安全な実装
-- API 通信や認証などの機能を担当
-
-### providers/
-- アプリケーション全体のプロバイダーを管理
-- Effect プロバイダーや認証プロバイダーなどを含む
-
-### pages/
-- ページ単位でコンポーネントを整理
-- 各ページは独自のコンポーネントとフックを持つ
-- 機能別に分割して管理
-
 ## 設計原則
 
 ### 関心の分離
@@ -103,6 +72,70 @@ app/
 - アロー関数を使って実装すること
 
 ## ログ出力
+
+## 認証モジュールの使い方
+
+### 3.3 主要なAPI
+
+#### 3.3.1 認証状態の取得 - `getAuthStatus`
+
+```typescript
+/**
+ * ユーザーの認証状態とユーザー情報を取得する
+ * @returns 認証済みの場合は{authenticated: true, user: ユーザー情報}、未認証の場合は{authenticated: false}
+ */
+getAuthStatus: Effect.Effect<
+  AuthStatus,
+  SessionError | ParseError,
+  SessionService | RequestContext
+>
+```
+
+セッションからユーザー情報を取得し、Schema検証を行った上で認証状態を返す。
+
+#### 3.3.2 認証必須ルートの保護 - `requireAuth`
+
+```typescript
+/**
+ * 認証が必要なルートに対して認証チェックを行う
+ * @param failureRedirect - 未認証時にリダイレクトするURL
+ * @returns 認証済みの場合はユーザー情報を返し、未認証の場合はリダイレクトレスポンスを返すEffect
+ */
+requireAuth: (failureRedirect: string) => 
+  Effect.Effect<User, Response, SessionService | RequestContext>
+```
+
+認証されていない場合は指定されたURLにリダイレクトし、認証されている場合はユーザー情報を返す。
+
+### 3.4 使用例
+
+#### 3.4.1 ルートローダーでの認証状態取得
+
+```typescript
+export const loader = effectLoader(
+  Effect.gen(function* () {
+    // 認証サービスからAuthStatusを取得
+    const { getAuthStatus } = yield* OAuth2Service
+    const authStatus = yield* getAuthStatus
+
+    return yield* Effect.succeed(data({ authStatus }))
+  }),
+)
+```
+
+#### 3.4.2 認証必須ルートの保護
+
+```typescript
+// 認証が必要なルートのローダー
+export const loader = effectLoader(
+  pipe(
+    // 未認証の場合は/loginにリダイレクト
+    requireAuth('/login'),
+    // 認証済みの場合はユーザー情報を使って処理を継続
+    Effect.flatMap(user => fetchUserData(user.id))
+  )
+)
+```
 
 ### ログの目的
 
