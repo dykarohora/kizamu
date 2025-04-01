@@ -1,11 +1,12 @@
-import { Hono } from 'hono'
-import { bearerAuth } from 'hono/bearer-auth'
-import { getDecksRoute, type GetDecksRoute } from './routes/decks/getDecksRoute'
-import { createRemoteJWKSet, jwtVerify } from 'jose'
 import { Effect, Exit } from 'effect'
 import type { Simplify } from 'effect/Types'
+import { Hono } from 'hono'
+import { bearerAuth } from 'hono/bearer-auth'
+import { createRemoteJWKSet, jwtVerify } from 'jose'
+import { type GetDecksRoute, getDecksRoute } from './routes/decks/getDecksRoute'
+import { type CreateDeckRoute, createDeckRoute } from './routes/decks/createDeckRoute'
 
-export type ApiServerType = Simplify<GetDecksRoute>
+export type ApiServerType = Simplify<GetDecksRoute | CreateDeckRoute>
 
 const app = new Hono<{ Bindings: Env; Variables: { user: string } }>()
 
@@ -89,5 +90,5 @@ app.use(
 )
 
 app.route('/api', getDecksRoute)
-
+app.route('/api', createDeckRoute)
 export default app

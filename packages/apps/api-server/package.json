@@ -5,7 +5,8 @@
     "@kizamu/schema": "workspace:*",
     "effect": "^3.14.1",
     "hono": "^4.7.5",
-    "jose": "^6.0.10"
+    "jose": "^6.0.10",
+    "uuidv7": "^1.0.2"
   },
   "devDependencies": {
     "@cloudflare/vitest-pool-workers": "^0.8.4",
@@ -19,6 +20,7 @@
   "scripts": {
     "deploy": "wrangler deploy --minify",
     "dev": "wrangler dev --env local",
+    "lint:fix": "biome check --write",
     "typegen": "wrangler types",
     "typecheck": "tsc"
   }
