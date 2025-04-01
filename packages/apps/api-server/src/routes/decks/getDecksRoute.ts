@@ -1,7 +1,7 @@
-import { Effect, Either, pipe, Schema } from 'effect'
 import { fetchDecks } from '@kizamu/db'
-import { effectValidator } from '../../middleware/validator'
+import { Effect, Either, Schema, pipe } from 'effect'
 import { Hono } from 'hono'
+import { effectValidator } from '../../middleware/validator'
 import { runEffect } from '../../utils/runEffect'
 
 export const getDecksRoute = new Hono<{ Bindings: Env; Variables: { user: string } }>()
@@ -69,7 +69,7 @@ const route = getDecksRoute.get('/decks', effectValidator('query', querySchema),
         result,
         Either.match({
           onRight: (data) => c.json(data, 200),
-          onLeft: (_) => c.json({ error: 'Internal Server Error' }, 500),
+          onLeft: (_) => c.json({ code: 'INTERNAL_ERROR', message: 'An internal error occurred' }, 500),
         }),
       )
     }),
