@@ -5,6 +5,6 @@ import { OAuth2Service } from '~/services/auth/index.server'
 export const loader = effectLoader(
   Effect.gen(function* () {
     const { authenticate } = yield* OAuth2Service
-    return yield* authenticate('/secret')
+    return yield* authenticate('/dashboard')
   }),
 )
