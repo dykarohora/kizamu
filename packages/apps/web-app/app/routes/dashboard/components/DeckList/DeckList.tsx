@@ -1,0 +1,79 @@
+import { Plus } from 'lucide-react'
+import { css } from 'styled-system/css'
+import { grid } from 'styled-system/patterns'
+import { Button } from '~/shared/components/ui/button'
+import { DeckCard, type DeckCardProps } from './DeckCard'
+
+export type Deck = Omit<DeckCardProps, 'onManage' | 'onStudy'>
+
+const containerStyles = css({
+  width: '100%',
+})
+
+const headerStyles = css({
+  display: 'flex',
+  justifyContent: 'space-between',
+  alignItems: 'center',
+  marginBottom: '4',
+})
+
+const titleStyles = css({
+  fontSize: '2xl',
+  fontWeight: 'bold',
+})
+
+const buttonContentStyles = css({
+  display: 'flex',
+  alignItems: 'center',
+  gap: '1',
+})
+
+const emptyStateStyles = css({
+  padding: '8',
+  textAlign: 'center',
+  bg: 'bg.subtle',
+  rounded: 'md',
+  color: 'fg.subtle',
+})
+
+const deckGridStyles = grid({
+  gap: '4',
+  gridTemplateColumns: {
+    base: '1fr',
+    lg: 'repeat(2, 1fr)',
+  },
+})
+
+type DeckListProps = {
+  decks: Deck[]
+  onManageDeck: (id: string) => void
+  onStudyDeck: (id: string) => void
+  onCreateDeck: () => void
+}
+
+export const DeckList = ({ decks, onManageDeck, onStudyDeck, onCreateDeck }: DeckListProps) => {
+  return (
+    <div className={containerStyles}>
+      <div className={headerStyles}>
+        <h2 className={titleStyles}>デッキ一覧</h2>
+
+        <Button variant="outline" size="sm" onClick={onCreateDeck}>
+          <span className={buttonContentStyles}>
+            <Plus size={16} />
+            新規デッキ
+          </span>
+        </Button>
+      </div>
+
+      {decks.length === 0 ? (
+        <div className={emptyStateStyles}>デッキがありません。「新規デッキ」ボタンからデッキを作成してください。</div>
+      ) : (
+        <div className={deckGridStyles}>
+          {decks.map((deck) => (
+            <DeckCard key={deck.id} {...deck} onManage={onManageDeck} onStudy={onStudyDeck} />
+          ))}
+        </div>
+      )}
+    </div>
+  )
+}
