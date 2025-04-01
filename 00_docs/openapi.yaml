@@ -31,6 +31,29 @@ components:
         - id
         - name
 
+    ErrorResponse:
+      type: object
+      description: 統一エラーレスポンス形式
+      properties:
+        code:
+          type: string
+          description: エラーを一意に識別するコード
+          example: "INVALID_REQUEST"
+          enum:
+            - INVALID_REQUEST
+            - UNAUTHORIZED
+            - FORBIDDEN
+            - NOT_FOUND
+            - CONFLICT
+            - INTERNAL_ERROR
+        message:
+          type: string
+          description: 人間が読めるエラーメッセージ
+          example: "リクエストパラメータが不正です"
+      required:
+        - code
+        - message
+
     DeckResponse:
       type: object
       description: デッキのAPIレスポンス形式
@@ -54,7 +77,7 @@ components:
           minimum: 0
           description: 学習予定日が到来しているカードの数
         createdBy:
-          $ref: '#/components/schemas/UserInfo'
+          $ref: "#/components/schemas/UserInfo"
           description: デッキの作成者情報
         createdAt:
           type: string
@@ -111,12 +134,12 @@ components:
         frontImages:
           type: array
           items:
-            $ref: '#/components/schemas/CardImage'
+            $ref: "#/components/schemas/CardImage"
           description: カード表面の画像一覧
         backImages:
           type: array
           items:
-            $ref: '#/components/schemas/CardImage'
+            $ref: "#/components/schemas/CardImage"
           description: カード裏面の画像一覧
         tags:
           type: array
@@ -188,7 +211,7 @@ components:
         data:
           type: array
           items:
-            $ref: '#/components/schemas/DeckResponse'
+            $ref: "#/components/schemas/DeckResponse"
         metadata:
           type: object
           properties:
@@ -219,7 +242,7 @@ components:
         data:
           type: array
           items:
-            $ref: '#/components/schemas/CardResponse'
+            $ref: "#/components/schemas/CardResponse"
         metadata:
           type: object
           properties:
@@ -282,14 +305,18 @@ paths:
             default: 20
           description: 1ページあたりの取得件数
       responses:
-        '200':
+        "200":
           description: デッキ一覧の取得成功
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PaginatedDecksResponse'
-        '401':
+                $ref: "#/components/schemas/PaginatedDecksResponse"
+        "401":
           description: 認証エラー
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
 
     post:
       tags:
@@ -316,16 +343,24 @@ paths:
                 - name
                 - description
       responses:
-        '201':
+        "201":
           description: デッキの作成成功
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/DeckResponse'
-        '400':
+                $ref: "#/components/schemas/DeckResponse"
+        "400":
           description: リクエストパラメータが不正
-        '401':
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "401":
           description: 認証エラー
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
 
   /api/decks/{deckId}:
     get:
@@ -343,18 +378,30 @@ paths:
             type: string
             format: uuid
       responses:
-        '200':
+        "200":
           description: デッキ詳細の取得成功
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/DeckResponse'
-        '401':
+                $ref: "#/components/schemas/DeckResponse"
+        "401":
           description: 認証エラー
-        '403':
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "403":
           description: アクセス権限エラー
-        '404':
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "404":
           description: デッキが見つからない
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
 
     patch:
       tags:
@@ -386,19 +433,19 @@ paths:
                   maxLength: 1000
               minProperties: 1
       responses:
-        '200':
+        "200":
           description: デッキの更新成功
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/DeckResponse'
-        '400':
+                $ref: "#/components/schemas/DeckResponse"
+        "400":
           description: リクエストパラメータが不正
-        '401':
+        "401":
           description: 認証エラー
-        '403':
+        "403":
           description: アクセス権限エラー
-        '404':
+        "404":
           description: デッキが見つからない
 
     delete:
@@ -416,13 +463,13 @@ paths:
             type: string
             format: uuid
       responses:
-        '204':
+        "204":
           description: デッキの削除成功
-        '401':
+        "401":
           description: 認証エラー
-        '403':
+        "403":
           description: アクセス権限エラー
-        '404':
+        "404":
           description: デッキが見つからない
 
   /api/decks/{deckId}/cards:
@@ -462,18 +509,30 @@ paths:
             type: string
           description: タグでフィルタリング
       responses:
-        '200':
+        "200":
           description: カード一覧の取得成功
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PaginatedCardsResponse'
-        '401':
+                $ref: "#/components/schemas/PaginatedCardsResponse"
+        "401":
           description: 認証エラー
-        '403':
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "403":
           description: アクセス権限エラー
-        '404':
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "404":
           description: デッキが見つからない
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
 
     post:
       tags:
@@ -538,25 +597,25 @@ paths:
                 - frontContent
                 - backContent
       responses:
-        '201':
+        "201":
           description: カードの作成成功
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CardResponse'
-        '400':
+                $ref: "#/components/schemas/CardResponse"
+        "400":
           description: |
             リクエストパラメータが不正
             - テキストコンテンツの長さが制限を超えている
             - 画像IDが存在しない
             - タグ名の長さが制限を超えている
-        '401':
+        "401":
           description: 認証エラー
-        '403':
+        "403":
           description: アクセス権限エラー（指定されたデッキへのアクセス権限がない）
-        '404':
+        "404":
           description: デッキが見つからない
-        '409':
+        "409":
           description: |
             リソースの競合
             - 既に削除された画像IDが指定された
@@ -584,17 +643,17 @@ paths:
             type: string
             format: uuid
       responses:
-        '200':
+        "200":
           description: カード詳細の取得成功
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CardResponse'
-        '401':
+                $ref: "#/components/schemas/CardResponse"
+        "401":
           description: 認証エラー
-        '403':
+        "403":
           description: アクセス権限エラー
-        '404':
+        "404":
           description: カードが見つからない
 
     patch:
@@ -638,19 +697,19 @@ paths:
                     type: string
               minProperties: 1
       responses:
-        '200':
+        "200":
           description: カードの更新成功
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CardResponse'
-        '400':
+                $ref: "#/components/schemas/CardResponse"
+        "400":
           description: リクエストパラメータが不正
-        '401':
+        "401":
           description: 認証エラー
-        '403':
+        "403":
           description: アクセス権限エラー
-        '404':
+        "404":
           description: カードが見つからない
 
     delete:
@@ -674,13 +733,13 @@ paths:
             type: string
             format: uuid
       responses:
-        '204':
+        "204":
           description: カードの削除成功
-        '401':
+        "401":
           description: 認証エラー
-        '403':
+        "403":
           description: アクセス権限エラー
-        '404':
+        "404":
           description: カードが見つからない
 
   /api/images/upload:
@@ -708,7 +767,7 @@ paths:
               required:
                 - image
       responses:
-        '200':
+        "200":
           description: 画像アップロード成功
           content:
             application/json:
@@ -725,12 +784,22 @@ paths:
                 required:
                   - imageKey
                   - url
-        '400':
+        "400":
           description: |
             無効なリクエスト
             - サポートされていないファイル形式
             - ファイルサイズ超過（2MB以上）
             - 画像サイズ超過（1920x1080px以上）
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "401":
+          description: 認証エラー
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
 
   /api/decks/{deckId}/study/cards:
     get:
@@ -768,7 +837,7 @@ paths:
             type: boolean
             default: true
       responses:
-        '200':
+        "200":
           description: 学習カードの取得成功
           content:
             application/json:
@@ -778,7 +847,7 @@ paths:
                   cards:
                     type: array
                     items:
-                      $ref: '#/components/schemas/CardResponse'
+                      $ref: "#/components/schemas/CardResponse"
                   totalCards:
                     type: integer
                     description: 取得したカードの総数
@@ -793,8 +862,18 @@ paths:
                   - totalCards
                   - newCards
                   - reviewCards
-        '404':
+        "404":
           description: デッキが見つからない
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "401":
+          description: 認証エラー
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
 
   /api/decks/{deckId}/cards/{cardId}/study:
     post:
@@ -837,7 +916,7 @@ paths:
                 - grade
                 - studiedAt
       responses:
-        '200':
+        "200":
           description: 学習結果の記録成功
           content:
             application/json:
@@ -856,8 +935,18 @@ paths:
                   - nextStudyDate
                   - easeFactor
                   - interval
-        '404':
+        "404":
           description: デッキまたはカードが見つからない
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "401":
+          description: 認証エラー
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
 
   /api/stats/decks/{deckId}:
     get:
@@ -884,7 +973,7 @@ paths:
             enum: [daily, weekly, monthly]
             default: daily
       responses:
-        '200':
+        "200":
           description: 統計情報の取得成功
           content:
             application/json:
@@ -925,7 +1014,7 @@ paths:
                   - newCards
                   - accuracyTrend
                   - studyCountTrend
-        '404':
+        "404":
           description: デッキが見つからない
 
   /api/stats/decks/{deckId}/cards/{cardId}:
@@ -951,7 +1040,7 @@ paths:
             type: string
             format: uuid
       responses:
-        '200':
+        "200":
           description: カード統計の取得成功
           content:
             application/json:
@@ -986,7 +1075,7 @@ paths:
                   - totalStudyCount
                   - accuracy
                   - studyHistory
-        '404':
+        "404":
           description: デッキまたはカードが見つからない
 
   /api/tags:
@@ -1016,7 +1105,7 @@ paths:
             maximum: 100
             default: 50
       responses:
-        '200':
+        "200":
           description: タグ一覧の取得成功
           content:
             application/json:
@@ -1034,4 +1123,4 @@ paths:
                         name:
                           type: string
                 required:
-                  - tags 
+                  - tags
