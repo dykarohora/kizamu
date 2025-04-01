@@ -1,7 +1,7 @@
-import type { Context, Env, Input, MiddlewareHandler, ValidationTargets } from 'hono'
-import type { Simplify } from 'effect/Types'
-import { validator } from 'hono/validator'
 import { Either, ParseResult, Schema } from 'effect'
+import type { Simplify } from 'effect/Types'
+import type { Context, Env, Input, MiddlewareHandler, ValidationTargets } from 'hono'
+import { validator } from 'hono/validator'
 
 export type Hook<
   T,
@@ -69,19 +69,19 @@ export const effectValidator = <
         const error = ParseResult.ArrayFormatter.formatErrorSync(e)
 
         if (!hook) {
-          return c.json({ success: false, error }, 400)
+          return c.json({ code: 'BAD_REQUEST', message: 'Invalid request' }, 400)
         }
 
         const hookResult = await hook({ success: false, error, data: validatorValue, target }, c)
         if (!hookResult) {
-          return c.json({ success: false, error }, 400)
+          return c.json({ code: 'BAD_REQUEST', message: 'Invalid request' }, 400)
         }
 
         if (hookResult instanceof Response) {
           return hookResult
         }
 
-        return c.json({ success: false, error }, 400)
+        return c.json({ code: 'BAD_REQUEST', message: 'Invalid request' }, 400)
       },
       onRight: async (data) => {
         if (!hook) {
