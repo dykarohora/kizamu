@@ -3,21 +3,22 @@ description:
 globs: packages/apps/web-app/**/*.*
 alwaysApply: false
 ---
-# Webフロントエンドの実装ルール
+## 設計ドキュメント
 
-## ディレクトリ構成
+[03_frontend_design.md](mdc:00_docs/03_frontend_design.md)
+[04_api_design.md](mdc:00_docs/04_api_design.md)
+[openapi.yaml](mdc:00_docs/openapi.yaml)
 
+## Web App Project Structure
+
+### アプリケーション全体
 ```
 app/
 ├── root.tsx                # アプリケーションのルートレイアウト
 ├── routes.ts               # ルート定義
 ├── entry.client.tsx        # クライアントエントリーポイント
 ├── entry.server.tsx        # サーバーエントリーポイント
-├── routes/                 # ルートコンポーネント
-│   ├── Home.tsx            # ホームページ
-│   ├── Dashboard.tsx       # ダッシュボードページ
-│   └── layouts/            # レイアウトコンポーネント
-│       └── MainLayout.tsx  # メインレイアウト（ヘッダーを含む）
+├── routes/                 # ルートコンポーネント(詳細は後述)
 ├── shared/                 # 共通モジュール全般
 │   ├── components/         # 共通コンポーネント
 │   │   ├── ui/             # 基本UIコンポーネント（Park UI）
@@ -32,7 +33,31 @@ app/
 └── providers/              # アプリケーション全体のプロバイダー
 ```
 
+### ルートコンポーネント
+ルートコンポーネントディレクトリでは画面ごとにディレクトリを作成し、その画面の中で使用するコンポーネントやカスタムフックをディレクトリの中に配置する。
+featureによるディレクトリ分割に思想が近い。
+
+```
+routes/
+├── dashboard/               # ダッシュボード画面
+│   ├── components/         # 画面内で使用するコンポーネント
+│   ├── hooks/              # 画面内で使用するカスタムフック
+│   └── dashboard.tsx       # ルートモジュール
+├──create-deck/              # デッキ作成画面
+│   ├── components/         
+│   ├── hooks/              
+│   └── dashboard.tsx       
+│
+```
+
+## 使用するライブラリ
+
+- React Router v7
+- Effect
+
 ## 設計原則
+- 関数型コンポーネントとして実装すること
+- アロー関数を使って実装すること
 - コンポーネントの責務を限定し、一つの関数の範囲を小さく保つ
 	- 一つのコンポーネントが扱うhooksを5つ以内に制限する
 	- ロジック、状態管理、表示などの責務ごとにコンポーネントを分割する
@@ -66,17 +91,70 @@ app/
 - コンポーネントのHTMLとスタイルは分割して記述するが、同一ファイル内にまとめること
 
 ### カラーパレット
-- Park UIのSemantics Tokenを使うこと
+- 使用できるのはgray(グレー)とcolorPalette(アクセントカラー)のみ
+- Radix Colorsのように12段階の色調でパレットを用意している
 
-## Reactコンポーネントを実装するときの規約
-- 関数型コンポーネントとして実装すること
-- アロー関数を使って実装すること
+| Step | Use Case              |
+| ---- | --------------------- |
+| 1    | アプリケーションの背景           |
+| 2    | 特定の要素に使う控えめに使用する背景    |
+| 3    | UIエレメントの背景            |
+| 4    | ホバー時のUIエレメントの背景       |
+| 5    | アクティブ/選択されたUIエレメントの背景 |
+| 6    | 控えめな境界線と区切り線          |
+| 7    | UIエレメントの境界線とフォーカスリング  |
+| 8    | ホバー時のUIエレメントの境界線      |
+| 9    | べた塗りの背景               |
+| 10   | ホバー時のべた塗りの背景          |
+| 11   | 低コントラストのテキスト          |
+| 12   | 高コントラストのテキスト          |
+
+### Semantic Tokens
+
+- 可能な限り以下のPark UIのSemantic Tokensを使って色を指定すること
+
+#### Background
+
+グレーによる階層。ユーザインタフェースの背景要素に対して指定する。
+
+- `bg.canvas`:`gray.1`
+- `bg.default`:`white`
+- `bg.subtle`:`gray.2`
+- `bg.muted`:`gray.3`
+- `bg.emphasized`:`gray.4`
+- `bg.disabled`:`gray.5`
+
+#### Foreground
+
+前景色、これもグレーを中心に構成。テキストに使うのが主な用途。
+
+- `fg.default`:`gray.12`
+- `fg.muted`:`gray.11`
+- `fg.subtle`:`gray.10`
+- `fg.disabled`:`gray.9`
+- `fg.error`: `red.9`
+
+### Accent
+
+アクセントカラーは特定のアクションやコンテンツ、インタラクティブな要素に使用する。
+
+- `colorPalette.default`:`colorPalette.9`(ベタ塗り)
+- `colorPalette.emphasized`:`colorPalette.10`(ホバー)
+- `colorPalette.fg`:`white`
+- `colorPalette.text`:`<accent>.a11
+
+#### Border
+
+- `border.default`:`gray.7`
+- `border.muted`:`gray.6`
+- `border.subtle`:`gray.4`
+- `border.disabled`:`gray.5`
+- `border.outline`:`gray.a9`
+- `border.error`:`red.9`
 
 ## 認証モジュールの使い方
 
-### 3.3 主要なAPI
-
-#### 3.3.1 認証状態の取得 - `getAuthStatus`
+### 認証状態の取得 - `getAuthStatus`
 
 ```typescript
 /**
@@ -92,7 +170,7 @@ getAuthStatus: Effect.Effect<
 
 セッションからユーザー情報を取得し、Schema検証を行った上で認証状態を返す。
 
-#### 3.3.2 認証必須ルートの保護 - `requireAuth`
+### 認証必須ルートの保護 - `requireAuth`
 
 ```typescript
 /**
@@ -106,9 +184,9 @@ requireAuth: (failureRedirect: string) =>
 
 認証されていない場合は指定されたURLにリダイレクトし、認証されている場合はユーザー情報を返す。
 
-### 3.4 使用例
+### 使用例
 
-#### 3.4.1 ルートローダーでの認証状態取得
+#### ルートローダーでの認証状態取得
 
 ```typescript
 export const loader = effectLoader(
@@ -122,7 +200,7 @@ export const loader = effectLoader(
 )
 ```
 
-#### 3.4.2 認証必須ルートの保護
+#### 認証必須ルートの保護
 
 ```typescript
 // 認証が必要なルートのローダー
