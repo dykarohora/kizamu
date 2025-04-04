@@ -27,7 +27,7 @@ export const loader = effectLoader(
     yield* requireAuth('/')
 
     // アクセストークンを取得してAPIクライアントを初期化
-    const { accessToken } = yield* getAccessToken
+    const { accessToken, setCookieHeaderValue } = yield* getAccessToken
     const hc = yield* HonoClientService
 
     // デッキ一覧を取得（最大20件）
@@ -37,7 +37,12 @@ export const loader = effectLoader(
 
     if (response.status === 200) {
       const { decks } = yield* Effect.promise(async () => await response.json())
-      return yield* Effect.succeed(data({ decks }))
+      return yield* Effect.succeed(
+        data(
+          { decks },
+          { ...(setCookieHeaderValue !== undefined && { headers: { 'Set-Cookie': setCookieHeaderValue } }) },
+        ),
+      )
     }
 
     const error = yield* Effect.promise(async () => await response.json())

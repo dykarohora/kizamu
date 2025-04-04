@@ -9,6 +9,7 @@ declare module "react-router" {
 type Params = {
   "/": {};
   "/dashboard": {};
+  "/decks/new": {};
   "/login": {};
   "/callback": {};
 };
