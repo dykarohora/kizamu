@@ -37,6 +37,10 @@ export const createDeck = (
         updatedAt: now,
       }
 
+      yield* Effect.logDebug('Creating deck', {
+        deck: JSON.stringify(newDeck),
+      })
+
       // デッキをデータベースに挿入
       yield* db.insert(decksTable).values(newDeck)
 
