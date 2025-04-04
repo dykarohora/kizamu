@@ -1,4 +1,4 @@
-import { Schema, Effect, Either } from 'effect'
+import { Effect, Either, Schema } from 'effect'
 
 /**
  * デッキ作成フォームのスキーマ定義
@@ -35,7 +35,7 @@ export type FormErrors = {
  * フォームの入力値を検証し、以下の条件をチェック：
  * - タイトルが空でないこと（空白文字を除く）
  * - 説明文が空でないこと（空白文字を除く）
- * 
+ *
  * @param input - フォームの入力値
  * @param input.name - デッキのタイトル
  * @param input.description - デッキの説明文
@@ -44,12 +44,11 @@ export type FormErrors = {
  * - Either.left(FormErrors): バリデーション失敗時のエラー情報
  */
 export const validateDeckForm = ({ name, description }: FormInput): Effect.Effect<Either.Either<void, FormErrors>> =>
-  Effect.sync(
-    () =>
-      name.trim() === '' || description.trim() === ''
-        ? Either.left({
+  Effect.sync(() =>
+    name.trim() === '' || description.trim() === ''
+      ? Either.left({
           ...(name.trim() === '' && { name: 'デッキ名を入力してください' }),
           ...(description.trim() === '' && { description: 'デッキの説明文を入力してください' }),
         })
-        : Either.void
-  ) 
+      : Either.void,
+  )
