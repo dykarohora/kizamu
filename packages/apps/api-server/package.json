@@ -19,7 +19,7 @@
   },
   "scripts": {
     "deploy": "wrangler deploy --minify",
-    "dev": "wrangler dev --env local",
+    "dev": "dotenvx run -f .env -- wrangler dev --env local",
     "lint:fix": "biome check --write",
     "typegen": "wrangler types",
     "typecheck": "tsc"

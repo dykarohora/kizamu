@@ -39,8 +39,7 @@
   "scripts": {
     "build": "react-router build",
     "deploy:staging": "wrangler deploy --env staging",
-    "dev:rrv7": "react-router dev",
-    "dev:workers": "wrangler dev --port 50419 --env local",
+    "dev": "wrangler dev --port 50419 --env local",
     "lint:fix": "biome check --write",
     "start": "react-router-serve ./build/server/index.js",
     "typecheck": "react-router typegen && tsc",
