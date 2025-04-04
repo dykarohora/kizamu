@@ -129,7 +129,7 @@ web_modules/
 .env.production
 .env.staging
 .env.development.local
-.env.test.local
+.env.local.test
 .env.production.local
 .env.local
 .env.test
