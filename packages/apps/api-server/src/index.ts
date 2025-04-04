@@ -3,8 +3,8 @@ import type { Simplify } from 'effect/Types'
 import { Hono } from 'hono'
 import { bearerAuth } from 'hono/bearer-auth'
 import { createRemoteJWKSet, jwtVerify } from 'jose'
-import { type GetDecksRoute, getDecksRoute } from './routes/decks/getDecksRoute'
 import { type CreateDeckRoute, createDeckRoute } from './routes/decks/createDeckRoute'
+import { type GetDecksRoute, getDecksRoute } from './routes/decks/getDecksRoute'
 
 export type ApiServerType = Simplify<GetDecksRoute | CreateDeckRoute>
 

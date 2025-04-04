@@ -1,8 +1,8 @@
-import { Effect, Either, pipe, Schema } from 'effect'
-import { Hono } from 'hono'
-import { effectValidator } from '../../middleware/validator'
 import { createDeck } from '@kizamu/db'
+import { Effect, Either, Schema, pipe } from 'effect'
+import { Hono } from 'hono'
 import { uuidv7 } from 'uuidv7'
+import { effectValidator } from '../../middleware/validator'
 import { runEffect } from '../../utils/runEffect'
 
 /**
@@ -46,7 +46,7 @@ const route = createDeckRoute.post('/decks', effectValidator('json', requestBody
 
       // デッキ作成開始のログ出力
       // ユーザーIDとリクエスト内容を記録し、処理の追跡を可能にする
-      yield* Effect.logInfo('Creating deck', {
+      yield* Effect.logDebug('Creating deck', {
         userId,
         name: body.name,
         description: body.description,
@@ -66,7 +66,7 @@ const route = createDeckRoute.post('/decks', effectValidator('json', requestBody
           Either.match({
             // 成功時：デバッグログにデッキIDとユーザーIDを記録
             onRight: (deck) =>
-              Effect.logDebug('Deck created successfully', {
+              Effect.logInfo('Deck created successfully', {
                 deckId: deck.id,
                 userId,
               }),
