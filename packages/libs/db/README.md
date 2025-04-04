@@ -39,16 +39,14 @@ pnpm db:migrate
 pnpm db:generate
 
 # Apply migrations
-pnpm db:migrate
+pnpm migrate:production
 
-# Reset database (for development)
-pnpm db:reset
 ```
 
 ### Testing
 
 ```bash
-pnpm test
+pnpm test:local
 ```
 
 ## Usage Examples

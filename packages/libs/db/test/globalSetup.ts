@@ -5,8 +5,8 @@ import { migrate } from 'drizzle-orm/postgres-js/migrator'
 import postgres from 'postgres'
 
 import { config } from '@dotenvx/dotenvx'
-config({ path: './packages/libs/db/.env.test.local' })
-config({ path: '.env.test.local' })
+config({ path: './packages/libs/db/.env.local' })
+config({ path: '.env.local' })
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
@@ -17,7 +17,7 @@ const migrationClient = postgres({
   database: process.env.DB_DATABASE ?? 'postgres',
   username: process.env.DB_USERNAME ?? 'postgres',
   password: process.env.DB_PASSWORD ?? 'postgres',
-  ssl: 'require',
+  ssl: false,
   max: 1,
 })
 

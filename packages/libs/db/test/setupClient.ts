@@ -13,7 +13,7 @@ export const getSetupClient = () => {
     database: process.env.DB_DATABASE ?? 'postgres',
     username: process.env.DB_USERNAME ?? 'postgres',
     password: process.env.DB_PASSWORD ?? 'postgres',
-    ssl: 'require',
+    ssl: false,
   })
 
   return drizzle(client)
@@ -26,6 +26,5 @@ export const getTestDriver = () =>
     database: process.env.DB_DATABASE ?? 'postgres',
     username: process.env.DB_USERNAME ?? 'postgres',
     password: Redacted.make(process.env.DB_PASSWORD ?? 'postgres'),
-    // @ts-expect-error
-    ssl: 'require',
+    ssl: false,
   })
