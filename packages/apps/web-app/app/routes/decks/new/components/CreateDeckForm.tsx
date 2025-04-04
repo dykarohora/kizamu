@@ -1,9 +1,9 @@
-import { css } from 'styled-system/css'
-import * as Field from '~/shared/components/ui/styled/field'
-import { Button } from '~/shared/components/ui/button'
-import { useFetcher } from 'react-router'
-import type { Route } from '../+types/CreateDeck'
 import type { FC } from 'react'
+import { useFetcher } from 'react-router'
+import { css } from 'styled-system/css'
+import { Button } from '~/shared/components/ui/button'
+import * as Field from '~/shared/components/ui/styled/field'
+import type { Route } from '../+types/CreateDeck'
 
 /**
  * アクションデータの型定義

@@ -1,6 +1,6 @@
-import { css } from 'styled-system/css'
 import { InfoIcon } from 'lucide-react'
 import type { FC } from 'react'
+import { css } from 'styled-system/css'
 
 /**
  * ヒントコンポーネントのスタイル定義
