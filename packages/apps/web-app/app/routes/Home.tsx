@@ -1,27 +1,28 @@
-import { Effect } from 'effect'
-import { constVoid } from 'effect/Function'
+// import { Effect } from 'effect'
+// import { constVoid } from 'effect/Function'
 import { ArrowRight } from 'lucide-react'
 import type { FC } from 'react'
-import { Link, redirect } from 'react-router'
-import { css } from '../../styled-system/css'
-import { container, flex, grid } from '../../styled-system/patterns'
-import { effectLoader } from '~/effect/index.server'
-import { OAuth2Service } from '~/services/auth/index.server'
+import { Link } from 'react-router'
+import { css } from 'styled-system/css'
+import { container, flex, grid } from 'styled-system/patterns'
+// import { effectLoader } from '~/effect/index.server'
+// import { OAuth2Service } from '~/services/auth/index.server'
 import { Button } from '~/shared/components/ui/button'
 
-export const loader = effectLoader(
-  Effect.gen(function* () {
-    // OAuth2Serviceを取得
-    const { getAuthStatus } = yield* OAuth2Service
-    // 認証状態を確認
-    const authStatus = yield* getAuthStatus
-    // ログイン済みの場合はダッシュボードにリダイレクト
-    // biome-ignore format:
-    return authStatus.authenticated 
-      ? yield* Effect.succeed(redirect('/dashboard')) 
-      : yield* Effect.succeed(constVoid())
-  }),
-)
+// export const loader = effectLoader(
+//   Effect.gen(function* () {
+//     // OAuth2Serviceを取得
+//     const { getAuthStatus } = yield* OAuth2Service
+//     // 認証状態を確認
+//     const authStatus = yield* getAuthStatus
+//     console.log('authStatus', authStatus)
+//     // ログイン済みの場合はダッシュボードにリダイレクト
+//     // biome-ignore format:
+//     return authStatus.authenticated
+//       ? yield* Effect.succeed(redirect('/dashboard'))
+//       : yield* Effect.succeed(constVoid())
+//   }),
+// )
 
 const Home: FC = () => {
   return (

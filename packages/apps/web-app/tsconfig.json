@@ -1,33 +1,25 @@
 {
-  "extends": "../../../tsconfig.base.json",
+  "files": [],
+  "references": [
+    {
+      "path": "./tsconfig.node.json"
+    },
+    {
+      "path": "./tsconfig.cloudflare.json"
+    }
+  ],
   "compilerOptions": {
-    "lib": ["DOM", "DOM.Iterable", "ES2022"],
     "types": [
       "vite/client",
       "@cloudflare/workers-types",
       "@react-router/cloudflare",
+      "./worker-configuration.d.ts",
       "../api-server/worker-configuration.d.ts"
     ],
-    "jsx": "react-jsx",
-    "rootDirs": [".", "./.react-router/types"],
-    "baseUrl": ".",
-    "paths": {
-      "~/*": ["./app/*"]
-    },
+    "checkJs": false,
     "verbatimModuleSyntax": true,
-    "resolveJsonModule": true,
-    "allowJs": true,
-    "forceConsistentCasingInFileNames": true,
-    "sourceMap": true,
-    "inlineSourceMap": false
-  },
-  "include": [
-    "styled-system",
-    "./app/**/*.ts",
-    "./app/**/*.tsx",
-    "./server/**/*.ts",
-    "./load-context.ts",
-    "./react-router.config.ts",
-    "./worker.ts"
-  ]
+    "skipLibCheck": true,
+    "strict": true,
+    "noEmit": true
+  }
 }

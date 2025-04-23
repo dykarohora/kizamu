@@ -4,18 +4,18 @@
     "@kizamu/db": "workspace:*",
     "@kizamu/schema": "workspace:*",
     "effect": "^3.14.1",
-    "hono": "^4.7.5",
+    "hono": "^4.7.7",
     "jose": "^6.0.10",
     "uuidv7": "^1.0.2"
   },
   "devDependencies": {
-    "@cloudflare/vitest-pool-workers": "^0.8.4",
-    "@cloudflare/workers-types": "^4.20250321.0",
-    "@dotenvx/dotenvx": "^1.39.0",
-    "@types/node": "^22.13.11",
+    "@cloudflare/vitest-pool-workers": "^0.8.19",
+    "@cloudflare/workers-types": "^4.20250423.0",
+    "@dotenvx/dotenvx": "^1.41.0",
+    "@types/node": "^22.14.1",
     "vite-tsconfig-paths": "^5.1.4",
-    "vitest": "^3.0.9",
-    "wrangler": "^4.4.0"
+    "vitest": "^3.1.2",
+    "wrangler": "^4.12.1"
   },
   "scripts": {
     "deploy": "wrangler deploy --minify",

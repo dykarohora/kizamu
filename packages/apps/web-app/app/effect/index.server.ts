@@ -6,6 +6,16 @@ import { makeWorkersKVSessionStorageLive } from '~/services/session/index.server
 import { makeReactRouterRuntime } from './makeReactRouterRuntime.server'
 
 const SessionServiceLive = makeWorkersKVSessionStorageLive({ kvBindingKey: 'kizamu_session' })
+// const SessionServiceLive = makeCookieSessionStorageLive({
+//   cookie: {
+//     name: '__kizamu_sid', // セッションIDを保存するCookieの名前
+//     secrets: ['secret'], // Cookieの署名に使用する秘密鍵
+//     sameSite: 'lax', // CSRF対策のためのSameSite属性
+//     httpOnly: true, // JavaScriptからのアクセスを防ぐ
+//     secure: false,
+//   },
+// })
+
 const layer = Layer.mergeAll(SessionServiceLive, Auth0ServiceLive, HonoClientServiceLive)
 
 export const { effectAction, effectLoader } = makeReactRouterRuntime(layer)

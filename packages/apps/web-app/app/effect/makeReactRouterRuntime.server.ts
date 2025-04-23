@@ -72,8 +72,8 @@ export const makeReactRouterRuntime = <LA>(layer: Layer.Layer<LA>) => {
     // biome-ignore format:
     (args: ActionFunctionArgs) => run(
       pipe(
-        body, 
-        Effect.provideService(ActionContext, args), 
+        body,
+        Effect.provideService(ActionContext, args),
         Effect.provideService(RequestContext, args)
       )
     )

@@ -2,7 +2,6 @@ import { createWorkersKVSessionStorage } from '@react-router/cloudflare'
 import { Context, Data, Effect, Layer, pipe } from 'effect'
 import { type SessionStorage, createCookieSessionStorage } from 'react-router'
 import type { Session } from 'react-router'
-import type { WorkersEnv } from '../../../load-context'
 import { RequestContext } from '../react-router/index.server'
 
 /**
@@ -105,9 +104,7 @@ export const makeWorkersKVSessionStorageLive = ({
   kvBindingKey,
 }: {
   kvBindingKey: keyof {
-    [K in keyof WorkersEnv['Bindings'] as WorkersEnv['Bindings'][K] extends KVNamespace
-      ? K
-      : never]: WorkersEnv['Bindings'][K]
+    [K in keyof Cloudflare.Env as Cloudflare.Env[K] extends KVNamespace ? K : never]: Cloudflare.Env[K]
   }
 }): Layer.Layer<SessionService> =>
   Layer.suspend(() =>
@@ -120,10 +117,10 @@ export const makeWorkersKVSessionStorageLive = ({
           secrets: ['secret'], // Cookieの署名に使用する秘密鍵
           sameSite: 'lax', // CSRF対策のためのSameSite属性
           httpOnly: true, // JavaScriptからのアクセスを防ぐ
-          secure: process.bindings.NODE_ENV === 'production' || process.bindings.NODE_ENV === 'staging', // 本番環境ではHTTPSのみ許可
+          secure: process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'staging', // 本番環境ではHTTPSのみ許可
         },
         // 指定されたキーのKVストアを使用
-        kv: process.bindings[kvBindingKey],
+        kv: process.env[kvBindingKey] as unknown as KVNamespace,
       }),
       // 作成したストレージを使用してSessionServiceを構築
       makeSessionStorageLive,
