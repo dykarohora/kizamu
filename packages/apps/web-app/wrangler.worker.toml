@@ -7,7 +7,7 @@ compatibility_flags = ["nodejs_compat"]
 [assets]
 directory = "./build/client"
 
-[env.local.vars]
+[vars]
 NODE_ENV           = "development"
 AUTH0_CLIENT_ID    = "hGky8hwPqc0Id97cUj0tF4rfdQSGk0lQ"
 AUTH0_REDIRECT_URI = "http://localhost:50419/callback"
@@ -15,22 +15,6 @@ AUTH0_AUTH_ORIGIN  = "https://lexinova-dev.jp.auth0.com"
 AUTH0_ISSUER       = "https://lexinova-dev.jp.auth0.com/"
 AUTH0_AUDIENCE     = "lexi-nova-api-auth0"
 
-[[env.local.kv_namespaces]]
-binding = "kizamu_session"
-id      = "a53a1293ead84b5b81a4f060f99f403a"
-
-[[env.local.services]]
-binding = "SERVER"
-service = "kizamu-api-server-local"
-
-[env.staging.vars]
-NODE_ENV           = "staging"
-AUTH0_CLIENT_ID    = "hGky8hwPqc0Id97cUj0tF4rfdQSGk0lQ"
-AUTH0_REDIRECT_URI = "https://kizamu-web-app-staging.7d-yama.workers.dev/callback"
-AUTH0_AUTH_ORIGIN  = "https://lexinova-dev.jp.auth0.com"
-AUTH0_ISSUER       = "https://lexinova-dev.jp.auth0.com/"
-AUTH0_AUDIENCE     = "lexi-nova-api-auth0"
-
-[[env.staging.kv_namespaces]]
+[[kv_namespaces]]
 binding = "kizamu_session"
 id      = "a53a1293ead84b5b81a4f060f99f403a"

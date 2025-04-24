@@ -25,8 +25,6 @@ export default function App() {
   return <Outlet />
 }
 
-export function ErrorBoundary(a) {
-  console.log(a)
-  console.log('error occurred')
+export function ErrorBoundary() {
   return <div>Error</div>
 }

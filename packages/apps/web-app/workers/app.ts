@@ -14,6 +14,7 @@ const requestHandler = createRequestHandler(() => import('virtual:react-router/s
 export default {
   async fetch(request, env, ctx) {
     const processEnv = process.env
+
     // process.envプロパティを定義
     // getterを使用してctx.envの値を動的に取得できるようにする
     Object.defineProperty(process, 'env', {

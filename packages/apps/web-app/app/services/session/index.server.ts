@@ -11,7 +11,7 @@ import { RequestContext } from '../react-router/index.server'
  * このエラーがスローされます。エラーメッセージには具体的な問題の
  * 詳細が含まれます。
  */
-export class SessionError extends Data.TaggedError('SessionError')<{ message: string }> {}
+export class SessionError extends Data.TaggedError('SessionError')<{ message: string }> { }
 
 /**
  * セッション管理サービス
@@ -44,7 +44,7 @@ export class SessionService extends Context.Tag('SessionService')<
      */
     readonly destroySession: (session: Session) => Effect.Effect<string, SessionError>
   }
->() {}
+>() { }
 
 /**
  * セッションストレージを使用したSessionServiceの実装を作成する
@@ -114,7 +114,7 @@ export const makeWorkersKVSessionStorageLive = ({
         // Cookieの設定
         cookie: {
           name: '__kizamu_sid', // セッションIDを保存するCookieの名前
-          secrets: ['secret'], // Cookieの署名に使用する秘密鍵
+          secrets: [process.env.SESSION_SECRET as string], // Cookieの署名に使用する秘密鍵
           sameSite: 'lax', // CSRF対策のためのSameSite属性
           httpOnly: true, // JavaScriptからのアクセスを防ぐ
           secure: process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'staging', // 本番環境ではHTTPSのみ許可

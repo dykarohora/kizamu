@@ -21,7 +21,6 @@
     "@cloudflare/vite-plugin": "^1.0.9",
     "@cloudflare/vitest-pool-workers": "^0.8.19",
     "@cloudflare/workers-types": "^4.20250423.0",
-    "@dotenvx/dotenvx": "^1.41.0",
     "@effect/vitest": "0.20.13",
     "@hono/vite-dev-server": "^0.19.0",
     "@pandacss/dev": "^0.53.4",
@@ -31,6 +30,7 @@
     "@types/react": "^19.1.2",
     "@types/react-dom": "^19.1.2",
     "autoprefixer": "^10.4.21",
+    "cross-env": "^7.0.3",
     "react-router-devtools": "^1.1.10",
     "typescript": "^5.8.3",
     "vite": "^6.3.2",
@@ -40,13 +40,12 @@
   "private": true,
   "scripts": {
     "prepare": "panda codegen",
-    "build": "react-router build",
+    "build": "cross-env WEB_APP_CONFIG_ENV=worker react-router build",
     "cf-typegen": "wrangler types",
-    "deploy:staging": "wrangler deploy --env staging",
-    "dev": "wrangler dev --port 50419",
-    "dev:rrv7": "dotenvx run -- react-router dev",
+    "dev": "cross-env WEB_APP_CONFIG_ENV=dev react-router dev",
+    "dev:worker": "wrangler dev --port 50419",
+    "deploy:staging": "wrangler deploy --config ./wrangler.toml --env staging",
     "lint:fix": "biome check --write",
-    "start": "react-router-serve ./build/server/index.js",
     "typecheck": "pnpm cf-typegen && react-router typegen && tsc -b"
   },
   "type": "module"
