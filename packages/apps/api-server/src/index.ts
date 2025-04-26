@@ -2,6 +2,7 @@ import { Effect, Exit } from 'effect'
 import { Hono } from 'hono'
 import { bearerAuth } from 'hono/bearer-auth'
 import { createRemoteJWKSet, jwtVerify } from 'jose'
+import { createCardRoute } from './routes/cards/createCardRoute'
 import { createDeckRoute } from './routes/decks/createDeckRoute'
 import { getDecksRoute } from './routes/decks/getDecksRoute'
 
@@ -24,7 +25,7 @@ app.use(async (ctx, next) => {
 })
 
 app.get('/', (c) => {
-  return c.text('Hello Hono!')
+  return c.text('Hello Kizamu API Server!')
 })
 
 app.use(
@@ -88,4 +89,6 @@ app.use(
 
 app.route('/api', getDecksRoute)
 app.route('/api', createDeckRoute)
+app.route('/api', createCardRoute)
+
 export default app
