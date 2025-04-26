@@ -618,8 +618,7 @@ paths:
         "409":
           description: |
             リソースの競合
-            - 既に削除された画像IDが指定された
-            - デッキが既に削除されている
+            - カードIDが重複している
 
   /api/decks/{deckId}/cards/{cardId}:
     get:
