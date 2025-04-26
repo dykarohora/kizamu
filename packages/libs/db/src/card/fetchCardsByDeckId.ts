@@ -51,6 +51,7 @@ export const fetchCardsByDeckId = ({
       .from(cardsTable)
       .where(
         // カーソルが指定されている場合は、カーソルより大きいIDのカードを取得
+        // biome-ignore format:
         cursor
           ? and(eq(cardsTable.deckId, deckId), gt(cardsTable.id, cursor))
           : eq(cardsTable.deckId, deckId),
@@ -65,6 +66,7 @@ export const fetchCardsByDeckId = ({
     const nextCursor = hasNextPage ? cards[cards.length - 1].id : undefined
 
     // 総件数を取得
+    // biome-ignore format:
     const [{ total }] = yield* db
       .select({ total: count() })
       .from(cardsTable)

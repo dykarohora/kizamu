@@ -3,6 +3,7 @@ import { Hono } from 'hono'
 import { bearerAuth } from 'hono/bearer-auth'
 import { createRemoteJWKSet, jwtVerify } from 'jose'
 import { createCardRoute } from './routes/cards/createCardRoute'
+import { getCardsByDeckIdRoute } from './routes/cards/getCardsByDeckIdRoute'
 import { createDeckRoute } from './routes/decks/createDeckRoute'
 import { getDecksRoute } from './routes/decks/getDecksRoute'
 
@@ -90,5 +91,6 @@ app.use(
 app.route('/api', getDecksRoute)
 app.route('/api', createDeckRoute)
 app.route('/api', createCardRoute)
+app.route('/api', getCardsByDeckIdRoute)
 
 export default app
