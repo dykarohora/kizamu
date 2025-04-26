@@ -11,7 +11,7 @@ import { RequestContext } from '../react-router/index.server'
  * このエラーがスローされます。エラーメッセージには具体的な問題の
  * 詳細が含まれます。
  */
-export class SessionError extends Data.TaggedError('SessionError')<{ message: string }> { }
+export class SessionError extends Data.TaggedError('SessionError')<{ message: string }> {}
 
 /**
  * セッション管理サービス
@@ -44,7 +44,7 @@ export class SessionService extends Context.Tag('SessionService')<
      */
     readonly destroySession: (session: Session) => Effect.Effect<string, SessionError>
   }
->() { }
+>() {}
 
 /**
  * セッションストレージを使用したSessionServiceの実装を作成する
