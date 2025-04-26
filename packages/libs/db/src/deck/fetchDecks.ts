@@ -59,7 +59,7 @@ export const fetchDecks = ({
       .where(
         // カーソルが指定されている場合は、カーソルより大きいIDのデッキを取得
         // biome-ignore format:
-        cursor 
+        cursor
           ? and(eq(decksTable.createdBy, userId), gt(decksTable.id, cursor))
           : eq(decksTable.createdBy, userId),
       )
