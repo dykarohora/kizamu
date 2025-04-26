@@ -3,8 +3,8 @@ import { drizzle } from 'drizzle-orm/postgres-js'
 import { Redacted } from 'effect'
 import postgres from 'postgres'
 import { makeDbDriver } from '../src/driver'
-config({ path: './packages/libs/db/.env.test.local' })
-config({ path: '.env.test.local' })
+config({ path: './packages/libs/db/.env.local.test' })
+config({ path: '.env.local.test' })
 
 export const getSetupClient = () => {
   const client = postgres({

@@ -5,8 +5,8 @@ import { migrate } from 'drizzle-orm/postgres-js/migrator'
 import postgres from 'postgres'
 
 import { config } from '@dotenvx/dotenvx'
-config({ path: './packages/libs/db/.env.local' })
-config({ path: '.env.local' })
+config({ path: './packages/libs/db/.env.local.test' })
+config({ path: '.env.local.test' })
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
