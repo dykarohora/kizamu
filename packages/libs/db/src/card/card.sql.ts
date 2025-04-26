@@ -1,6 +1,6 @@
-import { index, integer, pgTable, real, text, timestamp, uniqueIndex } from 'drizzle-orm/pg-core'
-import { usersTable } from '../user/user.sql'
+import { index, integer, pgTable, primaryKey, real, text, timestamp } from 'drizzle-orm/pg-core'
 import { decksTable } from '../deck/deck.sql'
+import { usersTable } from '../user/user.sql'
 
 // カードテーブル定義
 export const cardsTable = pgTable(
@@ -15,7 +15,7 @@ export const cardsTable = pgTable(
     createdAt: timestamp('created_at').notNull().defaultNow(),
     updatedAt: timestamp('updated_at').notNull().defaultNow(),
   },
-  (table) => [index('cards_deck_id_idx').on(table.deckId)]
+  (table) => [index('cards_deck_id_idx').on(table.deckId)],
 )
 
 // 学習イベントテーブル定義
@@ -38,8 +38,8 @@ export const studyEventsTable = pgTable(
   (table) => [
     index('study_events_deck_id_idx').on(table.deckId),
     index('study_events_card_id_idx').on(table.cardId),
-    index('study_events_studied_by_studied_at_idx').on(table.studiedBy, table.studiedAt)
-  ]
+    index('study_events_studied_by_studied_at_idx').on(table.studiedBy, table.studiedAt),
+  ],
 )
 
 // カード学習状態テーブル定義
@@ -60,8 +60,8 @@ export const cardLearningStatesTable = pgTable(
   },
   (table) => [
     // 複合主キーの設定
-    uniqueIndex('card_learning_states_pk').on(table.cardId, table.studiedBy),
+    primaryKey({ columns: [table.cardId, table.studiedBy] }),
     index('card_learning_states_studied_by_idx').on(table.studiedBy),
-    index('card_learning_states_next_study_date_idx').on(table.nextStudyDate)
-  ]
+    index('card_learning_states_next_study_date_idx').on(table.nextStudyDate),
+  ],
 )
