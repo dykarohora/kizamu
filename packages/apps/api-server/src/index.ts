@@ -6,6 +6,7 @@ import { createCardRoute } from './routes/cards/createCardRoute'
 import { getCardsByDeckIdRoute } from './routes/cards/getCardsByDeckIdRoute'
 import { createDeckRoute } from './routes/decks/createDeckRoute'
 import { getDecksRoute } from './routes/decks/getDecksRoute'
+import { getDeckByIdRoute } from './routes/decks/getDeckByIdRoute'
 
 const app = new Hono<{ Bindings: Env; Variables: { user: string } }>()
 
@@ -89,6 +90,7 @@ app.use(
 )
 
 app.route('/api', getDecksRoute)
+app.route('/api', getDeckByIdRoute)
 app.route('/api', createDeckRoute)
 app.route('/api', createCardRoute)
 app.route('/api', getCardsByDeckIdRoute)
