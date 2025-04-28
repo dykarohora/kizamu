@@ -43,6 +43,7 @@
     "@dotenvx/dotenvx": "^1.39.0",
     "@effect/vitest": "^0.20.1",
     "@types/node": "^22.13.11",
+    "date-fns": "^4.1.0",
     "drizzle-kit": "^0.30.5",
     "drizzle-seed": "^0.3.1",
     "vitest": "^3.0.9"
