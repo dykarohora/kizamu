@@ -46,12 +46,11 @@ const deckGridStyles = grid({
 
 type DeckListProps = {
   decks: Deck[]
-  onManageDeck: (id: string) => void
   onStudyDeck: (id: string) => void
   onCreateDeck: () => void
 }
 
-export const DeckList = ({ decks, onManageDeck, onStudyDeck, onCreateDeck }: DeckListProps) => {
+export const DeckList = ({ decks, onStudyDeck, onCreateDeck }: DeckListProps) => {
   return (
     <div className={containerStyles}>
       <div className={headerStyles}>
@@ -70,7 +69,7 @@ export const DeckList = ({ decks, onManageDeck, onStudyDeck, onCreateDeck }: Dec
       ) : (
         <div className={deckGridStyles}>
           {decks.map((deck) => (
-            <DeckCard key={deck.id} {...deck} onManage={onManageDeck} onStudy={onStudyDeck} />
+            <DeckCard key={deck.id} {...deck} onStudy={onStudyDeck} />
           ))}
         </div>
       )}

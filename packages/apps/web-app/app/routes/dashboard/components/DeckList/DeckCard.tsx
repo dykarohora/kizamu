@@ -4,6 +4,7 @@ import { grid } from 'styled-system/patterns'
 import { Button } from '~/shared/components/ui/button'
 import { Card } from '~/shared/components/ui/card'
 import { Fieldset } from '~/shared/components/ui/fieldset'
+import { LinkButton } from '~/shared/components/ui/link-button'
 
 // スタイル定義を上部にまとめる 🎨
 const cardStyles = css({
@@ -72,20 +73,10 @@ export type DeckCardProps = {
   totalCards: number
   dueCards: number
   lastStudied?: string // ISO形式の日付文字列（例: "2023-05-15"）
-  onManage: (id: string) => void
   onStudy: (id: string) => void
 }
 
-export const DeckCard = ({
-  id,
-  name,
-  description,
-  totalCards,
-  dueCards,
-  lastStudied,
-  onManage,
-  onStudy,
-}: DeckCardProps) => {
+export const DeckCard = ({ id, name, description, totalCards, dueCards, lastStudied, onStudy }: DeckCardProps) => {
   // 日付フォーマット用のヘルパー関数を分離 📅
   const formatLastStudied = (date?: string) => {
     if (!date) {
@@ -126,12 +117,10 @@ export const DeckCard = ({
       </Card.Body>
 
       <Card.Footer className={footerStyles}>
-        <Button variant="ghost" size="sm" onClick={() => onManage(id)}>
-          <span className={buttonContentStyles}>
-            <SettingsIcon size={16} />
-            カード管理
-          </span>
-        </Button>
+        <LinkButton variant="ghost" size="sm" to={`/decks/${id}`}>
+          <SettingsIcon size={12} />
+          カード管理
+        </LinkButton>
         <Button variant="solid" size="sm" onClick={() => onStudy(id)}>
           <span className={buttonContentStyles}>
             学習する
