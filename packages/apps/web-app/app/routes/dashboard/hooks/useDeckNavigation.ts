@@ -7,7 +7,7 @@ export const useDeckNavigation = () => {
   // デッキ管理画面に遷移
   const handleManageDeck = useCallback(
     (id: string) => {
-      navigate(`/decks/${id}/manage`)
+      navigate(`/decks/${id}`)
     },
     [navigate],
   )
