@@ -1,8 +1,8 @@
 import { Plus } from 'lucide-react'
 import { css } from 'styled-system/css'
 import { grid } from 'styled-system/patterns'
-import { Button } from '~/shared/components/ui/button'
 import { DeckCard, type DeckCardProps } from './DeckCard'
+import { LinkButton } from '~/shared/components/ui/link-button'
 
 export type Deck = Omit<DeckCardProps, 'onManage' | 'onStudy'>
 
@@ -20,12 +20,6 @@ const headerStyles = css({
 const titleStyles = css({
   fontSize: '2xl',
   fontWeight: 'bold',
-})
-
-const buttonContentStyles = css({
-  display: 'flex',
-  alignItems: 'center',
-  gap: '1',
 })
 
 const emptyStateStyles = css({
@@ -47,21 +41,17 @@ const deckGridStyles = grid({
 type DeckListProps = {
   decks: Deck[]
   onStudyDeck: (id: string) => void
-  onCreateDeck: () => void
 }
 
-export const DeckList = ({ decks, onStudyDeck, onCreateDeck }: DeckListProps) => {
+export const DeckList = ({ decks, onStudyDeck }: DeckListProps) => {
   return (
     <div className={containerStyles}>
       <div className={headerStyles}>
         <h2 className={titleStyles}>デッキ一覧</h2>
-
-        <Button variant="outline" size="sm" onClick={onCreateDeck}>
-          <span className={buttonContentStyles}>
-            <Plus size={16} />
-            新規デッキ
-          </span>
-        </Button>
+        <LinkButton variant="outline" size="sm" to="/decks/new">
+          <Plus size={16} />
+          新規デッキ
+        </LinkButton>
       </div>
 
       {decks.length === 0 ? (

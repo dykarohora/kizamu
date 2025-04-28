@@ -12,13 +12,7 @@ export const useDeckNavigation = () => {
     [navigate],
   )
 
-  // 新規デッキ作成画面に遷移
-  const handleCreateDeck = useCallback(() => {
-    navigate('/decks/new')
-  }, [navigate])
-
   return {
     handleStudyDeck,
-    handleCreateDeck,
   }
 }

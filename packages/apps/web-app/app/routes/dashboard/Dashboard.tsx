@@ -62,7 +62,7 @@ export const loader = effectLoader(
  */
 const Dashboard = ({ loaderData: { decks } }: Route.ComponentProps) => {
   // ナビゲーション関連の処理をカスタムフックから取得
-  const { handleStudyDeck, handleCreateDeck } = useDeckNavigation()
+  const { handleStudyDeck } = useDeckNavigation()
 
   // APIから取得したデッキデータをUI表示用に整形
   // パフォーマンス最適化のため、decksが変更された時のみ再計算
@@ -117,7 +117,7 @@ const Dashboard = ({ loaderData: { decks } }: Route.ComponentProps) => {
         })}
       >
         {/* 左カラム: デッキ一覧 */}
-        <DeckList decks={formattedDecks} onStudyDeck={handleStudyDeck} onCreateDeck={handleCreateDeck} />
+        <DeckList decks={formattedDecks} onStudyDeck={handleStudyDeck} />
 
         {/* 右カラム: 学習統計（実装予定） */}
         <div
