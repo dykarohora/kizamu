@@ -4,6 +4,7 @@ import { css } from 'styled-system/css'
 import { Button } from '~/shared/components/ui/button'
 import * as Field from '~/shared/components/ui/styled/field'
 import type { Route } from '../+types/CreateDeck'
+import { LinkButton } from '~/shared/components/ui/link-button'
 
 /**
  * アクションデータの型定義
@@ -12,15 +13,6 @@ import type { Route } from '../+types/CreateDeck'
  * - errors?: バリデーションエラー情報
  */
 type ActionData = NonNullable<Route.ComponentProps['actionData']>
-
-/**
- * コンポーネントのプロパティ型定義
- * @description
- * - onCancel: キャンセルボタンクリック時のコールバック関数
- */
-type Props = {
-  onCancel: () => void
-}
 
 /**
  * デッキ作成フォームコンポーネント
@@ -37,7 +29,7 @@ type Props = {
  * <CreateDeckForm onCancel={() => navigate('/dashboard')} />
  * ```
  */
-export const CreateDeckForm: FC<Props> = ({ onCancel }) => {
+export const CreateDeckForm: FC = () => {
   // フォームの状態管理
   const fetcher = useFetcher<ActionData>()
   const errors = fetcher.data?.errors
@@ -73,9 +65,9 @@ export const CreateDeckForm: FC<Props> = ({ onCancel }) => {
       </Field.Root>
 
       <div className={css({ mt: '8', display: 'flex', justifyContent: 'flex-end', gap: '3' })}>
-        <Button type="button" variant="outline" onClick={onCancel}>
+        <LinkButton variant="outline" size="sm" to="/dashboard">
           キャンセル
-        </Button>
+        </LinkButton>
         <Button type="submit">保存</Button>
       </div>
     </fetcher.Form>

@@ -1,6 +1,5 @@
 import { Effect, Either } from 'effect'
-import { useCallback } from 'react'
-import { data, redirect, useNavigate } from 'react-router'
+import { data, redirect } from 'react-router'
 import { css } from 'styled-system/css'
 import { effectAction, effectLoader, getFormData } from '~/effect/index.server'
 import { OAuth2Service } from '~/services/auth/index.server'
@@ -93,43 +92,38 @@ export const action = effectAction(
  * <CreateDeck />
  * ```
  */
-const CreateDeck = (_: Route.ComponentProps) => {
-  const navigate = useNavigate()
-  const handleCancel = useCallback(() => navigate('/dashboard'), [navigate])
-
-  return (
-    <div className={css({ padding: '6', maxWidth: '800px', margin: '0 auto' })}>
-      {/* ページヘッダー */}
-      <div
+const CreateDeck = (_: Route.ComponentProps) => (
+  <div className={css({ padding: '6', maxWidth: '800px', margin: '0 auto' })}>
+    {/* ページヘッダー */}
+    <div
+      className={css({
+        mb: '8',
+        display: 'flex',
+        alignItems: 'center',
+        gap: '2',
+      })}
+    >
+      <h1
         className={css({
-          mb: '8',
-          display: 'flex',
-          alignItems: 'center',
-          gap: '2',
+          fontSize: '2xl',
+          fontWeight: 'bold',
         })}
       >
-        <h1
-          className={css({
-            fontSize: '2xl',
-            fontWeight: 'bold',
-          })}
-        >
-          新規デッキ作成
-        </h1>
-      </div>
-
-      {/* メインコンテンツ */}
-      <div className={css({ backgroundColor: 'white', borderRadius: 'lg', p: '6', boxShadow: 'sm' })}>
-        <h2 className={css({ fontSize: 'xl', fontWeight: 'bold', mb: '6' })}>デッキ情報</h2>
-
-        <div className={css({ mb: '8' })}>
-          <CreateDeckForm onCancel={handleCancel} />
-        </div>
-
-        <CreateDeckHint />
-      </div>
+        新規デッキ作成
+      </h1>
     </div>
-  )
-}
+
+    {/* メインコンテンツ */}
+    <div className={css({ backgroundColor: 'white', borderRadius: 'lg', p: '6', boxShadow: 'sm' })}>
+      <h2 className={css({ fontSize: 'xl', fontWeight: 'bold', mb: '6' })}>デッキ情報</h2>
+
+      <div className={css({ mb: '8' })}>
+        <CreateDeckForm />
+      </div>
+
+      <CreateDeckHint />
+    </div>
+  </div>
+)
 
 export default CreateDeck
