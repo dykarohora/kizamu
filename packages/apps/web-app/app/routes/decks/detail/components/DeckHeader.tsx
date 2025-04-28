@@ -1,6 +1,6 @@
 import { css } from 'styled-system/css'
 import { ArrowLeft } from 'lucide-react'
-import { Link } from 'react-router'
+import { LinkButton } from '~/shared/components/ui/link-button'
 
 type DeckHeaderProps = {
   name: string
@@ -39,22 +39,9 @@ export const DeckHeader = ({ name, description }: DeckHeaderProps) => {
         </h1>
         <p className={css({ color: 'fg.muted', mt: '1' })}>{description}</p>
       </div>
-      <Link
-        to="/dashboard"
-        className={css({
-          p: '2',
-          borderRadius: 'md',
-          color: 'colorPalette.default',
-          transition: 'all 0.2s',
-          _hover: {
-            border: '1px solid',
-            borderColor: 'colorPalette.default',
-          },
-        })}
-        aria-label="ダッシュボードに戻る"
-      >
-        <ArrowLeft size={24} />
-      </Link>
+      <LinkButton variant="ghost" size="sm" to="/dashboard">
+        <ArrowLeft size={36} />
+      </LinkButton>
     </div>
   )
 }

@@ -4,8 +4,6 @@ import { useNavigate } from 'react-router'
 export const useDeckActions = (deckId: string) => {
   const navigate = useNavigate()
 
-  const handleAddCard = useCallback(() => navigate(`/decks/${deckId}/cards/new`), [navigate, deckId])
-
   const handleEditCard = useCallback(
     (cardId: string) => navigate(`/decks/${deckId}/cards/${cardId}/edit`),
     [navigate, deckId],
@@ -17,7 +15,6 @@ export const useDeckActions = (deckId: string) => {
   }, [])
 
   return {
-    handleAddCard,
     handleEditCard,
     handleDeleteCard,
   }
