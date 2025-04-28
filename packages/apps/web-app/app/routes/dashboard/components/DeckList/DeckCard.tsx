@@ -117,7 +117,7 @@ export const DeckCard = ({ id, name, description, totalCards, dueCards, lastStud
       </Card.Body>
 
       <Card.Footer className={footerStyles}>
-        <LinkButton variant="ghost" size="sm" to={`/decks/${id}`}>
+        <LinkButton variant="ghost" size="sm" to={`/decks/${id}`} viewTransition>
           <SettingsIcon size={12} />
           カード管理
         </LinkButton>

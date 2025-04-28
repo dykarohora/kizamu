@@ -39,7 +39,7 @@ export const DeckHeader = ({ name, description }: DeckHeaderProps) => {
         </h1>
         <p className={css({ color: 'fg.muted', mt: '1' })}>{description}</p>
       </div>
-      <LinkButton variant="ghost" size="sm" to="/dashboard">
+      <LinkButton variant="ghost" size="sm" to="/dashboard" viewTransition>
         <ArrowLeft size={36} />
       </LinkButton>
     </div>

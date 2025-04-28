@@ -65,7 +65,7 @@ export const CreateDeckForm: FC = () => {
       </Field.Root>
 
       <div className={css({ mt: '8', display: 'flex', justifyContent: 'flex-end', gap: '3' })}>
-        <LinkButton variant="outline" size="sm" to="/dashboard">
+        <LinkButton variant="outline" size="sm" to="/dashboard" viewTransition>
           キャンセル
         </LinkButton>
         <Button type="submit" size="sm">

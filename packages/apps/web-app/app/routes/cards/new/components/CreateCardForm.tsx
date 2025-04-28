@@ -91,7 +91,7 @@ export const CreateCardForm: FC<Props> = ({ deckId }) => {
       </Field.Root>
 
       <div className={css({ mt: '8', display: 'flex', justifyContent: 'flex-end', gap: '3' })}>
-        <LinkButton variant="outline" size="sm" to={`/decks/${deckId}`}>
+        <LinkButton variant="outline" size="sm" to={`/decks/${deckId}`} viewTransition>
           キャンセル
         </LinkButton>
         <Button type="submit" size="sm">

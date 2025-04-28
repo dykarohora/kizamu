@@ -98,7 +98,7 @@ const DeckDetail = ({ loaderData: { deck, cards } }: Route.ComponentProps) => {
 
       {/* カード追加ボタン */}
       <div className={css({ mb: '6', display: 'flex', justifyContent: 'flex-end' })}>
-        <LinkButton variant="solid" size="md" to="/decks/new">
+        <LinkButton variant="solid" size="md" to="/decks/new" viewTransition>
           <span className={flex({ alignItems: 'center', gap: '1' })}>
             <Plus size={16} />
             新規カード

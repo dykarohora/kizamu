@@ -48,7 +48,7 @@ export const DeckList = ({ decks, onStudyDeck }: DeckListProps) => {
     <div className={containerStyles}>
       <div className={headerStyles}>
         <h2 className={titleStyles}>デッキ一覧</h2>
-        <LinkButton variant="outline" size="sm" to="/decks/new">
+        <LinkButton variant="outline" size="sm" to="/decks/new" viewTransition>
           <Plus size={16} />
           新規デッキ
         </LinkButton>
