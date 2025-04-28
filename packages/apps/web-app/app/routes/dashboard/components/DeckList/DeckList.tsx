@@ -1,8 +1,8 @@
 import { Plus } from 'lucide-react'
 import { css } from 'styled-system/css'
 import { grid } from 'styled-system/patterns'
-import { DeckCard, type DeckCardProps } from './DeckCard'
 import { LinkButton } from '~/shared/components/ui/link-button'
+import { DeckCard, type DeckCardProps } from './DeckCard'
 
 export type Deck = Omit<DeckCardProps, 'onManage' | 'onStudy'>
 

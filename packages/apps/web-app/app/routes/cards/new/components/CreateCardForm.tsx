@@ -2,6 +2,7 @@ import type { FC } from 'react'
 import { useFetcher } from 'react-router'
 import { css } from 'styled-system/css'
 import { Button } from '~/shared/components/ui/button'
+import { LinkButton } from '~/shared/components/ui/link-button'
 import * as Field from '~/shared/components/ui/styled/field'
 import type { Route } from '../+types/CreateCard'
 /**
@@ -17,7 +18,7 @@ type ActionData = NonNullable<Route.ComponentProps['actionData']>
  * - onCancel: キャンセルボタンクリック時のコールバック関数
  */
 type Props = {
-  onCancel: () => void
+  deckId: string
 }
 
 /**
@@ -36,7 +37,7 @@ type Props = {
  * <CreateCardForm onCancel={() => navigate('/decks/1')} />
  * ```
  */
-export const CreateCardForm: FC<Props> = ({ onCancel }) => {
+export const CreateCardForm: FC<Props> = ({ deckId }) => {
   // フォームの状態管理
   const fetcher = useFetcher<ActionData>()
   const errors = fetcher.data?.errors
@@ -90,10 +91,12 @@ export const CreateCardForm: FC<Props> = ({ onCancel }) => {
       </Field.Root>
 
       <div className={css({ mt: '8', display: 'flex', justifyContent: 'flex-end', gap: '3' })}>
-        <Button type="button" variant="outline" onClick={onCancel}>
+        <LinkButton variant="outline" size="sm" to={`/decks/${deckId}`}>
           キャンセル
+        </LinkButton>
+        <Button type="submit" size="sm">
+          保存
         </Button>
-        <Button type="submit">保存</Button>
       </div>
     </fetcher.Form>
   )

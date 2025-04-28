@@ -7,10 +7,10 @@ import { effectLoader } from '~/effect/index.server'
 import { OAuth2Service } from '~/services/auth/index.server'
 import { HonoClientService } from '~/services/hono-client/index.server'
 import { LoaderContext } from '~/services/react-router/index.server'
+import { LinkButton } from '~/shared/components/ui/link-button'
 import type { Route } from './+types/DeckDetail'
 import { CardList, DeckHeader } from './components'
 import { useDeckActions } from './hooks'
-import { LinkButton } from '~/shared/components/ui/link-button'
 
 /**
  * デッキ詳細ページのデータローダー

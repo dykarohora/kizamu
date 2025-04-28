@@ -1,6 +1,5 @@
 import { Effect, Either } from 'effect'
-import { useCallback } from 'react'
-import { data, redirect, useNavigate } from 'react-router'
+import { data, redirect } from 'react-router'
 import { css } from 'styled-system/css'
 import { effectAction, effectLoader, getFormData } from '~/effect/index.server'
 import { OAuth2Service } from '~/services/auth/index.server'
@@ -113,43 +112,38 @@ export const action = effectAction(
  * <CreateCard />
  * ```
  */
-const CreateCard = ({ loaderData: { deckId } }: Route.ComponentProps) => {
-  const navigate = useNavigate()
-  const handleCancel = useCallback(() => navigate(`/decks/${deckId}`), [navigate, deckId])
-
-  return (
-    <div className={css({ padding: '6', maxWidth: '800px', margin: '0 auto' })}>
-      {/* ページヘッダー */}
-      <div
+const CreateCard = ({ loaderData: { deckId } }: Route.ComponentProps) => (
+  <div className={css({ padding: '6', maxWidth: '800px', margin: '0 auto' })}>
+    {/* ページヘッダー */}
+    <div
+      className={css({
+        mb: '8',
+        display: 'flex',
+        alignItems: 'center',
+        gap: '2',
+      })}
+    >
+      <h1
         className={css({
-          mb: '8',
-          display: 'flex',
-          alignItems: 'center',
-          gap: '2',
+          fontSize: '2xl',
+          fontWeight: 'bold',
         })}
       >
-        <h1
-          className={css({
-            fontSize: '2xl',
-            fontWeight: 'bold',
-          })}
-        >
-          新規カード作成
-        </h1>
-      </div>
-
-      {/* メインコンテンツ */}
-      <div className={css({ backgroundColor: 'white', borderRadius: 'lg', p: '6', boxShadow: 'sm' })}>
-        <h2 className={css({ fontSize: 'xl', fontWeight: 'bold', mb: '6' })}>カード情報</h2>
-
-        <div className={css({ mb: '8' })}>
-          <CreateCardForm onCancel={handleCancel} />
-        </div>
-
-        <CreateCardHint />
-      </div>
+        新規カード作成
+      </h1>
     </div>
-  )
-}
+
+    {/* メインコンテンツ */}
+    <div className={css({ backgroundColor: 'white', borderRadius: 'lg', p: '6', boxShadow: 'sm' })}>
+      <h2 className={css({ fontSize: 'xl', fontWeight: 'bold', mb: '6' })}>カード情報</h2>
+
+      <div className={css({ mb: '8' })}>
+        <CreateCardForm deckId={deckId} />
+      </div>
+
+      <CreateCardHint />
+    </div>
+  </div>
+)
 
 export default CreateCard

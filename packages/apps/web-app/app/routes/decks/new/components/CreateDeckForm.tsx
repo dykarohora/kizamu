@@ -2,9 +2,9 @@ import type { FC } from 'react'
 import { useFetcher } from 'react-router'
 import { css } from 'styled-system/css'
 import { Button } from '~/shared/components/ui/button'
+import { LinkButton } from '~/shared/components/ui/link-button'
 import * as Field from '~/shared/components/ui/styled/field'
 import type { Route } from '../+types/CreateDeck'
-import { LinkButton } from '~/shared/components/ui/link-button'
 
 /**
  * アクションデータの型定義
@@ -68,7 +68,9 @@ export const CreateDeckForm: FC = () => {
         <LinkButton variant="outline" size="sm" to="/dashboard">
           キャンセル
         </LinkButton>
-        <Button type="submit">保存</Button>
+        <Button type="submit" size="sm">
+          保存
+        </Button>
       </div>
     </fetcher.Form>
   )
