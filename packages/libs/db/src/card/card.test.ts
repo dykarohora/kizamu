@@ -169,9 +169,10 @@ describe('カードの作成', () => {
           createdBy: nonExistentUserId,
         }
 
-        // Act & Assert
+        // Act
         const result = yield* Effect.exit(createCard(createCardInput))
 
+        // Assert
         if (Exit.isFailure(result) && result.cause._tag === 'Fail') {
           expect(result.cause.error).toBeInstanceOf(NotFoundUserError)
           if (result.cause.error instanceof NotFoundUserError) {
