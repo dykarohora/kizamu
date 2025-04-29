@@ -3,6 +3,8 @@ import * as PgDrizzle from '@effect/sql-drizzle/Pg'
 import { PgClient } from '@effect/sql-pg'
 import { type ConfigError, Layer } from 'effect'
 
+let SqlLive: ReturnType<typeof PgClient.layer>
+
 export const makeDbDriver = (
   config: PgClient.PgClientConfig,
 ): Layer.Layer<
@@ -10,7 +12,10 @@ export const makeDbDriver = (
   ConfigError.ConfigError | SqlError.SqlError,
   never
 > => {
-  const SqlLive = PgClient.layer(config)
+  if (!SqlLive) {
+    SqlLive = PgClient.layer(config)
+  }
+
   return PgDrizzle.layer.pipe(Layer.provideMerge(SqlLive))
 }
 

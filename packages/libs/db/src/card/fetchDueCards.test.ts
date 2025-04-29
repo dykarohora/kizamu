@@ -1,5 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it } from '@effect/vitest'
 import type { Card } from '@kizamu/schema'
+import { addDays, subDays } from 'date-fns'
 import { reset, seed } from 'drizzle-seed'
 import { Effect, pipe } from 'effect'
 import { uuidv7 } from 'uuidv7'
@@ -8,7 +9,6 @@ import * as deckSchema from '../deck/deck.sql'
 import * as userSchema from '../user/user.sql'
 import * as cardSchema from './card.sql'
 import { fetchDueCards } from './fetchDueCards'
-import { addDays, subDays } from 'date-fns'
 
 // テスト用の定数
 const testUserId = uuidv7()
