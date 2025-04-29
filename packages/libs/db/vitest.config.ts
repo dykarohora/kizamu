@@ -12,9 +12,6 @@ export default defineConfig({
       reporter: ['text', 'json', 'html'],
       exclude: ['**/node_modules/**', '**/dist/**', '**/*.d.ts'],
     },
-    pool: 'threads',
-    poolOptions: {
-      threads: { singleThread: true },
-    },
+    fileParallelism: false,
   },
 })
