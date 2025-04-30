@@ -807,9 +807,9 @@ paths:
       summary: 学習対象カードの取得
       description: |
         指定されたデッキから学習すべきカードのリストを取得します。
-        以下の条件で優先順位付けされます：
-        1. 次回学習日が到来しているカード（復習カード）
-        2. 未学習のカード（新規カード）
+        学習対象となるカードには以下のようなものが含まれます:
+        1. 次回学習日が到来しているカード
+        2. 未学習のカード
       security:
         - bearerAuth: []
       parameters:
@@ -828,13 +828,6 @@ paths:
             minimum: 1
             maximum: 100
             default: 20
-        - name: includeNewCards
-          in: query
-          description: 新規カードを含めるかどうか
-          required: false
-          schema:
-            type: boolean
-            default: true
       responses:
         "200":
           description: 学習カードの取得成功
@@ -847,20 +840,8 @@ paths:
                     type: array
                     items:
                       $ref: "#/components/schemas/CardResponse"
-                  totalCards:
-                    type: integer
-                    description: 取得したカードの総数
-                  newCards:
-                    type: integer
-                    description: 新規カードの数
-                  reviewCards:
-                    type: integer
-                    description: 復習カードの数
                 required:
                   - cards
-                  - totalCards
-                  - newCards
-                  - reviewCards
         "404":
           description: デッキが見つからない
           content:
