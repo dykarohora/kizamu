@@ -47,6 +47,9 @@ importers:
       '@kizamu/schema':
         specifier: workspace:*
         version: link:../../libs/schema
+      date-fns:
+        specifier: ^4.1.0
+        version: 4.1.0
       effect:
         specifier: ^3.14.1
         version: 3.14.1
@@ -7394,14 +7397,6 @@ snapshots:
       chai: 5.2.0
       tinyrainbow: 2.0.0
 
-  '@vitest/mocker@3.0.9(vite@6.2.2(@types/node@22.13.11)(lightningcss@1.25.1))':
-    dependencies:
-      '@vitest/spy': 3.0.9
-      estree-walker: 3.0.3
-      magic-string: 0.30.17
-    optionalDependencies:
-      vite: 6.2.2(@types/node@22.13.11)(lightningcss@1.25.1)
-
   '@vitest/mocker@3.0.9(vite@6.2.2(@types/node@22.14.1)(lightningcss@1.25.1))':
     dependencies:
       '@vitest/spy': 3.0.9
@@ -10948,7 +10943,7 @@ snapshots:
   vitest@3.0.9(@types/node@22.13.11)(lightningcss@1.25.1):
     dependencies:
       '@vitest/expect': 3.0.9
-      '@vitest/mocker': 3.0.9(vite@6.2.2(@types/node@22.13.11)(lightningcss@1.25.1))
+      '@vitest/mocker': 3.0.9(vite@6.2.2(@types/node@22.14.1)(lightningcss@1.25.1))
       '@vitest/pretty-format': 3.0.9
       '@vitest/runner': 3.0.9
       '@vitest/snapshot': 3.0.9

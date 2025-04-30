@@ -3,6 +3,7 @@
   "dependencies": {
     "@kizamu/db": "workspace:*",
     "@kizamu/schema": "workspace:*",
+    "date-fns": "^4.1.0",
     "effect": "^3.14.1",
     "hono": "^4.7.7",
     "jose": "^6.0.10",

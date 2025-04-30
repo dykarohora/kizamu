@@ -135,14 +135,8 @@ describe('validator', () => {
       // Assert: エラーレスポンスの検証
       expect(res.status).toBe(400)
       expect(await res.json()).toStrictEqual({
-        success: false,
-        error: [
-          {
-            _tag: 'Type',
-            message: 'Expected number, actual "twenty"',
-            path: ['age'],
-          },
-        ],
+        code: 'BAD_REQUEST',
+        message: 'Invalid request',
       })
     })
 
@@ -247,8 +241,8 @@ describe('validator', () => {
       // Assert: エラーレスポンスの検証
       expect(res.status).toBe(400)
       expect(await res.json()).toStrictEqual({
-        success: false,
-        error: [{ _tag: 'Missing', message: 'is missing', path: ['X-Api-Key'] }],
+        code: 'BAD_REQUEST',
+        message: 'Invalid request',
       })
     })
   })
