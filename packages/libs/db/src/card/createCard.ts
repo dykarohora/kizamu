@@ -55,7 +55,7 @@ export const createCard = (
       const initialLearningState = {
         cardId: input.card.id,
         studiedBy: input.createdBy,
-        easeFactor: 2.5, // デフォルトのSM-2アルゴリズムの値
+        easeFactor: 1.8, // デフォルトのSM-2アルゴリズムの値
         interval: 0, // 初期間隔は0日
         nextStudyDate: now, // 今すぐ学習可能にする
         createdAt: now,
