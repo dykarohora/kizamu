@@ -5,6 +5,7 @@ import type { CreateDeckRoute } from './routes/decks/createDeckRoute'
 import type { GetDeckByIdRoute } from './routes/decks/getDeckByIdRoute'
 import type { GetDecksRoute } from './routes/decks/getDecksRoute'
 import type { GetStudyCardsRoute } from './routes/study/getStudyCardsRoute'
+import type { RecordStudyResultRoute } from './routes/study/recordStudyResultRoute'
 
 // biome-ignore format:
 export type ApiServerType = Simplify<
@@ -13,5 +14,6 @@ export type ApiServerType = Simplify<
   CreateCardRoute | 
   GetCardsByDeckIdRoute | 
   GetStudyCardsRoute | 
-  GetDeckByIdRoute
+  GetDeckByIdRoute |
+  RecordStudyResultRoute
 >
