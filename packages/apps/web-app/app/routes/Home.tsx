@@ -1,13 +1,11 @@
 // import { Effect } from 'effect'
 // import { constVoid } from 'effect/Function'
-import { ArrowRight } from 'lucide-react'
 import type { FC } from 'react'
-import { Link } from 'react-router'
 import { css } from 'styled-system/css'
 import { container, flex, grid } from 'styled-system/patterns'
 // import { effectLoader } from '~/effect/index.server'
 // import { OAuth2Service } from '~/services/auth/index.server'
-import { Button } from '~/shared/components/ui/button'
+import { LinkButton } from '~/shared/components/ui/link-button'
 
 // export const loader = effectLoader(
 //   Effect.gen(function* () {
@@ -65,20 +63,9 @@ const Home: FC = () => {
               必要な時に必要な内容を復習し、長期記憶への定着を促進します。
             </p>
             <div className={flex({ gap: '4', alignItems: 'center' })}>
-              <Button size="lg">
-                <span>無料で始める</span>
-                <ArrowRight className={css({ ml: '2', w: '4', h: '4' })} />
-              </Button>
-              <Link
-                to="/login"
-                className={css({
-                  fontWeight: 'medium',
-                  color: 'gray.700',
-                  _hover: { textDecoration: 'underline' },
-                })}
-              >
+              <LinkButton variant="solid" size="lg" to="/login">
                 ログイン
-              </Link>
+              </LinkButton>
             </div>
           </div>
           <div
@@ -586,35 +573,6 @@ const Home: FC = () => {
               </div>
             </div>
           </div>
-        </div>
-      </section>
-
-      {/* CTA セクション */}
-      <section className={css({ py: '16', bg: 'orange.50' })}>
-        <div className={container({ maxW: '7xl', px: '4', textAlign: 'center' })}>
-          <h2
-            className={css({
-              fontSize: { base: '2xl', md: '3xl' },
-              fontWeight: 'bold',
-              mb: '4',
-            })}
-          >
-            今すぐ効率的な学習を始めよう
-          </h2>
-          <p
-            className={css({
-              mb: '8',
-              maxW: '2xl',
-              mx: 'auto',
-              color: 'gray.600',
-            })}
-          >
-            Kizamuを使って、あなたの学習効率を最大化しましょう。 無料で始められます。
-          </p>
-          <Button size="lg">
-            <span>無料で始める</span>
-            <ArrowRight className={css({ ml: '2', w: '4', h: '4' })} />
-          </Button>
         </div>
       </section>
     </div>

@@ -5,8 +5,8 @@ import { css, cx } from 'styled-system/css'
 import { flex } from 'styled-system/patterns'
 import type { AuthStatus } from '../../../services/auth/index.server'
 import { Avatar } from '../../components/ui/avatar'
-import { Button } from '../../components/ui/button'
 import { IconButton } from '../../components/ui/icon-button'
+import { LinkButton } from '../ui/link-button'
 
 // ヘッダーのスタイル定義
 const headerStyles = css({
@@ -137,12 +137,9 @@ export const Header: FC<HeaderProps> = ({ authStatus, className, ...props }: Hea
         ) : (
           /* ログイン前の右側ボタン */
           <div className={controlsStyles}>
-            <Link to="/login">
-              <Button variant="ghost">ログイン</Button>
-            </Link>
-            <Link to="/signup">
-              <Button variant="solid">無料で始める</Button>
-            </Link>
+            <LinkButton variant="solid" size="sm" to="/login">
+              ログイン
+            </LinkButton>
           </div>
         )}
       </div>
