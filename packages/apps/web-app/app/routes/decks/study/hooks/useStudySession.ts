@@ -1,5 +1,5 @@
 import type { Card } from '@kizamu/schema'
-import { useCallback, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useFetcher } from 'react-router'
 import type { Route } from '../+types/Study'
 
@@ -21,26 +21,31 @@ export const useStudySession = ({ cards: studyCards }: UseStudySessionProps) => 
   const [isFlipped, setIsFlipped] = useState(false)
   const [clearedCard, setClearedCard] = useState<string | undefined>(undefined)
 
-  // カードを裏返す
+  // カードを裏返す関数をメモ化
   const flipCard = useCallback(() => {
     setIsFlipped((prev) => !prev)
   }, [])
 
-  // React Routerのfetcherを使って学習結果を送信（型修正）
+  // React Routerのfetcherを使って学習結果を送信
   const submitGrade = useFetcher<ActionData>()
 
-  // 現在のカード
-  const currentCard = cards.length > 0 ? cards[currentIndex] : null
+  // 現在のカードをメモ化
+  const currentCard = useMemo(() => (cards.length > 0 ? cards[currentIndex] : undefined), [cards, currentIndex])
 
-  // 学習が完了したかどうか
-  const isCompleted = currentIndex >= cards.length
+  // 学習が完了したかどうかをメモ化
+  const isCompleted = useMemo(() => currentIndex >= cards.length, [currentIndex, cards.length])
 
-  if (submitGrade.data?.success && submitGrade.data.cardId !== clearedCard) {
-    setClearedCard(submitGrade.data.cardId)
-    // 次のカードへ進む
-    setIsFlipped(false)
-    setCurrentIndex((prev) => prev + 1)
-  }
+  // 進捗率を計算してメモ化
+  const progress = useMemo(() => Math.min((currentIndex / cards.length) * 100, 100), [currentIndex, cards.length])
+
+  // APIレスポンス後の状態更新を副作用に分離
+  useEffect(() => {
+    if (submitGrade.data?.success && submitGrade.data.cardId !== clearedCard) {
+      setClearedCard(submitGrade.data.cardId)
+      setIsFlipped(false)
+      setCurrentIndex((prev) => prev + 1)
+    }
+  }, [submitGrade.data, clearedCard])
 
   return {
     currentCard,
@@ -48,7 +53,7 @@ export const useStudySession = ({ cards: studyCards }: UseStudySessionProps) => 
     isFlipped,
     isCompleted,
     totalCards: cards.length,
-    progress: Math.min((currentIndex / cards.length) * 100, 100),
+    progress,
     flipCard,
     submitGrade,
   }
