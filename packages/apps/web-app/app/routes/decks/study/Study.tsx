@@ -205,8 +205,18 @@ const Study = ({ loaderData: { studyCards, deckId } }: Route.ComponentProps) => 
         isLoading={submitGrade.state !== 'idle'}
       />
 
-      {/* 評価ボタンエリア - カードを裏返した時のみ表示 */}
-      {isFlipped && <GradeButtons deckId={deckId} currentCard={currentCard} submitGrade={submitGrade} />}
+      {/* 評価ボタンエリア - アニメーションはCSSで制御 */}
+      <div
+        className={css({
+          position: 'relative',
+          opacity: isFlipped ? 1 : 0,
+          overflow: 'hidden',
+          transition: 'opacity 0.2s ease-out',
+          marginTop: '6rem',
+        })}
+      >
+        <GradeButtons deckId={deckId} currentCard={currentCard} submitGrade={submitGrade} />
+      </div>
     </div>
   )
 }

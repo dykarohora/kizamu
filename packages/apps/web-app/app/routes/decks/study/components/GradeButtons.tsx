@@ -5,6 +5,23 @@ import type { FetcherWithComponents } from 'react-router'
 import type { Route } from '../+types/Study'
 
 /**
+ * ボタンコンテナのスタイル
+ * CSSトランジションによるフェードイン/アウトアニメーション付きのフレックスコンテナ
+ */
+const buttonsContainerClass = css({
+  display: 'flex',
+  justifyContent: 'center',
+  gap: '4',
+})
+
+/**
+ * グレードボタンの共通スタイル
+ */
+const gradeButtonClass = css({
+  minWidth: '100px',
+})
+
+/**
  * アクションデータの型定義
  * アクション実行結果のデータ型
  */
@@ -35,6 +52,9 @@ interface GradeButtonsProps {
  * 各ボタンは異なる色で視覚的に区別され、直感的な評価が可能です。
  * また、送信中は重複送信を防ぐために全ボタンを無効化します。
  *
+ * 親要素のheight/overflowとCSSトランジションの組み合わせで
+ * フェードイン/アウトを実現しています。JavaScriptでの状態管理は不要です。
+ *
  * @param {GradeButtonsProps} props - コンポーネントのプロパティ
  * @returns {JSX.Element} 評価ボタン群コンポーネント
  */
@@ -52,7 +72,7 @@ export const GradeButtons = ({ deckId, currentCard, submitGrade }: GradeButtonsP
   const isSubmitting = submitGrade.state === 'submitting'
 
   return (
-    <div className={css({ display: 'flex', justifyContent: 'center', gap: '4' })}>
+    <div className={buttonsContainerClass}>
       {/* 評価「0」：やり直し - 完全に忘れていた場合の選択肢 */}
       <submitGrade.Form method="post" action={`/decks/${deckId}/study`}>
         <input type="hidden" name="grade" value="0" />
@@ -62,7 +82,7 @@ export const GradeButtons = ({ deckId, currentCard, submitGrade }: GradeButtonsP
           variant="solid"
           colorPalette="red"
           size="md"
-          className={css({ minWidth: '100px' })}
+          className={gradeButtonClass}
           disabled={isLoading}
           loading={isSubmitting}
         >
@@ -79,7 +99,7 @@ export const GradeButtons = ({ deckId, currentCard, submitGrade }: GradeButtonsP
           variant="solid"
           colorPalette="orange"
           size="md"
-          className={css({ minWidth: '100px' })}
+          className={gradeButtonClass}
           disabled={isLoading}
           loading={isSubmitting}
         >
@@ -96,7 +116,7 @@ export const GradeButtons = ({ deckId, currentCard, submitGrade }: GradeButtonsP
           variant="solid"
           colorPalette="blue"
           size="md"
-          className={css({ minWidth: '100px' })}
+          className={gradeButtonClass}
           disabled={isLoading}
           loading={isSubmitting}
         >
@@ -113,7 +133,7 @@ export const GradeButtons = ({ deckId, currentCard, submitGrade }: GradeButtonsP
           variant="solid"
           colorPalette="green"
           size="md"
-          className={css({ minWidth: '100px' })}
+          className={gradeButtonClass}
           disabled={isLoading}
           loading={isSubmitting}
         >

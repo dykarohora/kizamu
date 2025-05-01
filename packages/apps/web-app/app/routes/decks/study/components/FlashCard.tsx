@@ -1,6 +1,92 @@
 import { css } from 'styled-system/css'
-import { Button } from '~/shared/components/ui/button'
 import type { Card } from '@kizamu/schema'
+
+/**
+ * カード面の共通スタイル
+ * 表面と裏面で共通するCSS文字列
+ */
+const cardFaceClass = css({
+  position: 'absolute',
+  top: 0,
+  width: '100%',
+  height: '100%',
+  backfaceVisibility: 'hidden',
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'center',
+  alignItems: 'center',
+  backgroundColor: 'white',
+  border: '1px solid',
+  borderColor: 'border.default',
+  rounded: 'md',
+  padding: '8',
+  minHeight: '200px',
+})
+
+/**
+ * 裏面用の追加スタイル
+ * 裏返し効果のためのCSS文字列
+ */
+const cardBackFaceClass = css({
+  transform: 'rotateY(180deg)',
+})
+
+/**
+ * カードコンテンツのスタイル
+ * 表と裏のカードコンテンツに共通するテキストスタイルのCSS文字列
+ */
+const cardContentClass = css({
+  fontSize: '2xl',
+  fontWeight: 'medium',
+  textAlign: 'center',
+  width: '100%',
+  wordBreak: 'break-word',
+  marginY: 'auto',
+  paddingY: '6',
+})
+
+/**
+ * ヒントテキストのスタイル
+ * 操作ヒントの表示に関する共通スタイルのCSS文字列
+ */
+const hintTextClass = css({
+  fontSize: 'sm',
+  color: 'fg.muted',
+  width: '100%',
+  textAlign: 'center',
+  marginTop: '2',
+})
+
+/**
+ * カードコンテナのスタイル
+ * 3D効果のあるカードコンテナのCSS文字列
+ */
+const cardContainerClass = css({
+  perspective: '1000px',
+  width: '100%',
+  maxWidth: '800px',
+  margin: '0 auto',
+  mb: '6',
+})
+
+/**
+ * カードボタンの基本スタイル
+ * ボタンとして機能するカード要素のCSS文字列
+ */
+const cardButtonClass = css({
+  position: 'relative',
+  width: '100%',
+  minHeight: '200px',
+  cursor: 'pointer',
+  transformStyle: 'preserve-3d',
+  transition: 'transform 0.6s',
+  borderRadius: 'md',
+  boxShadow: 'lg',
+  padding: 0,
+  border: 'none',
+  background: 'none',
+  display: 'block',
+})
 
 /**
  * FlashCardコンポーネントのプロパティ型定義
@@ -24,55 +110,39 @@ interface FlashCardProps {
  * 学習用フラッシュカードのUI表示を担当します。
  * カードの表面と裏面の切り替え機能を提供し、ユーザーが
  * クリックやキーボード操作でカードを裏返して内容を確認できます。
+ * 3D反転アニメーションによって、実際のカードのような体験を提供します。
  * アクセシビリティを考慮し、キーボード操作（EnterキーとSpace）をサポートしています。
  *
  * @param {FlashCardProps} props - コンポーネントのプロパティ
  * @returns {JSX.Element} フラッシュカード表示コンポーネント
  */
-export const FlashCard = ({ currentCard, isFlipped, flipCard, isLoading }: FlashCardProps) => {
-  /**
-   * キーボードでカードを裏返す処理
-   *
-   * @description
-   * アクセシビリティ向上のため、EnterキーまたはSpace（スペース）キーが
-   * 押された場合にカードを裏返す機能を提供します。
-   *
-   * @param {React.KeyboardEvent} event - キーボードイベント
-   */
-  const handleKeyPress = (event: React.KeyboardEvent) => {
-    if (event.key === 'Enter' || event.key === ' ') {
-      flipCard()
-    }
-  }
-
-  return (
-    <Button
-      variant="outline"
-      className={css({
-        minHeight: '300px',
-        width: '100%',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
-        position: 'relative',
-        mb: '6',
-        padding: '6',
-        borderRadius: 'md',
-      })}
+export const FlashCard = ({ currentCard, isFlipped, flipCard, isLoading }: FlashCardProps) => (
+  // カード全体のコンテナ - 3D空間のパースペクティブを設定
+  <div className={cardContainerClass}>
+    {/* カード本体 - クリック時やキーボード操作時に反転 */}
+    <button
+      type="button"
       onClick={flipCard}
-      onKeyDown={handleKeyPress}
+      aria-label={isFlipped ? 'カードを表面に戻す' : 'カードを裏面に表示する'}
+      className={cardButtonClass}
+      style={{
+        transform: isFlipped ? 'rotateY(180deg)' : 'rotateY(0deg)',
+      }}
       disabled={isLoading}
     >
-      {/* カードのコンテンツ表示部分 - 表面または裏面の内容を表示 */}
-      <div className={css({ fontSize: 'xl', textAlign: 'center' })}>
-        {isFlipped ? currentCard?.backContent : currentCard?.frontContent}
+      {/* カードの表面 */}
+      <div className={cardFaceClass}>
+        {/* 表面のコンテンツ */}
+        <div className={cardContentClass}>{currentCard?.frontContent}</div>
+        <div className={hintTextClass}>（クリックして裏面を見る）</div>
       </div>
 
-      {/* カード操作のヒント表示 - ユーザーに操作方法を示す */}
-      <div className={css({ mt: '4', fontSize: 'sm', color: 'fg.muted' })}>
-        {isFlipped ? '（クリックして表面に戻る）' : '（クリックして裏面を見る）'}
+      {/* カードの裏面 - 180度回転させて表示 */}
+      <div className={`${cardFaceClass} ${cardBackFaceClass}`}>
+        {/* 裏面のコンテンツ */}
+        <div className={cardContentClass}>{currentCard?.backContent}</div>
+        <div className={hintTextClass}>（クリックして表面に戻る）</div>
       </div>
-    </Button>
-  )
-}
+    </button>
+  </div>
+)
