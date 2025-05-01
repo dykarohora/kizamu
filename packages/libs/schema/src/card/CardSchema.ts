@@ -9,8 +9,8 @@ export const CardSchema = Schema.Struct({
   deckId: Schema.NonEmptyString,
   frontContent: Schema.NonEmptyString,
   backContent: Schema.NonEmptyString,
-  createdAt: Schema.DateFromSelf,
-  updatedAt: Schema.DateFromSelf,
+  createdAt: Schema.Date,
+  updatedAt: Schema.Date,
 })
 
 /**

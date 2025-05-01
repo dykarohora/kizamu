@@ -1,6 +1,6 @@
-import { describe, expect, it } from 'vitest'
 import { addDays } from 'date-fns'
-import { calculateSM2Progress, INITIAL_EASE_FACTOR, MINIMUM_EASE_FACTOR, MAX_EASE_FACTOR } from './sm2'
+import { describe, expect, it } from 'vitest'
+import { INITIAL_EASE_FACTOR, MAX_EASE_FACTOR, MINIMUM_EASE_FACTOR, calculateSM2Progress } from './sm2'
 
 describe('SM-2アルゴリズム', () => {
   // ベースとなるパラメータ

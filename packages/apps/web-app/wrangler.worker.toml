@@ -18,3 +18,7 @@ AUTH0_AUDIENCE     = "lexi-nova-api-auth0"
 [[kv_namespaces]]
 binding = "kizamu_session"
 id      = "a53a1293ead84b5b81a4f060f99f403a"
+
+[[services]]
+binding = "SERVER"
+service = "kizamu-api-server-local"
