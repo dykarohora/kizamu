@@ -19,7 +19,7 @@
     "wrangler": "^4.12.1"
   },
   "scripts": {
-    "deploy": "wrangler deploy --minify",
+    "deploy:worker": "wrangler deploy --minify --env staging",
     "dev": "dotenvx run -f .env -- wrangler dev --env local",
     "lint:fix": "biome check --write",
     "typegen": "wrangler types",
