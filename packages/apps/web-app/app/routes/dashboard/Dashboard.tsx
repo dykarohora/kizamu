@@ -8,7 +8,6 @@ import { OAuth2Service } from '~/services/auth/index.server'
 import { HonoClientService } from '~/services/hono-client/index.server'
 import type { Route } from './+types/Dashboard'
 import { DeckList } from './components/DeckList/DeckList'
-import { useDeckNavigation } from './hooks/useDeckNavigation'
 
 /**
  * ダッシュボードページのデータローダー
@@ -61,9 +60,6 @@ export const loader = effectLoader(
  * @param {Array<Deck>} props.loaderData.decks - APIから取得したデッキ一覧
  */
 const Dashboard = ({ loaderData: { decks } }: Route.ComponentProps) => {
-  // ナビゲーション関連の処理をカスタムフックから取得
-  const { handleStudyDeck } = useDeckNavigation()
-
   // APIから取得したデッキデータをUI表示用に整形
   // パフォーマンス最適化のため、decksが変更された時のみ再計算
   const formattedDecks = useMemo(
@@ -117,7 +113,7 @@ const Dashboard = ({ loaderData: { decks } }: Route.ComponentProps) => {
         })}
       >
         {/* 左カラム: デッキ一覧 */}
-        <DeckList decks={formattedDecks} onStudyDeck={handleStudyDeck} />
+        <DeckList decks={formattedDecks} />
 
         {/* 右カラム: 学習統計（実装予定） */}
         <div

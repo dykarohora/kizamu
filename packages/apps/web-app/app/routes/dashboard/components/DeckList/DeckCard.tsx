@@ -1,7 +1,6 @@
 import { ArrowRight, SettingsIcon } from 'lucide-react'
 import { css } from 'styled-system/css'
 import { grid } from 'styled-system/patterns'
-import { Button } from '~/shared/components/ui/button'
 import { Card } from '~/shared/components/ui/card'
 import { Fieldset } from '~/shared/components/ui/fieldset'
 import { LinkButton } from '~/shared/components/ui/link-button'
@@ -38,12 +37,6 @@ const footerStyles = css({
   gap: '2',
 })
 
-const buttonContentStyles = css({
-  display: 'flex',
-  alignItems: 'center',
-  gap: '1',
-})
-
 // カード情報グリッドのスタイル
 const cardInfoGridStyles = grid({
   gridTemplateColumns: '1fr 1fr',
@@ -73,10 +66,9 @@ export type DeckCardProps = {
   totalCards: number
   dueCards: number
   lastStudied?: string // ISO形式の日付文字列（例: "2023-05-15"）
-  onStudy: (id: string) => void
 }
 
-export const DeckCard = ({ id, name, description, totalCards, dueCards, lastStudied, onStudy }: DeckCardProps) => {
+export const DeckCard = ({ id, name, description, totalCards, dueCards, lastStudied }: DeckCardProps) => {
   // 日付フォーマット用のヘルパー関数を分離 📅
   const formatLastStudied = (date?: string) => {
     if (!date) {
@@ -121,12 +113,10 @@ export const DeckCard = ({ id, name, description, totalCards, dueCards, lastStud
           <SettingsIcon size={12} />
           カード管理
         </LinkButton>
-        <Button variant="solid" size="sm" onClick={() => onStudy(id)}>
-          <span className={buttonContentStyles}>
-            学習する
-            <ArrowRight size={16} />
-          </span>
-        </Button>
+        <LinkButton variant="solid" size="sm" to={`/decks/${id}/study`} viewTransition>
+          学習する
+          <ArrowRight size={16} />
+        </LinkButton>
       </Card.Footer>
     </Card.Root>
   )

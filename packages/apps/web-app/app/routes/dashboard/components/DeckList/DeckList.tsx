@@ -40,29 +40,26 @@ const deckGridStyles = grid({
 
 type DeckListProps = {
   decks: Deck[]
-  onStudyDeck: (id: string) => void
 }
 
-export const DeckList = ({ decks, onStudyDeck }: DeckListProps) => {
-  return (
-    <div className={containerStyles}>
-      <div className={headerStyles}>
-        <h2 className={titleStyles}>デッキ一覧</h2>
-        <LinkButton variant="outline" size="sm" to="/decks/new" viewTransition>
-          <Plus size={16} />
-          新規デッキ
-        </LinkButton>
-      </div>
-
-      {decks.length === 0 ? (
-        <div className={emptyStateStyles}>デッキがありません。「新規デッキ」ボタンからデッキを作成してください。</div>
-      ) : (
-        <div className={deckGridStyles}>
-          {decks.map((deck) => (
-            <DeckCard key={deck.id} {...deck} onStudy={onStudyDeck} />
-          ))}
-        </div>
-      )}
+export const DeckList = ({ decks }: DeckListProps) => (
+  <div className={containerStyles}>
+    <div className={headerStyles}>
+      <h2 className={titleStyles}>デッキ一覧</h2>
+      <LinkButton variant="outline" size="sm" to="/decks/new" viewTransition>
+        <Plus size={16} />
+        新規デッキ
+      </LinkButton>
     </div>
-  )
-}
+
+    {decks.length === 0 ? (
+      <div className={emptyStateStyles}>デッキがありません。「新規デッキ」ボタンからデッキを作成してください。</div>
+    ) : (
+      <div className={deckGridStyles}>
+        {decks.map((deck) => (
+          <DeckCard key={deck.id} {...deck} />
+        ))}
+      </div>
+    )}
+  </div>
+)
