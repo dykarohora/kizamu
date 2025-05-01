@@ -10,5 +10,6 @@ export default [
     route('/decks/:deckId/study', 'routes/decks/study/Study.tsx'),
   ]),
   route('/login', 'routes/auth/Login.tsx'),
+  route('/logout', 'routes/auth/Logout.tsx'),
   route('/callback', 'routes/auth/Callback.tsx'),
 ] satisfies RouteConfig

@@ -20,5 +20,6 @@ type Params = {
     "deckId": string;
   };
   "/login": {};
+  "/logout": {};
   "/callback": {};
 };

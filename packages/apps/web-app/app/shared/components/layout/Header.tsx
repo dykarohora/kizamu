@@ -4,9 +4,11 @@ import { Link } from 'react-router'
 import { css, cx } from 'styled-system/css'
 import { flex } from 'styled-system/patterns'
 import type { AuthStatus } from '../../../services/auth/index.server'
-import { Avatar } from '../../components/ui/avatar'
-import { IconButton } from '../../components/ui/icon-button'
+import { Avatar } from '../ui/avatar'
+import { IconButton } from '../ui/icon-button'
 import { LinkButton } from '../ui/link-button'
+import * as Menu from '../ui/styled/menu'
+import { Button } from '../ui/button'
 
 // ヘッダーのスタイル定義
 const headerStyles = css({
@@ -90,59 +92,74 @@ type HeaderProps = ComponentPropsWithoutRef<'header'> & {
 }
 
 // コンポーネントの引数を変更
-export const Header: FC<HeaderProps> = ({ authStatus, className, ...props }: HeaderProps) => {
-  return (
-    <header className={cx(headerStyles, className)} {...props}>
-      <div className={containerStyles}>
-        {/* ロゴ部分 */}
-        <div className={logoContainerStyles}>
-          <Link to="/" className={flex({ align: 'center', gap: '2' })}>
-            <div className={logoStyles}>K</div>
-            <span className={logoTextStyles}>Kizamu</span>
-          </Link>
-        </div>
-
-        {/* ログイン状態に応じたナビゲーション */}
-        {authStatus.authenticated ? (
-          <>
-            {/* ログイン後のナビゲーション */}
-            <nav className={navStyles}>
-              <ul className={navListStyles}>
-                <li>
-                  <Link to="/decks" className={navLinkStyles}>
-                    デッキ
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/tags" className={navLinkStyles}>
-                    タグ
-                  </Link>
-                </li>
-              </ul>
-            </nav>
-
-            {/* ログイン後の右側コントロール */}
-            <div className={controlsStyles}>
-              <IconButton variant="ghost" size="sm" aria-label="テーマ切り替え">
-                <Sun className={css({ h: '5', w: '5' })} />
-              </IconButton>
-
-              <IconButton variant="ghost" size="sm" aria-label="通知">
-                <Bell className={css({ h: '5', w: '5' })} />
-              </IconButton>
-
-              <Avatar name={authStatus.user.name[0]} className={css({ h: '8', w: '8', cursor: 'pointer' })} />
-            </div>
-          </>
-        ) : (
-          /* ログイン前の右側ボタン */
-          <div className={controlsStyles}>
-            <LinkButton variant="solid" size="sm" to="/login">
-              ログイン
-            </LinkButton>
-          </div>
-        )}
+export const Header: FC<HeaderProps> = ({ authStatus, className, ...props }: HeaderProps) => (
+  <header className={cx(headerStyles, className)} {...props}>
+    <div className={containerStyles}>
+      {/* ロゴ部分 */}
+      <div className={logoContainerStyles}>
+        <Link to="/dashboard" className={flex({ align: 'center', gap: '2' })}>
+          <div className={logoStyles}>K</div>
+          <span className={logoTextStyles}>Kizamu</span>
+        </Link>
       </div>
-    </header>
-  )
-}
+
+      {/* ログイン状態に応じたナビゲーション */}
+      {authStatus.authenticated ? (
+        <>
+          {/* ログイン後のナビゲーション */}
+          <nav className={navStyles}>
+            <ul className={navListStyles}>
+              <li>
+                <Link to="/dashboard" className={navLinkStyles}>
+                  ダッシュボード
+                </Link>
+              </li>
+            </ul>
+          </nav>
+
+          {/* ログイン後の右側コントロール */}
+          <div className={controlsStyles}>
+            <IconButton variant="ghost" size="sm" aria-label="テーマ切り替え">
+              <Sun className={css({ h: '5', w: '5' })} />
+            </IconButton>
+
+            <IconButton variant="ghost" size="sm" aria-label="通知">
+              <Bell className={css({ h: '5', w: '5' })} />
+            </IconButton>
+
+            <Menu.Root>
+              <Menu.Trigger asChild>
+                <Button variant="ghost" size="sm" className={css({ rounded: 'full', width: '2rem' })}>
+                  <Avatar name={authStatus.user.name[0]} className={css({ h: '8', w: '8', cursor: 'pointer' })} />
+                </Button>
+              </Menu.Trigger>
+              <Menu.Positioner>
+                <Menu.Content>
+                  <Menu.Item value="profile">
+                    <Link to="/logout">ログアウト</Link>
+                  </Menu.Item>
+                </Menu.Content>
+              </Menu.Positioner>
+              {/* <Menu.Positioner>
+                  <Menu.Content>
+                    <Menu.Separator />
+                    <Menu.Item value="logout" onClick={handleLogout}>
+                      <Menu.ItemText>ログアウト</Menu.ItemText>
+                      <LogOut className={css({ ml: 'auto', h: '4', w: '4' })} />
+                    </Menu.Item>
+                  </Menu.Content>
+                </Menu.Positioner> */}
+            </Menu.Root>
+          </div>
+        </>
+      ) : (
+        /* ログイン前の右側ボタン */
+        <div className={controlsStyles}>
+          <LinkButton variant="solid" size="sm" to="/login">
+            ログイン
+          </LinkButton>
+        </div>
+      )}
+    </div>
+  </header>
+)
