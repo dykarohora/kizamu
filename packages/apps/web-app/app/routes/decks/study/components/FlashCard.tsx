@@ -67,13 +67,15 @@ const cardBackFaceClass = css({
  * 表と裏のカードコンテンツに共通するテキストスタイルのCSS文字列
  */
 const cardContentClass = css({
-  fontSize: '2xl',
+  fontSize: '1rem',
   fontWeight: 'medium',
   textAlign: 'center',
   width: '100%',
   wordBreak: 'break-word',
-  marginY: 'auto',
-  paddingY: '6',
+  overflowY: 'auto',
+  md: {
+    fontSize: '1.125rem',
+  },
 })
 
 /**
@@ -138,11 +140,13 @@ export const FlashCard = ({ currentCard, isFlipped, flipCard, isLoading }: Flash
       </div>
 
       {/* カードの裏面 - 180度回転させて表示 */}
-      <div className={`${cardFaceClass} ${cardBackFaceClass}`}>
-        {/* 裏面のコンテンツ */}
-        <div className={cardContentClass}>{currentCard?.backContent}</div>
-        <div className={hintTextClass}>（クリックして表面に戻る）</div>
-      </div>
+      {isFlipped && (
+        <div className={`${cardFaceClass} ${cardBackFaceClass}`}>
+          {/* 裏面のコンテンツ */}
+          <div className={cardContentClass}>{currentCard?.backContent}</div>
+          <div className={hintTextClass}>（クリックして表面に戻る）</div>
+        </div>
+      )}
     </button>
   </div>
 )
