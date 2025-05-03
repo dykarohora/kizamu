@@ -1,12 +1,12 @@
 import { afterEach, beforeEach, describe, expect, it } from '@effect/vitest'
-import { reset, seed } from 'drizzle-seed'
 import { eq } from 'drizzle-orm'
+import { reset, seed } from 'drizzle-seed'
 import { Effect, pipe } from 'effect'
 import { uuidv7 } from 'uuidv7'
 import { getSetupClient, getTestDriver } from '../../test/setupClient'
 import * as cardSchema from '../card/card.sql'
-import * as deckSchema from './deck.sql'
 import * as userSchema from '../user/user.sql'
+import * as deckSchema from './deck.sql'
 import { fetchDecks } from './fetchDecks'
 
 // テスト用の定数

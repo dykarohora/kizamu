@@ -3,9 +3,9 @@ import { PgDrizzle } from '@effect/sql-drizzle/Pg'
 import type { Deck } from '@kizamu/schema'
 import { and, asc, count, eq, gt, inArray, isNull, lte, or } from 'drizzle-orm'
 import { Effect } from 'effect'
+import { cardLearningStatesTable, cardsTable } from '../card/card.sql'
 import { usersTable } from '../user/user.sql'
 import { decksTable } from './deck.sql'
-import { cardsTable, cardLearningStatesTable } from '../card/card.sql'
 
 type FetchDecksOptions = {
   userId: string
