@@ -1,10 +1,11 @@
 import type { SqlError } from '@effect/sql'
 import { PgDrizzle } from '@effect/sql-drizzle/Pg'
 import type { Deck } from '@kizamu/schema'
-import { and, asc, count, eq, gt } from 'drizzle-orm'
+import { and, asc, count, eq, gt, inArray, isNull, lte, or } from 'drizzle-orm'
 import { Effect } from 'effect'
 import { usersTable } from '../user/user.sql'
 import { decksTable } from './deck.sql'
+import { cardsTable, cardLearningStatesTable } from '../card/card.sql'
 
 type FetchDecksOptions = {
   userId: string
@@ -75,11 +76,65 @@ export const fetchDecks = ({
     // 総件数を取得
     const [{ total }] = yield* db.select({ total: count() }).from(decksTable).where(eq(decksTable.createdBy, userId))
 
+    // デッキIDのリストを作成
+    const deckIds = decks.map((deck) => deck.id)
+
+    // カード総数のクエリ
+    const cardCountsResult =
+      deckIds.length > 0
+        ? yield* db
+            .select({
+              deckId: cardsTable.deckId,
+              count: count(),
+            })
+            .from(cardsTable)
+            .where(inArray(cardsTable.deckId, deckIds))
+            .groupBy(cardsTable.deckId)
+        : []
+
+    // カード数をオブジェクトに変換
+    const cardCountsByDeckId = Object.fromEntries(cardCountsResult.map(({ deckId, count }) => [deckId, count]))
+
+    // 現在時刻
+    const now = new Date()
+
+    // 学習対象カード数のクエリ
+    // biome-ignore format:
+    const dueCardCountsResult =
+      deckIds.length > 0
+        ? yield* db
+            .select({
+              deckId: cardsTable.deckId,
+              count: count(),
+            })
+            .from(cardsTable)
+            .leftJoin(
+              cardLearningStatesTable, 
+              and(
+                eq(cardsTable.id, cardLearningStatesTable.cardId),
+                eq(cardLearningStatesTable.studiedBy, userId),
+              ),
+            )
+            .where(
+              and(
+                inArray(cardsTable.deckId, deckIds),
+                or(
+                  isNull(cardLearningStatesTable.cardId),
+                  lte(cardLearningStatesTable.nextStudyDate, now),
+                )
+              ),
+            )
+            .groupBy(cardsTable.deckId)
+        : []
+
+    // 期限切れカード数をオブジェクトに変換
+    const dueCardCountsByDeckId = Object.fromEntries(dueCardCountsResult.map(({ deckId, count }) => [deckId, count]))
+
     return {
       decks: decks.map((deck) => ({
         ...deck,
-        totalCards: 0, // TODO: カード数の取得は別のクエリで実装する必要があります
-        dueCards: 0, // TODO: 期限切れカード数の取得は別のクエリで実装する必要があります
+        totalCards: cardCountsByDeckId[deck.id] ?? 0,
+        dueCards: dueCardCountsByDeckId[deck.id] ?? 0,
       })),
       total,
       ...(hasNextPage ? { nextCursor } : {}),

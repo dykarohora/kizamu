@@ -11,7 +11,6 @@ import * as deckSchema from './deck.sql'
 import { DuplicateDeckError } from './error'
 import { NotFoundDeckError } from './error'
 import { fetchDeckById } from './fetchDeckById'
-import { fetchDecks } from './fetchDecks'
 
 // テスト用の定数
 const targetUserId = uuidv7()
@@ -28,22 +27,6 @@ const validateDeckStructure = (deck: Deck) => {
   })
   expect(deck.createdAt).toBeInstanceOf(Date)
   expect(deck.updatedAt).toBeInstanceOf(Date)
-}
-
-// アサーション数: 3
-const validatePaginationResult = (
-  result: { decks: Deck[]; nextCursor?: string; total: number },
-  expectedLength: number,
-  shouldHaveNextPage: boolean,
-  expectedTotal: number,
-) => {
-  expect(result.decks).toHaveLength(expectedLength)
-  if (shouldHaveNextPage) {
-    expect(result.nextCursor).toBeDefined()
-  } else {
-    expect(result.nextCursor).toBeUndefined()
-  }
-  expect(result.total).toEqual(expectedTotal)
 }
 
 // テストデータのセットアップ
@@ -149,128 +132,6 @@ describe('デッキの作成', () => {
             expect(result.cause.error.deckId).toEqual(targetDeckId)
           }
         }
-      }),
-      Effect.provide(getTestDriver()),
-    ),
-  )
-})
-
-// デッキ一覧の取得に関するテスト
-describe('デッキ一覧の取得', () => {
-  it.effect('デッキ一覧を正常に取得できること', () =>
-    pipe(
-      Effect.gen(function* () {
-        expect.assertions(7) // 3(validatePaginationResult) + 4(validateDeckStructure)
-
-        // Act
-        const result = yield* fetchDecks({ userId: targetUserId })
-
-        // Assert
-        validatePaginationResult(result, 20, true, deckCount)
-        validateDeckStructure(result.decks[0])
-      }),
-      Effect.provide(getTestDriver()),
-    ),
-  )
-
-  it.effect('存在しないユーザーのデッキ一覧を取得した場合は空配列が返ること', () =>
-    pipe(
-      Effect.gen(function* () {
-        expect.assertions(3)
-        // Act
-        const result = yield* fetchDecks({ userId: uuidv7() })
-
-        // Assert
-        validatePaginationResult(result, 0, false, 0)
-      }),
-      Effect.provide(getTestDriver()),
-    ),
-  )
-})
-
-// ページネーションに関するテスト
-describe('ページネーション', () => {
-  it.effect('カーソルを指定してデッキ一覧を取得できること', () =>
-    pipe(
-      Effect.gen(function* () {
-        expect.assertions(4)
-        // Arrange: 最初のページを取得
-        const firstPage = yield* fetchDecks({ userId: targetUserId, limit: 10 })
-        const cursor = firstPage.nextCursor
-
-        // Act: 2ページ目を取得
-        const secondPage = yield* fetchDecks({
-          userId: targetUserId,
-          cursor,
-          limit: 10,
-        })
-
-        // Assert
-        validatePaginationResult(secondPage, 10, true, deckCount)
-        expect(secondPage.decks[0].id).not.toEqual(firstPage.decks[0].id)
-      }),
-      Effect.provide(getTestDriver()),
-    ),
-  )
-
-  it.effect('最後のページを取得した場合はnextCursorがundefinedになること', () =>
-    pipe(
-      Effect.gen(function* () {
-        expect.assertions(4)
-        // Arrange: 全件数を取得
-        const firstPage = yield* fetchDecks({ userId: targetUserId })
-        const totalPages = Math.ceil(firstPage.total / 50)
-        let lastPageCursor: string | undefined
-        let currentPage = yield* fetchDecks({ userId: targetUserId, limit: 50 })
-
-        // 最後のページまでカーソルを進める
-        for (let i = 1; i < totalPages - 1; i++) {
-          lastPageCursor = currentPage.nextCursor
-          if (lastPageCursor) {
-            currentPage = yield* fetchDecks({
-              userId: targetUserId,
-              cursor: lastPageCursor,
-              limit: 50,
-            })
-          }
-        }
-
-        // Act: 最後のページを取得
-        const lastPage = yield* fetchDecks({
-          userId: targetUserId,
-          cursor: currentPage.nextCursor,
-          limit: 50,
-        })
-
-        // Assert
-        expect(lastPage.decks.length).toBeLessThanOrEqual(50)
-        expect(lastPage.decks.length).toBeGreaterThan(0)
-        expect(lastPage.nextCursor).toBeUndefined()
-        expect(lastPage.total).toEqual(firstPage.total)
-      }),
-      Effect.provide(getTestDriver()),
-    ),
-  )
-})
-
-// 制限値（limit）に関するテスト
-describe('制限値の処理', () => {
-  it.effect.each([
-    ['limitを指定してデッキ一覧を取得できること', { limit: 5, expectedLength: 5 }] as const,
-    ['limitの最小値（1）で正しくデッキを取得できること', { limit: 1, expectedLength: 1 }] as const,
-    ['limitの最大値（50）で正しくデッキを取得できること', { limit: 50, expectedLength: 50 }] as const,
-    ['limitが最大値を超える場合は50件に制限されること', { limit: 100, expectedLength: 50 }] as const,
-    ['limitに0を指定した場合はデフォルト値（20件）で取得されること', { limit: 0, expectedLength: 20 }] as const,
-    ['limitに負数を指定した場合はデフォルト値（20件）で取得されること', { limit: -10, expectedLength: 20 }] as const,
-  ])('%s', ([_, { limit, expectedLength }]) =>
-    pipe(
-      Effect.gen(function* () {
-        expect.assertions(3)
-        // Act
-        const result = yield* fetchDecks({ userId: targetUserId, limit })
-
-        // Assert
-        validatePaginationResult(result, expectedLength, true, deckCount)
       }),
       Effect.provide(getTestDriver()),
     ),

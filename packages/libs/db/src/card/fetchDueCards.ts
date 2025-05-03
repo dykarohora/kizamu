@@ -27,6 +27,7 @@ export const fetchDueCards = ({
     const now = new Date()
 
     // クエリの基本部分を構築
+    // biome-ignore format:
     const baseQuery = db
       .select({
         id: cardsTable.id,
@@ -39,7 +40,10 @@ export const fetchDueCards = ({
       .from(cardsTable)
       .leftJoin(
         cardLearningStatesTable,
-        and(eq(cardsTable.id, cardLearningStatesTable.cardId), eq(cardLearningStatesTable.studiedBy, userId)),
+        and(
+          eq(cardsTable.id, cardLearningStatesTable.cardId), 
+          eq(cardLearningStatesTable.studiedBy, userId)
+        ),
       )
       .where(
         and(
