@@ -97,7 +97,7 @@ export const Header: FC<HeaderProps> = ({ authStatus, className, ...props }: Hea
     <div className={containerStyles}>
       {/* ロゴ部分 */}
       <div className={logoContainerStyles}>
-        <Link to="/dashboard" className={flex({ align: 'center', gap: '2' })}>
+        <Link to="/dashboard" className={flex({ align: 'center', gap: '2' })} viewTransition>
           <div className={logoStyles}>K</div>
           <span className={logoTextStyles}>Kizamu</span>
         </Link>
@@ -110,7 +110,7 @@ export const Header: FC<HeaderProps> = ({ authStatus, className, ...props }: Hea
           <nav className={navStyles}>
             <ul className={navListStyles}>
               <li>
-                <Link to="/dashboard" className={navLinkStyles}>
+                <Link to="/dashboard" className={navLinkStyles} viewTransition>
                   ダッシュボード
                 </Link>
               </li>
@@ -140,15 +140,6 @@ export const Header: FC<HeaderProps> = ({ authStatus, className, ...props }: Hea
                   </Menu.Item>
                 </Menu.Content>
               </Menu.Positioner>
-              {/* <Menu.Positioner>
-                  <Menu.Content>
-                    <Menu.Separator />
-                    <Menu.Item value="logout" onClick={handleLogout}>
-                      <Menu.ItemText>ログアウト</Menu.ItemText>
-                      <LogOut className={css({ ml: 'auto', h: '4', w: '4' })} />
-                    </Menu.Item>
-                  </Menu.Content>
-                </Menu.Positioner> */}
             </Menu.Root>
           </div>
         </>
