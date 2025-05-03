@@ -1,5 +1,5 @@
-import { css } from 'styled-system/css'
 import type { Card } from '@kizamu/schema'
+import { css } from 'styled-system/css'
 
 /**
  * カードコンテナのスタイル

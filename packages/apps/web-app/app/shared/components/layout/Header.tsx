@@ -5,10 +5,10 @@ import { css, cx } from 'styled-system/css'
 import { flex } from 'styled-system/patterns'
 import type { AuthStatus } from '../../../services/auth/index.server'
 import { Avatar } from '../ui/avatar'
+import { Button } from '../ui/button'
 import { IconButton } from '../ui/icon-button'
 import { LinkButton } from '../ui/link-button'
 import * as Menu from '../ui/styled/menu'
-import { Button } from '../ui/button'
 
 // ヘッダーのスタイル定義
 const headerStyles = css({

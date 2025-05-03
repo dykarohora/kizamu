@@ -1,6 +1,6 @@
+import { useFetcher } from 'react-router'
 import { css } from 'styled-system/css'
 import { Button } from '~/shared/components/ui/button'
-import { useFetcher } from 'react-router'
 
 /**
  * StudyCompletionコンポーネントのプロパティ型定義

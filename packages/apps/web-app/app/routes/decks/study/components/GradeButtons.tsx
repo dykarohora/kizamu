@@ -1,7 +1,7 @@
-import { css } from 'styled-system/css'
-import { Button } from '~/shared/components/ui/button'
 import type { Card } from '@kizamu/schema'
 import type { FetcherWithComponents } from 'react-router'
+import { css } from 'styled-system/css'
+import { Button } from '~/shared/components/ui/button'
 import type { Route } from '../+types/Study'
 
 /**
