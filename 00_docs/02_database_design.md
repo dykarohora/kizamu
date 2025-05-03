@@ -36,6 +36,7 @@
 |---------|-----|------|------------|------|
 | id | TEXT | NO | - | プライマリーキー、UUID |
 | deck_id | TEXT | NO | - | 所属するデッキのID（外部キー） |
+| created_by | TEXT | NO | - | 作成者のID（外部キー） |
 | front_content | TEXT | NO | - | カード表面のテキストコンテンツ |
 | back_content | TEXT | NO | - | カード裏面のテキストコンテンツ |
 | created_at | TIMESTAMP | NO | - | 作成日時（UTC） |
@@ -43,6 +44,7 @@
 
 インデックス：
 - `deck_id`: 検索用
+- `created_by`: 検索用
 
 ### 1.4 card_images
 カードの画像を管理するテーブル
@@ -130,6 +132,7 @@
 | 外部キー | 参照先 | ON DELETE | ON UPDATE | 説明 |
 |---------|--------|-----------|-----------|------|
 | deck_id | decks(id) | CASCADE | CASCADE | デッキが削除された場合、関連するカードも削除 |
+| created_by | users(id) | CASCADE | CASCADE | ユーザーが削除された場合、関連するカードも削除 |
 
 ### 2.3 card_images
 | 外部キー | 参照先 | ON DELETE | ON UPDATE | 説明 |
