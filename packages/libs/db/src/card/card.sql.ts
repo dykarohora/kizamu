@@ -10,6 +10,9 @@ export const cardsTable = pgTable(
     deckId: text('deck_id')
       .notNull()
       .references(() => decksTable.id, { onDelete: 'cascade', onUpdate: 'cascade' }),
+    createdBy: text('created_by')
+      .notNull()
+      .references(() => usersTable.id, { onDelete: 'cascade', onUpdate: 'cascade' }),
     frontContent: text('front_content').notNull(),
     backContent: text('back_content').notNull(),
     createdAt: timestamp('created_at').notNull().defaultNow(),

@@ -31,6 +31,7 @@ const createTestCard = (
 ) => ({
   id,
   deckId,
+  createdBy: testUserId,
   studiedBy: testUserId,
   frontContent: `テスト用フロント${frontSuffix}`,
   backContent: `テスト用バック${backSuffix}`,

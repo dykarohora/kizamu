@@ -93,6 +93,7 @@ describe('fetchDecks', () => {
       {
         id: uuidv7(),
         deckId: testDeckId1,
+        createdBy: testUserId,
         frontContent: 'デッキ1-カード1（未学習）',
         backContent: 'デッキ1-カード1の裏面',
         createdAt: new Date(),
@@ -101,6 +102,7 @@ describe('fetchDecks', () => {
       {
         id: uuidv7(),
         deckId: testDeckId1,
+        createdBy: testUserId,
         frontContent: 'デッキ1-カード2（未学習）',
         backContent: 'デッキ1-カード2の裏面',
         createdAt: new Date(),
@@ -109,6 +111,7 @@ describe('fetchDecks', () => {
       {
         id: uuidv7(),
         deckId: testDeckId1,
+        createdBy: testUserId,
         frontContent: 'デッキ1-カード3（期限切れ）',
         backContent: 'デッキ1-カード3の裏面',
         createdAt: new Date(),
@@ -117,6 +120,7 @@ describe('fetchDecks', () => {
       {
         id: uuidv7(),
         deckId: testDeckId1,
+        createdBy: testUserId,
         frontContent: 'デッキ1-カード4（期限内）',
         backContent: 'デッキ1-カード4の裏面',
         createdAt: new Date(),
@@ -128,6 +132,7 @@ describe('fetchDecks', () => {
     const deck2Card1 = {
       id: uuidv7(),
       deckId: testDeckId2,
+      createdBy: testUserId,
       frontContent: 'デッキ2-カード1（未学習）',
       backContent: 'デッキ2-カード1の裏面',
       createdAt: new Date(),
@@ -137,6 +142,7 @@ describe('fetchDecks', () => {
     const deck2Card2 = {
       id: uuidv7(),
       deckId: testDeckId2,
+      createdBy: testUserId,
       frontContent: 'デッキ2-カード2（期限切れ）',
       backContent: 'デッキ2-カード2の裏面',
       createdAt: new Date(),
@@ -146,6 +152,7 @@ describe('fetchDecks', () => {
     const deck2Card3 = {
       id: uuidv7(),
       deckId: testDeckId2,
+      createdBy: testUserId,
       frontContent: 'デッキ2-カード3（期限内）',
       backContent: 'デッキ2-カード3の裏面',
       createdAt: new Date(),

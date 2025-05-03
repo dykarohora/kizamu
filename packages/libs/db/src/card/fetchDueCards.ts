@@ -4,6 +4,7 @@ import type { Card } from '@kizamu/schema'
 import { and, eq, isNull, lte, or } from 'drizzle-orm'
 import { Effect } from 'effect'
 import { cardLearningStatesTable, cardsTable } from './card.sql'
+import { usersTable } from '../user/user.sql'
 
 /**
  * 指定されたユーザーの学習予定日が現在日時以前のカードを取得する
@@ -36,8 +37,13 @@ export const fetchDueCards = ({
         backContent: cardsTable.backContent,
         createdAt: cardsTable.createdAt,
         updatedAt: cardsTable.updatedAt,
+        createdBy: {
+          id: usersTable.id,
+          name: usersTable.name,
+        },
       })
       .from(cardsTable)
+      .innerJoin(usersTable, eq(cardsTable.createdBy, usersTable.id))
       .leftJoin(
         cardLearningStatesTable,
         and(
@@ -68,6 +74,7 @@ export const fetchDueCards = ({
     return results.map((result) => ({
       id: result.id,
       deckId: result.deckId,
+      createdBy: result.createdBy,
       frontContent: result.frontContent,
       backContent: result.backContent,
       createdAt: result.createdAt,

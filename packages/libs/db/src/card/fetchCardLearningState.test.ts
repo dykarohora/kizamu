@@ -51,6 +51,7 @@ beforeEach(async () => {
     {
       id: cardWithLearningStateId,
       deckId: testDeckId,
+      createdBy: testUserId,
       frontContent: '学習状態あり表面',
       backContent: '学習状態あり裏面',
       createdAt: new Date(),
@@ -59,6 +60,7 @@ beforeEach(async () => {
     {
       id: cardWithoutLearningStateId,
       deckId: testDeckId,
+      createdBy: testUserId,
       frontContent: '学習状態なし表面',
       backContent: '学習状態なし裏面',
       createdAt: new Date(),

@@ -4,6 +4,7 @@ import type { Card } from '@kizamu/schema'
 import { and, asc, count, eq, gt } from 'drizzle-orm'
 import { Effect } from 'effect'
 import { cardsTable } from './card.sql'
+import { usersTable } from '../user/user.sql'
 
 type FetchCardsOptions = {
   deckId: string
@@ -47,8 +48,13 @@ export const fetchCardsByDeckId = ({
         backContent: cardsTable.backContent,
         createdAt: cardsTable.createdAt,
         updatedAt: cardsTable.updatedAt,
+        createdBy: {
+          id: usersTable.id,
+          name: usersTable.name,
+        },
       })
       .from(cardsTable)
+      .innerJoin(usersTable, eq(cardsTable.createdBy, usersTable.id))
       .where(
         // カーソルが指定されている場合は、カーソルより大きいIDのカードを取得
         // biome-ignore format:

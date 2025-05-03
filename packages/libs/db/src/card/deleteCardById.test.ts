@@ -50,6 +50,7 @@ beforeEach(async () => {
   await db.insert(cardSchema.cardsTable).values({
     id: testCardId,
     deckId: testDeckId,
+    createdBy: testUserId,
     frontContent: 'テスト表面',
     backContent: 'テスト裏面',
     createdAt: new Date(),

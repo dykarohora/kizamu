@@ -5,7 +5,7 @@ import type { Card } from '@kizamu/schema'
 import { Effect, pipe } from 'effect'
 import postgres from 'postgres'
 import { NotFoundDeckError } from '../deck'
-import { NotFoundUserError } from '../user'
+import { fetchUserById, NotFoundUserError } from '../user'
 import { cardLearningStatesTable, cardsTable } from './card.sql'
 import { DuplicateCardError } from './error'
 
@@ -45,6 +45,7 @@ export const createCard = (
       const newCard = {
         id: input.card.id,
         deckId: input.card.deckId,
+        createdBy: input.createdBy,
         frontContent: input.card.frontContent,
         backContent: input.card.backContent,
         createdAt: now,
@@ -68,18 +69,22 @@ export const createCard = (
       })
 
       // トランザクションで両方のテーブルにデータを挿入
-      yield* sql.withTransaction(
+      const user = yield* sql.withTransaction(
         Effect.gen(function* () {
           // カード情報を挿入
           yield* db.insert(cardsTable).values(newCard)
-
           // 学習状態を挿入
           yield* db.insert(cardLearningStatesTable).values(initialLearningState)
+          // ユーザー情報を取得
+          return yield* fetchUserById(input.createdBy)
         }),
       )
 
       // 作成されたカード情報を返却
-      return newCard
+      return {
+        ...newCard,
+        createdBy: user,
+      }
     }),
     Effect.catchTags({
       SqlError: (error) => {
@@ -94,7 +99,7 @@ export const createCard = (
             if (error.cause.message.includes('deck_id')) {
               return Effect.fail(new NotFoundDeckError({ deckId: input.card.deckId }))
             }
-            if (error.cause.message.includes('studied_by')) {
+            if (error.cause.message.includes('studied_by') || error.cause.message.includes('created_by')) {
               return Effect.fail(new NotFoundUserError({ userId: input.createdBy }))
             }
           }
