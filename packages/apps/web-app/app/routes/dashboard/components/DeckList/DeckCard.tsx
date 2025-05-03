@@ -92,8 +92,8 @@ export const DeckCard = ({ id, name, description, totalCards, dueCards, lastStud
       <Card.Body className={cardBodyStyles}>
         <div className={cardInfoGridStyles}>
           <Fieldset.Root className={fieldsetStyles}>
-            <Fieldset.Legend>カード数</Fieldset.Legend>
-            <Fieldset.HelperText className={fieldStyles}>{totalCards}</Fieldset.HelperText>
+            <Fieldset.Legend>カード総数</Fieldset.Legend>
+            <Fieldset.HelperText className={fieldStyles}>{totalCards}枚</Fieldset.HelperText>
           </Fieldset.Root>
 
           <Fieldset.Root className={fieldsetStyles}>
