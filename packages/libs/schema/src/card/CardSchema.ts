@@ -1,4 +1,5 @@
 import { Schema } from 'effect'
+import { UserInfoSchema } from '../user'
 
 /**
  * カード集約のスキーマ定義
@@ -7,6 +8,7 @@ import { Schema } from 'effect'
 export const CardSchema = Schema.Struct({
   id: Schema.NonEmptyString,
   deckId: Schema.NonEmptyString,
+  createdBy: UserInfoSchema,
   frontContent: Schema.NonEmptyString,
   backContent: Schema.NonEmptyString,
   createdAt: Schema.Date,

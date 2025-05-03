@@ -10,6 +10,10 @@ it.effect('有効なカードデータが検証を通過すること', () =>
     const validCard = {
       id: 'card123',
       deckId: 'deck123',
+      createdBy: {
+        id: 'user123',
+        name: 'テストユーザー',
+      },
       frontContent: 'これは表面の内容です',
       backContent: 'これは裏面の内容です',
       createdAt: new Date('2023-01-01T00:00:00Z'),
@@ -28,6 +32,10 @@ it.effect.each([
     testName: '必須フィールド（id）が欠けている場合',
     invalidCard: {
       deckId: 'deck123',
+      createdBy: {
+        id: 'user123',
+        name: 'テストユーザー',
+      },
       frontContent: 'これは表面の内容です',
       backContent: 'これは裏面の内容です',
       createdAt: new Date('2023-01-01T00:00:00Z'),
@@ -38,6 +46,21 @@ it.effect.each([
     testName: '必須フィールド（deckId）が欠けている場合',
     invalidCard: {
       id: 'card123',
+      createdBy: {
+        id: 'user123',
+        name: 'テストユーザー',
+      },
+      frontContent: 'これは表面の内容です',
+      backContent: 'これは裏面の内容です',
+      createdAt: new Date('2023-01-01T00:00:00Z'),
+      updatedAt: new Date('2023-01-02T00:00:00Z'),
+    },
+  },
+  {
+    testName: '必須フィールド（createdBy）が欠けている場合',
+    invalidCard: {
+      id: 'card123',
+      deckId: 'deck123',
       frontContent: 'これは表面の内容です',
       backContent: 'これは裏面の内容です',
       createdAt: new Date('2023-01-01T00:00:00Z'),
@@ -49,6 +72,10 @@ it.effect.each([
     invalidCard: {
       id: 'card123',
       deckId: 'deck123',
+      createdBy: {
+        id: 'user123',
+        name: 'テストユーザー',
+      },
       backContent: 'これは裏面の内容です',
       createdAt: new Date('2023-01-01T00:00:00Z'),
       updatedAt: new Date('2023-01-02T00:00:00Z'),
@@ -59,6 +86,10 @@ it.effect.each([
     invalidCard: {
       id: 'card123',
       deckId: 'deck123',
+      createdBy: {
+        id: 'user123',
+        name: 'テストユーザー',
+      },
       frontContent: 'これは表面の内容です',
       createdAt: new Date('2023-01-01T00:00:00Z'),
       updatedAt: new Date('2023-01-02T00:00:00Z'),
@@ -69,6 +100,10 @@ it.effect.each([
     invalidCard: {
       id: 'card123',
       deckId: 'deck123',
+      createdBy: {
+        id: 'user123',
+        name: 'テストユーザー',
+      },
       frontContent: 'これは表面の内容です',
       backContent: 'これは裏面の内容です',
       updatedAt: new Date('2023-01-02T00:00:00Z'),
@@ -79,6 +114,10 @@ it.effect.each([
     invalidCard: {
       id: 'card123',
       deckId: 'deck123',
+      createdBy: {
+        id: 'user123',
+        name: 'テストユーザー',
+      },
       frontContent: 'これは表面の内容です',
       backContent: 'これは裏面の内容です',
       createdAt: new Date('2023-01-01T00:00:00Z'),
@@ -89,6 +128,10 @@ it.effect.each([
     invalidCard: {
       id: '',
       deckId: 'deck123',
+      createdBy: {
+        id: 'user123',
+        name: 'テストユーザー',
+      },
       frontContent: 'これは表面の内容です',
       backContent: 'これは裏面の内容です',
       createdAt: new Date('2023-01-01T00:00:00Z'),
@@ -100,6 +143,10 @@ it.effect.each([
     invalidCard: {
       id: 'card123',
       deckId: '',
+      createdBy: {
+        id: 'user123',
+        name: 'テストユーザー',
+      },
       frontContent: 'これは表面の内容です',
       backContent: 'これは裏面の内容です',
       createdAt: new Date('2023-01-01T00:00:00Z'),
@@ -111,6 +158,10 @@ it.effect.each([
     invalidCard: {
       id: 'card123',
       deckId: 'deck123',
+      createdBy: {
+        id: 'user123',
+        name: 'テストユーザー',
+      },
       frontContent: '',
       backContent: 'これは裏面の内容です',
       createdAt: new Date('2023-01-01T00:00:00Z'),
@@ -122,8 +173,42 @@ it.effect.each([
     invalidCard: {
       id: 'card123',
       deckId: 'deck123',
+      createdBy: {
+        id: 'user123',
+        name: 'テストユーザー',
+      },
       frontContent: 'これは表面の内容です',
       backContent: '',
+      createdAt: new Date('2023-01-01T00:00:00Z'),
+      updatedAt: new Date('2023-01-02T00:00:00Z'),
+    },
+  },
+  {
+    testName: '無効なユーザー情報（createdBy.id）の場合',
+    invalidCard: {
+      id: 'card123',
+      deckId: 'deck123',
+      createdBy: {
+        id: '',
+        name: 'テストユーザー',
+      },
+      frontContent: 'これは表面の内容です',
+      backContent: 'これは裏面の内容です',
+      createdAt: new Date('2023-01-01T00:00:00Z'),
+      updatedAt: new Date('2023-01-02T00:00:00Z'),
+    },
+  },
+  {
+    testName: '無効なユーザー情報（createdBy.name）の場合',
+    invalidCard: {
+      id: 'card123',
+      deckId: 'deck123',
+      createdBy: {
+        id: 'user123',
+        name: '',
+      },
+      frontContent: 'これは表面の内容です',
+      backContent: 'これは裏面の内容です',
       createdAt: new Date('2023-01-01T00:00:00Z'),
       updatedAt: new Date('2023-01-02T00:00:00Z'),
     },
@@ -133,6 +218,10 @@ it.effect.each([
     invalidCard: {
       id: 'card123',
       deckId: 'deck123',
+      createdBy: {
+        id: 'user123',
+        name: 'テストユーザー',
+      },
       frontContent: 'これは表面の内容です',
       backContent: 'これは裏面の内容です',
       createdAt: 'invalid-date',
@@ -144,6 +233,10 @@ it.effect.each([
     invalidCard: {
       id: 'card123',
       deckId: 'deck123',
+      createdBy: {
+        id: 'user123',
+        name: 'テストユーザー',
+      },
       frontContent: 'これは表面の内容です',
       backContent: 'これは裏面の内容です',
       createdAt: new Date('2023-01-01T00:00:00Z'),
