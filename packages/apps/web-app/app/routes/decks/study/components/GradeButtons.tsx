@@ -6,18 +6,28 @@ import type { Route } from '../+types/Study'
 
 /**
  * ボタンコンテナのスタイル
- * CSSトランジションによるフェードイン/アウトアニメーション付きのフレックスコンテナ
+ * レスポンシブグリッドレイアウト
+ * - モバイル: 2x2のグリッド
+ * - ラップトップ以上: 横一列に4つ並ぶ
  */
 const buttonsContainerClass = css({
-  display: 'flex',
-  justifyContent: 'center',
+  display: 'grid',
+  gridTemplateColumns: 'repeat(2, 1fr)',
   gap: '4',
+  width: '100%',
+  maxWidth: '800px',
+
+  // ラップトップ以上の画面サイズでは横一列に配置
+  md: {
+    gridTemplateColumns: 'repeat(4, 1fr)',
+  },
 })
 
 /**
  * グレードボタンの共通スタイル
  */
 const gradeButtonClass = css({
+  width: '100%',
   minWidth: '100px',
 })
 

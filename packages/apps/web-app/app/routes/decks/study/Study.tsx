@@ -209,10 +209,11 @@ const Study = ({ loaderData: { studyCards, deckId } }: Route.ComponentProps) => 
       <div
         className={css({
           position: 'relative',
+          display: 'flex',
+          justifyContent: 'center',
           opacity: isFlipped ? 1 : 0,
-          overflow: 'hidden',
           transition: 'opacity 0.2s ease-out',
-          marginTop: '6rem',
+          marginTop: '1.5rem',
         })}
       >
         <GradeButtons deckId={deckId} currentCard={currentCard} submitGrade={submitGrade} />

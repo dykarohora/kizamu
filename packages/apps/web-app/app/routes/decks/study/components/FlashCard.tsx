@@ -2,6 +2,38 @@ import { css } from 'styled-system/css'
 import type { Card } from '@kizamu/schema'
 
 /**
+ * カードコンテナのスタイル
+ * 3D効果のあるカードコンテナのCSS文字列
+ */
+const cardContainerClass = css({
+  perspective: '1000px',
+  width: '100%',
+  height: '35dvh',
+  maxWidth: '800px',
+  margin: '0 auto',
+  mb: '6',
+})
+
+/**
+ * カードボタンの基本スタイル
+ * ボタンとして機能するカード要素のCSS文字列
+ */
+const cardButtonClass = css({
+  position: 'relative',
+  width: '100%',
+  height: '100%',
+  cursor: 'pointer',
+  transformStyle: 'preserve-3d',
+  transition: 'transform 0.2s',
+  borderRadius: 'md',
+  boxShadow: 'lg',
+  padding: 0,
+  border: 'none',
+  background: 'none',
+  display: 'block',
+})
+
+/**
  * カード面の共通スタイル
  * 表面と裏面で共通するCSS文字列
  */
@@ -20,7 +52,6 @@ const cardFaceClass = css({
   borderColor: 'border.default',
   rounded: 'md',
   padding: '8',
-  minHeight: '200px',
 })
 
 /**
@@ -55,37 +86,6 @@ const hintTextClass = css({
   width: '100%',
   textAlign: 'center',
   marginTop: '2',
-})
-
-/**
- * カードコンテナのスタイル
- * 3D効果のあるカードコンテナのCSS文字列
- */
-const cardContainerClass = css({
-  perspective: '1000px',
-  width: '100%',
-  maxWidth: '800px',
-  margin: '0 auto',
-  mb: '6',
-})
-
-/**
- * カードボタンの基本スタイル
- * ボタンとして機能するカード要素のCSS文字列
- */
-const cardButtonClass = css({
-  position: 'relative',
-  width: '100%',
-  minHeight: '200px',
-  cursor: 'pointer',
-  transformStyle: 'preserve-3d',
-  transition: 'transform 0.6s',
-  borderRadius: 'md',
-  boxShadow: 'lg',
-  padding: 0,
-  border: 'none',
-  background: 'none',
-  display: 'block',
 })
 
 /**
