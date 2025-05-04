@@ -5,7 +5,7 @@ import type { Card } from '@kizamu/schema'
 import { Effect, pipe } from 'effect'
 import postgres from 'postgres'
 import { NotFoundDeckError } from '../deck'
-import { fetchUserById, NotFoundUserError } from '../user'
+import { NotFoundUserError, fetchUserById } from '../user'
 import { cardLearningStatesTable, cardsTable } from './card.sql'
 import { DuplicateCardError } from './error'
 

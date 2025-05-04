@@ -3,8 +3,8 @@ import { PgDrizzle } from '@effect/sql-drizzle/Pg'
 import type { Card } from '@kizamu/schema'
 import { eq } from 'drizzle-orm'
 import { Effect } from 'effect'
-import { cardsTable } from './card.sql'
 import { usersTable } from '../user/user.sql'
+import { cardsTable } from './card.sql'
 import { NotFoundCardError } from './error'
 
 /**

@@ -3,8 +3,8 @@ import { PgDrizzle } from '@effect/sql-drizzle/Pg'
 import type { Card } from '@kizamu/schema'
 import { and, eq, isNull, lte, or } from 'drizzle-orm'
 import { Effect } from 'effect'
-import { cardLearningStatesTable, cardsTable } from './card.sql'
 import { usersTable } from '../user/user.sql'
+import { cardLearningStatesTable, cardsTable } from './card.sql'
 
 /**
  * 指定されたユーザーの学習予定日が現在日時以前のカードを取得する

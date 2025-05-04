@@ -6,8 +6,8 @@ import { getSetupClient, getTestDriver } from '../../test/setupClient'
 import * as deckSchema from '../deck/deck.sql'
 import * as userSchema from '../user/user.sql'
 import * as cardSchema from './card.sql'
-import { fetchCardById } from './fetchCardById'
 import { NotFoundCardError } from './error'
+import { fetchCardById } from './fetchCardById'
 
 // テスト用の定数
 const testUserId = uuidv7()
