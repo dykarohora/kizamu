@@ -1,4 +1,5 @@
 export * from './createCard'
+export * from './fetchCardById'
 export * from './fetchCardsByDeckId'
 export * from './fetchDueCards'
 export * from './recordStudyResult'
