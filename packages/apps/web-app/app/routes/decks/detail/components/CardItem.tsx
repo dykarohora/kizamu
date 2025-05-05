@@ -13,16 +13,43 @@ export type CardItemProps = {
   onDelete?: (cardId: string) => void
 }
 
+// 共通スタイルを定数として定義
+const cardRootStyle = css({
+  border: '1px solid',
+  borderColor: 'border.default',
+  transition: 'all 0.2s ease-in-out',
+  _hover: { boxShadow: 'md' },
+})
+
+const labelStyle = css({
+  fontSize: 'sm',
+  color: 'fg.muted',
+  mb: '1',
+})
+
+const contentStyle = css({
+  p: '3',
+  bg: 'bg.subtle',
+  rounded: 'md',
+  minHeight: '100px',
+  whiteSpace: 'pre-wrap',
+})
+
+const buttonIconStyle = flex({
+  alignItems: 'center',
+  gap: '1',
+})
+
+const actionContainerStyle = css({
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '2',
+  justifyContent: 'center',
+})
+
 export const CardItem = ({ id, frontContent, backContent, onEdit, onDelete }: CardItemProps) => {
   return (
-    <CardComponent.Root
-      className={css({
-        border: '1px solid',
-        borderColor: 'border.default',
-        transition: 'all 0.2s ease-in-out',
-        _hover: { boxShadow: 'md' },
-      })}
-    >
+    <CardComponent.Root className={cardRootStyle}>
       <div
         className={grid({
           gridTemplateColumns: { base: '1fr', md: '1fr 1fr auto' },
@@ -32,44 +59,26 @@ export const CardItem = ({ id, frontContent, backContent, onEdit, onDelete }: Ca
       >
         {/* 表面 */}
         <div>
-          <div className={css({ fontSize: 'sm', color: 'fg.muted', mb: '1' })}>表面</div>
-          <div
-            className={css({
-              p: '3',
-              bg: 'bg.subtle',
-              rounded: 'md',
-              minHeight: '100px',
-            })}
-          >
-            {frontContent}
-          </div>
+          <div className={labelStyle}>表面</div>
+          <div className={contentStyle}>{frontContent}</div>
         </div>
 
         {/* 裏面 */}
         <div>
-          <div className={css({ fontSize: 'sm', color: 'fg.muted', mb: '1' })}>裏面</div>
-          <div
-            className={css({
-              p: '3',
-              bg: 'bg.subtle',
-              rounded: 'md',
-              minHeight: '100px',
-            })}
-          >
-            {backContent}
-          </div>
+          <div className={labelStyle}>裏面</div>
+          <div className={contentStyle}>{backContent}</div>
         </div>
 
         {/* アクションボタン */}
-        <div className={css({ display: 'flex', flexDirection: 'column', gap: '2', justifyContent: 'center' })}>
+        <div className={actionContainerStyle}>
           <Button variant="ghost" size="sm" onClick={() => onEdit?.(id)}>
-            <span className={flex({ alignItems: 'center', gap: '1' })}>
+            <span className={buttonIconStyle}>
               <Pencil size={16} />
               編集
             </span>
           </Button>
           <Button variant="ghost" size="sm" colorPalette="red" onClick={() => onDelete?.(id)}>
-            <span className={flex({ alignItems: 'center', gap: '1' })}>
+            <span className={buttonIconStyle}>
               <Trash size={16} />
               削除
             </span>

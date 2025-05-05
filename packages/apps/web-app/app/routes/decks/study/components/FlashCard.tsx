@@ -73,6 +73,7 @@ const cardContentClass = css({
   width: '100%',
   wordBreak: 'break-word',
   overflowY: 'auto',
+  whiteSpace: 'pre-wrap',
   md: {
     fontSize: '1.125rem',
   },
