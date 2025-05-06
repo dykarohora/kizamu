@@ -38,39 +38,42 @@ export const loader = effectLoader(
       return yield* Effect.fail(new Error('デッキIDが指定されていません'))
     }
 
-    // デッキ詳細を取得
-    const deckResponse = yield* Effect.promise(async () =>
-      hc.decks[':deckId'].$get({ param: { deckId } }, { headers: { Authorization: `Bearer ${accessToken}` } }),
-    )
+    const fetchDeckTask = Effect.gen(function* () {
+      const deckResponse = yield* Effect.promise(async () =>
+        hc.decks[':deckId'].$get({ param: { deckId } }, { headers: { Authorization: `Bearer ${accessToken}` } }),
+      )
 
-    if (deckResponse.status !== 200) {
-      const error = yield* Effect.promise(async () => await deckResponse.json())
-      return yield* Effect.fail(error)
-    }
+      if (deckResponse.status !== 200) {
+        const error = yield* Effect.promise(async () => await deckResponse.json())
+        return yield* Effect.fail(error)
+      }
 
-    const deck = yield* Effect.promise(async () => await deckResponse.json())
+      return yield* Effect.promise(async () => await deckResponse.json())
+    })
 
-    // カード一覧を取得
-    const cardsResponse = yield* Effect.promise(async () =>
-      hc.decks[':deckId'].cards.$get(
-        { param: { deckId }, query: { limit: '100' } },
-        { headers: { Authorization: `Bearer ${accessToken}` } },
-      ),
-    )
+    const fetchCardsTask = Effect.gen(function* () {
+      const cardsResponse = yield* Effect.promise(async () =>
+        hc.decks[':deckId'].cards.$get(
+          { param: { deckId }, query: { limit: '100' } },
+          { headers: { Authorization: `Bearer ${accessToken}` } },
+        ),
+      )
 
-    if (cardsResponse.status !== 200) {
-      const error = yield* Effect.promise(async () => await cardsResponse.json())
-      return yield* Effect.fail(error)
-    }
+      if (cardsResponse.status !== 200) {
+        const error = yield* Effect.promise(async () => await cardsResponse.json())
+        return yield* Effect.fail(error)
+      }
 
-    const cardsData = yield* Effect.promise(async () => await cardsResponse.json())
-    // cardsData.dataから必要な情報を抽出
-    const cards = cardsData.data.map((card) => ({
-      id: card.id,
-      frontContent: card.frontContent,
-      backContent: card.backContent,
-      deckId: card.deckId,
-    }))
+      const cardsData = yield* Effect.promise(async () => await cardsResponse.json())
+      return cardsData.data.map((card) => ({
+        id: card.id,
+        frontContent: card.frontContent,
+        backContent: card.backContent,
+        deckId: card.deckId,
+      }))
+    })
+
+    const [deck, cards] = yield* Effect.all([fetchDeckTask, fetchCardsTask], { concurrency: 'unbounded' })
 
     return yield* Effect.succeed(
       data(
