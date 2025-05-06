@@ -1,6 +1,6 @@
 import { isbot } from 'isbot'
 import { renderToReadableStream } from 'react-dom/server'
-import type { AppLoadContext, EntryContext } from 'react-router'
+import type { AppLoadContext, EntryContext, HandleErrorFunction } from 'react-router'
 import { ServerRouter } from 'react-router'
 
 export default async function handleRequest(
@@ -38,4 +38,12 @@ export default async function handleRequest(
     headers: responseHeaders,
     status: responseStatusCode,
   })
+}
+
+export const handleError: HandleErrorFunction = (error, { request }) => {
+  // React Router は中断されたリクエストを中止する可能性があるため、それらはログに記録しない
+  if (!request.signal.aborted) {
+    // エラーを確認できるように、必ずエラーをログに記録する
+    console.error(error)
+  }
 }
