@@ -19,6 +19,10 @@ type Params = {
   "/decks/:deckId/study": {
     "deckId": string;
   };
+  "/decks/:deckId/cards/:cardId": {
+    "deckId": string;
+    "cardId": string;
+  };
   "/login": {};
   "/logout": {};
   "/callback": {};

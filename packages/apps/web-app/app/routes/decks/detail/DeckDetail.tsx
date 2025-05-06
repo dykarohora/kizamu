@@ -9,7 +9,7 @@ import { HonoClientService } from '~/services/hono-client/index.server'
 import { LoaderContext } from '~/services/react-router/index.server'
 import { LinkButton } from '~/shared/components/ui/link-button'
 import type { Route } from './+types/DeckDetail'
-import { CardList, DeckHeader } from './components'
+import { CardList, DeckHeader, DeleteCardDialog } from './components'
 import { useDeckActions } from './hooks'
 
 /**
@@ -89,7 +89,7 @@ export const loader = effectLoader(
  * - カードの追加・編集・削除機能
  */
 const DeckDetail = ({ loaderData: { deck, cards } }: Route.ComponentProps) => {
-  const { handleEditCard, handleDeleteCard } = useDeckActions(deck.id)
+  const { handleDeleteCard, confirmDeleteCard, closeDeleteDialog, isDeleteDialogOpen } = useDeckActions(deck.id)
 
   return (
     <div className={css({ padding: '6', maxWidth: '1200px', margin: '0 auto' })}>
@@ -107,7 +107,10 @@ const DeckDetail = ({ loaderData: { deck, cards } }: Route.ComponentProps) => {
       </div>
 
       {/* カード一覧 */}
-      <CardList cards={cards} onEditCard={handleEditCard} onDeleteCard={handleDeleteCard} />
+      <CardList cards={cards} onDeleteCard={handleDeleteCard} />
+
+      {/* 削除確認ダイアログ */}
+      <DeleteCardDialog isOpen={isDeleteDialogOpen} onClose={closeDeleteDialog} onConfirm={confirmDeleteCard} />
     </div>
   )
 }

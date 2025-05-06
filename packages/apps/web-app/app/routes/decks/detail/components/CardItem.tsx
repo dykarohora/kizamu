@@ -3,13 +3,13 @@ import { css } from 'styled-system/css'
 import { flex, grid } from 'styled-system/patterns'
 import { Button } from '~/shared/components/ui/button'
 import { Card as CardComponent } from '~/shared/components/ui/card'
+import { LinkButton } from '~/shared/components/ui/link-button'
 
 export type CardItemProps = {
   id: string
+  deckId: string
   frontContent: string
   backContent: string
-  deckId: string
-  onEdit?: (cardId: string) => void
   onDelete?: (cardId: string) => void
 }
 
@@ -47,7 +47,7 @@ const actionContainerStyle = css({
   justifyContent: 'center',
 })
 
-export const CardItem = ({ id, frontContent, backContent, onEdit, onDelete }: CardItemProps) => {
+export const CardItem = ({ deckId, id: cardId, frontContent, backContent, onDelete }: CardItemProps) => {
   return (
     <CardComponent.Root className={cardRootStyle}>
       <div
@@ -71,13 +71,13 @@ export const CardItem = ({ id, frontContent, backContent, onEdit, onDelete }: Ca
 
         {/* アクションボタン */}
         <div className={actionContainerStyle}>
-          <Button variant="ghost" size="sm" onClick={() => onEdit?.(id)}>
+          <LinkButton variant="ghost" size="sm" to={`/decks/${deckId}/cards/${cardId}/edit`}>
             <span className={buttonIconStyle}>
               <Pencil size={16} />
               編集
             </span>
-          </Button>
-          <Button variant="ghost" size="sm" colorPalette="red" onClick={() => onDelete?.(id)}>
+          </LinkButton>
+          <Button variant="ghost" size="sm" colorPalette="red" onClick={() => onDelete?.(cardId)}>
             <span className={buttonIconStyle}>
               <Trash size={16} />
               削除

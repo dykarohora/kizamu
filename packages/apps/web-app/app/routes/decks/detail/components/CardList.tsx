@@ -4,11 +4,10 @@ import { CardItem } from './CardItem'
 
 type CardListProps = {
   cards: Omit<CardItemProps, 'onEdit' | 'onDelete'>[]
-  onEditCard?: (cardId: string) => void
   onDeleteCard?: (cardId: string) => void
 }
 
-export const CardList = ({ cards, onEditCard, onDeleteCard }: CardListProps) => {
+export const CardList = ({ cards, onDeleteCard }: CardListProps) => {
   return (
     <div className={css({ mb: '6' })}>
       <h2 className={css({ fontSize: '2xl', fontWeight: 'bold', mb: '4' })}>カード一覧</h2>
@@ -28,7 +27,7 @@ export const CardList = ({ cards, onEditCard, onDeleteCard }: CardListProps) => 
       ) : (
         <div className={css({ display: 'flex', flexDirection: 'column', gap: '4' })}>
           {cards.map((card) => (
-            <CardItem key={card.id} {...card} onEdit={onEditCard} onDelete={onDeleteCard} />
+            <CardItem key={card.id} {...card} onDelete={onDeleteCard} />
           ))}
         </div>
       )}

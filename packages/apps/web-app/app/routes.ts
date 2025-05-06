@@ -8,6 +8,7 @@ export default [
     route('/decks/:deckId', 'routes/decks/detail/DeckDetail.tsx'),
     route('/decks/:deckId/cards/new', 'routes/cards/new/CreateCard.tsx'),
     route('/decks/:deckId/study', 'routes/decks/study/Study.tsx'),
+    route('/decks/:deckId/cards/:cardId', 'routes/decks/delete-card/DeleteCard.tsx'),
   ]),
   route('/login', 'routes/auth/Login.tsx'),
   route('/logout', 'routes/auth/Logout.tsx'),
