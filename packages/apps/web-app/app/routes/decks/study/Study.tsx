@@ -212,6 +212,7 @@ const Study = ({ loaderData: { studyCards, deckId } }: Route.ComponentProps) => 
           display: 'flex',
           justifyContent: 'center',
           opacity: isFlipped ? 1 : 0,
+          pointerEvents: isFlipped ? 'auto' : 'none',
           transition: 'opacity 0.2s ease-out',
           marginTop: '1.5rem',
         })}
