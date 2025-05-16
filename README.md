@@ -18,7 +18,7 @@ Kizamu is built on a modern serverless architecture:
 
 - **Frontend**: React Router v7 framework running on Cloudflare Workers
 - **Backend**: Hono API running on Cloudflare Workers
-- **Database**: Cloudflare D1 (SQLite-compatible)
+- **Database**: Supabase (PostgreSQL-compatible)
 - **Storage**: Cloudflare R2 for image storage
 - **Authentication**: Auth0
 
@@ -30,7 +30,7 @@ This architecture provides low latency through edge execution, scalability throu
 kizamu/
 ├── packages/
 │   ├── apps/
-│   │   ├── web-app/       # Remix frontend application
+│   │   ├── web-app/       # React Router frontend application
 │   │   └── api-server/    # Hono API backend
 │   └── libs/
 │       └── schema/        # TypeScript type definitions using Effect Schema
@@ -44,7 +44,7 @@ The project uses a monorepo structure managed with PNPM workspaces. Each package
 - **Web App**: React Router v7 application for the user interface
 - **API Server**: Hono-based REST API for backend operations
 - **Schema**: TypeScript type definitions and validations using Effect Schema library, shared across the project
-
+- **Database**: Packages responsible for accessing the database
 ## License
 
 MIT 
