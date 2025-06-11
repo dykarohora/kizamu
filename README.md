@@ -27,14 +27,13 @@ This architecture provides low latency through edge execution, scalability throu
 ## Project Structure
 
 ```
-kizamu/
-├── packages/
-│   ├── apps/
-│   │   ├── web-app/       # React Router frontend application
-│   │   └── api-server/    # Hono API backend
-│   └── libs/
-│       └── schema/        # TypeScript type definitions using Effect Schema
-└── 00_docs/               # Project documentation
+packages/
+├── apps/
+│   ├── web-app/          # React Router v7 frontend
+│   └── api-server/       # Hono API backend
+└── libs/
+    ├── db/               # Database layer (Drizzle ORM)
+    └── schema/           # TypeScript schemas (Effect Schema)
 ```
 
 ## Development
@@ -45,6 +44,7 @@ The project uses a monorepo structure managed with PNPM workspaces. Each package
 - **API Server**: Hono-based REST API for backend operations
 - **Schema**: TypeScript type definitions and validations using Effect Schema library, shared across the project
 - **Database**: Packages responsible for accessing the database
+
 ## License
 
 MIT 
