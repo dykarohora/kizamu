@@ -9,7 +9,7 @@ import { HonoClientService } from '~/services/hono-client/index.server'
 import { LoaderContext } from '~/services/react-router/index.server'
 import { LinkButton } from '~/shared/components/ui/link-button'
 import type { Route } from './+types/DeckDetail'
-import { CardList, DeckHeader, DeleteCardDialog } from './components'
+import { CardList, DeckHeader, DeleteCardDialog, Pagination } from './components'
 import { useDeckActions } from './hooks'
 
 /**
@@ -27,7 +27,7 @@ export const loader = effectLoader(
     const { requireAuth, getAccessToken } = yield* OAuth2Service
     yield* requireAuth('/')
 
-    const { params } = yield* LoaderContext
+    const { params, request } = yield* LoaderContext
     // アクセストークンを取得してAPIクライアントを初期化
     const { accessToken, setCookieHeaderValue } = yield* getAccessToken
     const hc = yield* HonoClientService
@@ -38,6 +38,7 @@ export const loader = effectLoader(
       return yield* Effect.fail(new Error('デッキIDが指定されていません'))
     }
 
+    // デッキ情報を取得するEffect
     const fetchDeckTask = Effect.gen(function* () {
       const deckResponse = yield* Effect.promise(async () =>
         hc.decks[':deckId'].$get({ param: { deckId } }, { headers: { Authorization: `Bearer ${accessToken}` } }),
@@ -51,10 +52,22 @@ export const loader = effectLoader(
       return yield* Effect.promise(async () => await deckResponse.json())
     })
 
+    // URLSearchParamsからページング情報を取得
+    const url = new URL(request.url)
+    const cursor = url.searchParams.get('cursor') || undefined
+    const limit = url.searchParams.get('limit') ?? '6'
+
+    // カード情報を取得するEffect
     const fetchCardsTask = Effect.gen(function* () {
       const cardsResponse = yield* Effect.promise(async () =>
         hc.decks[':deckId'].cards.$get(
-          { param: { deckId }, query: { limit: '100' } },
+          {
+            param: { deckId },
+            query: {
+              limit,
+              ...(cursor && { cursor })
+            }
+          },
           { headers: { Authorization: `Bearer ${accessToken}` } },
         ),
       )
@@ -65,19 +78,23 @@ export const loader = effectLoader(
       }
 
       const cardsData = yield* Effect.promise(async () => await cardsResponse.json())
-      return cardsData.data.map((card) => ({
-        id: card.id,
-        frontContent: card.frontContent,
-        backContent: card.backContent,
-        deckId: card.deckId,
-      }))
+      return {
+        cards: cardsData.data.map((card) => ({
+          id: card.id,
+          frontContent: card.frontContent,
+          backContent: card.backContent,
+          deckId: card.deckId,
+        })),
+        metadata: cardsData.metadata
+      }
     })
 
-    const [deck, cards] = yield* Effect.all([fetchDeckTask, fetchCardsTask], { concurrency: 'unbounded' })
+    // デッキ情報とカード情報を取得するEffectを並行実行
+    const [deck, cardsData] = yield* Effect.all([fetchDeckTask, fetchCardsTask], { concurrency: 'unbounded' })
 
     return yield* Effect.succeed(
       data(
-        { deck, cards },
+        { deck, cards: cardsData.cards, metadata: cardsData.metadata },
         { ...(setCookieHeaderValue !== undefined && { headers: { 'Set-Cookie': setCookieHeaderValue } }) },
       ),
     )
@@ -91,7 +108,7 @@ export const loader = effectLoader(
  * - カード一覧表示
  * - カードの追加・編集・削除機能
  */
-const DeckDetail = ({ loaderData: { deck, cards } }: Route.ComponentProps) => {
+const DeckDetail = ({ loaderData: { deck, cards, metadata } }: Route.ComponentProps) => {
   const { handleDeleteCard, confirmDeleteCard, closeDeleteDialog, isDeleteDialogOpen } = useDeckActions(deck.id)
 
   return (
@@ -111,6 +128,15 @@ const DeckDetail = ({ loaderData: { deck, cards } }: Route.ComponentProps) => {
 
       {/* カード一覧 */}
       <CardList cards={cards} onDeleteCard={handleDeleteCard} />
+
+      {/* ページング */}
+      <Pagination
+        metadata={{
+          total: metadata.total,
+          nextCursor: metadata.nextCursor ?? undefined
+        }}
+        currentItemsCount={cards.length}
+      />
 
       {/* 削除確認ダイアログ */}
       <DeleteCardDialog isOpen={isDeleteDialogOpen} onClose={closeDeleteDialog} onConfirm={confirmDeleteCard} />
