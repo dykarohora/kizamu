@@ -16,7 +16,6 @@
     "wrangler": "^4.0.0"
   },
   "license": "MIT",
-  "packageManager": "pnpm@10.6.2",
   "private": true,
   "scripts": {
     "api-server": "pnpm --filter api-server",
